@@ -1,10 +1,12 @@
 public class main {
     public static void main(String[] args) {
-        // Tamaño del mapa
-        int size = 15;
-        char[][] mapa = new char[size][size];
+        // Elejir Mapa
+        Mapas maps = new Mapas();
+        maps.inicarMapa();
+
+        //Inicar Oleada
         Oleada play = new Oleada();
-        play.start(mapa,size);
+        play.start();
 
     }
 }

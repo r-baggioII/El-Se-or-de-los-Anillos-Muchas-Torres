@@ -3,57 +3,54 @@ import java.util.Random;
 public class Oleada {
 
     Random rand = new Random();
+    Mapas maps = new Mapas();
+
+    int size = maps.getSize();
+    char[][] mapa = maps.getMapa();
+    int torreX = maps.getTorreX();
+    int torreY = maps.getTorreY();
+
     public Oleada(){}
 
-    public void start(char[][] mapa, int size) {
+    public void start() {
         int oleada=3;
         int cont=0;
-        // Inicializar el mapa vacío
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                mapa[i][j] = '*';
-            }
-        }
 
-        // Posición de la torre en el centro del mapa
-        int torreX = size / 2-3;
-        int torreY = size / 2+4;
-        mapa[torreX][torreY] = 'T'; // 'T' representa la torre
 
         // Posición inicial del bot en una esquina (0, 0)
         int botX = 5;
         int botY = 0;
-        mapa[botX][botY] = 'B'; // 'B' representa al bot enemigo
+        this.mapa[botX][botY] = 'B'; // 'B' representa al bot enemigo
 
         // Ciclo de movimiento del bot
-        while (botX != torreX || botY != torreY) {
+        while (botX != this.torreX || botY != this.torreY) {
             clearScreen();
-            imprimirMapa(mapa);
+            imprimirMapa(this.mapa);
 
             // Limpiar la posición anterior del bot
-            mapa[botX][botY] = '.';
+            this.mapa[botX][botY] = '.';
 
             // Mover el bot hacia la torre
-            if (botX < torreX) {
+            if (botX < this.torreX) {
                 botX++;
-            } else if (botX > torreX) {
+            } else if (botX > this.torreX) {
                 botX--;
             }
 
-            if (botY < torreY) {
+            if (botY < this.torreY) {
                 botY++;
-            } else if (botY > torreY) {
+            } else if (botY > this.torreY) {
                 botY--;
             }
 
             // Actualizar la nueva posición del bot
-            if (botX == torreX && botY == torreY && cont!=oleada) {
-                imprimirMapa(mapa);
-                botX = rand.nextInt(0,size);
+            if (botX == this.torreX && botY == this.torreY && cont!=oleada) {
+                imprimirMapa(this.mapa);
+                botX = this.rand.nextInt(0,this.size);
                 botY = 0;
                 cont++;
             }else{
-            mapa[botX][botY] = 'B';
+                this.mapa[botX][botY] = 'B';
             }
             // Pausa para ver el movimiento
             try {
@@ -62,8 +59,8 @@ public class Oleada {
                 e.printStackTrace();
             }
         }
-        imprimirMapa(mapa);
-        System.out.println("¡El bot ha alcanzado la torre!"+cont+"veces");
+        imprimirMapa(this.mapa);
+        System.out.println("¡El bot ha alcanzado la torre! "+cont+" veces");
     }
 
     // Método para imprimir el mapa
