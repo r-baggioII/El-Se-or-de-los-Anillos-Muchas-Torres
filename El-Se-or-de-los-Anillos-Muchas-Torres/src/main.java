@@ -5,7 +5,7 @@ public class main {
         maps.inicarMapa();
 
         //Inicar Oleada
-        Oleada play = new Oleada();
+        Oleada play = new Oleada(maps);
         play.start();
 
     }

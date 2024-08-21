@@ -20,8 +20,6 @@ public class Mapas {
         torreX = size / 2;
         torreY = size / 2;
         mapa[torreX][torreY] = 'T'; // 'T' representa la torre
-
-
     }
 
     public int getSize(){

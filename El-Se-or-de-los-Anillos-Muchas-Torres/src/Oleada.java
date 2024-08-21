@@ -3,29 +3,32 @@ import java.util.Random;
 public class Oleada {
 
     Random rand = new Random();
-    Mapas maps = new Mapas();
+    char[][] mapa;
+    int size ;
+    int torreX;
+    int torreY;
 
-    int size = maps.getSize();
-    char[][] mapa = maps.getMapa();
-    int torreX = maps.getTorreX();
-    int torreY = maps.getTorreY();
-
-    public Oleada(){}
+    public Oleada(Mapas maps){
+        this.mapa = maps.getMapa();
+        this.size = maps.getSize();
+        this.torreX = maps.getTorreX();
+        this.torreY = maps.getTorreY();
+    }
 
     public void start() {
         int oleada=3;
         int cont=0;
 
-
         // Posición inicial del bot en una esquina (0, 0)
-        int botX = 5;
-        int botY = 0;
+        int botX = 0;
+        int botY = 4;
         this.mapa[botX][botY] = 'B'; // 'B' representa al bot enemigo
+
+        clearScreen();
+        imprimirMapa(this.mapa);
 
         // Ciclo de movimiento del bot
         while (botX != this.torreX || botY != this.torreY) {
-            clearScreen();
-            imprimirMapa(this.mapa);
 
             // Limpiar la posición anterior del bot
             this.mapa[botX][botY] = '.';
@@ -45,12 +48,12 @@ public class Oleada {
 
             // Actualizar la nueva posición del bot
             if (botX == this.torreX && botY == this.torreY && cont!=oleada) {
-                imprimirMapa(this.mapa);
                 botX = this.rand.nextInt(0,this.size);
                 botY = 0;
                 cont++;
             }else{
                 this.mapa[botX][botY] = 'B';
+                imprimirMapa(this.mapa);
             }
             // Pausa para ver el movimiento
             try {
@@ -58,8 +61,8 @@ public class Oleada {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
         }
-        imprimirMapa(this.mapa);
         System.out.println("¡El bot ha alcanzado la torre! "+cont+" veces");
     }
 
