@@ -6,9 +6,17 @@ public class JuegoMapaAtaque {
         // Inicializar el mapa vacío
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                mapa[i][j] = '.';
+                // Dividir cuadrantes
+                if (j == size / 2) {
+                    mapa[i][j] = '|'; // Dividir verticalmente
+                } else if (i == size / 2) {
+                    mapa[i][j] = '-'; // Dividir horizontalmente
+                } else {
+                    mapa[i][j] = '.'; // Resto del mapa
+                }
             }
         }
+        
 
         // Posición de la torre en el centro del mapa
         int torreX = size / 2;
@@ -51,10 +59,13 @@ public class JuegoMapaAtaque {
     }
 
     public static void actualizarMapa(char[][] mapa, Bot bot, Torre torre) {
-        // Limpiar el mapa
+        //Limpia el mapa y mantiene las divisiones de los cuadrantes
         for (int i = 0; i < mapa.length; i++) {
             for (int j = 0; j < mapa[i].length; j++) {
-                mapa[i][j] = '.';
+                // Mantener divisiones en el mapa
+                if (mapa[i][j] != '|' && mapa[i][j] != '-') {
+                    mapa[i][j] = '.';
+                }
             }
         }
         // Colocar la torre en el mapa
@@ -62,6 +73,7 @@ public class JuegoMapaAtaque {
         // Colocar el bot en el mapa
         mapa[bot.getPosX()][bot.getPosY()] = 'B';
     }
+    
 
     // Método para limpiar la pantalla
     public static void limpiarPantalla() {
