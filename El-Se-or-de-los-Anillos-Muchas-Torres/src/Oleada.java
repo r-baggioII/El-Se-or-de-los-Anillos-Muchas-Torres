@@ -1,3 +1,4 @@
+import java.util.Map;
 import java.util.Random;
 
 public class Oleada {
@@ -13,9 +14,10 @@ public class Oleada {
         this.size = maps.getSize();
         this.torreX = maps.getTorreX();
         this.torreY = maps.getTorreY();
+
     }
 
-    public void start() {
+    public void start(Mapas maps) {
         int oleada=3;
         int cont=0;
 
@@ -24,11 +26,13 @@ public class Oleada {
         int botY = 4;
         this.mapa[botX][botY] = 'B'; // 'B' representa al bot enemigo
 
-        clearScreen();
-        imprimirMapa(this.mapa);
+
 
         // Ciclo de movimiento del bot
         while (botX != this.torreX || botY != this.torreY) {
+
+            maps.clearScreen();
+            maps.imprimirMapa(this.mapa);
 
             // Limpiar la posición anterior del bot
             this.mapa[botX][botY] = '.';
@@ -48,12 +52,14 @@ public class Oleada {
 
             // Actualizar la nueva posición del bot
             if (botX == this.torreX && botY == this.torreY && cont!=oleada) {
+                maps.imprimirMapa(this.mapa);
+                System.out.println("Bot a atacado a Torre");
                 botX = this.rand.nextInt(0,this.size);
                 botY = 0;
                 cont++;
+                this.mapa[botX][botY] = 'B'; // 'B' representa al bot enemigo
             }else{
                 this.mapa[botX][botY] = 'B';
-                imprimirMapa(this.mapa);
             }
             // Pausa para ver el movimiento
             try {
@@ -66,23 +72,5 @@ public class Oleada {
         System.out.println("¡El bot ha alcanzado la torre "+cont+" veces!");
     }
 
-    // Método para imprimir el mapa
-    public static void imprimirMapa(char[][] mapa) {
-        // Limpiar la consola( ANSI escape sequences)
-        for (int i = 0; i < mapa.length; i++) {
-            for (int j = 0; j < mapa[i].length; j++) {
-                System.out.print(mapa[i][j] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-    // Metodo para limpiar la pantalla o mover el cursor al principio
-    public void clearScreen() {
-        System.out.print("\r");
-        for (int i = 0; i < 80; i++) {
-            System.out.print(" ");
-        }
-        System.out.println();
-    }
+
 }
