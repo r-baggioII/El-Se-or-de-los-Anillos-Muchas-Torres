@@ -5,79 +5,86 @@ public abstract class Enemigo {
     protected int velocidad;
     protected int armadura;
     protected int recompensa;
-    protected int posicionX;
-    protected int posicionY;
+    protected int posX; //posición en el mapa
+    protected int posY;
     protected char representacion; //segun el enemigo tendrá un caracter que lo represente en el mapa
 
     //Constructores de la clase 
-    public Enemigo(int salud, int velocidad, int armadura, int recompensa, int posicionX, int posicionY, char representacion){
-        this.salud = salud;
+    public Enemigo(int saludInicial, int velocidad, int armadura, int recompensa, int inicialX, int inicialY, char representacion){
+        this.salud = saludInicial;
         this.velocidad = velocidad;
         this.armadura = armadura;
         this.recompensa = recompensa;
-        this.posicionX = posicionX;
-        this.posicionY = posicionY;
+        this.posX = inicialX;
+        this.posY = inicialY;
         this.representacion = representacion;
     }
-    //Constructor por defecto 
-    public Enemigo(){
-        this.salud = 0;
-        this.velocidad = 0;
-        this.armadura = 0;
-        this.recompensa = 0;
-    }
     //Setters y Getters 
-    public int salud(){
+    public int getSalud(){
         return salud; 
     }
     public void setSalud(int salud){
         this.salud = salud; 
     }
-    public int velocidad(){
+    public int getVelocidad(){
         return velocidad; 
     }
-    public void velocidad(int velocidad){
+    public void setVelocidad(int velocidad){
         this.velocidad = velocidad; 
     }
-    public int armadura(){
+    public int getArmadura(){
         return armadura;
     }
     public void setAramaadura(int armadura){
         this.armadura = armadura; 
     }
-    public int recompensa(){
+    public int getRecompensa(){
         return recompensa;
     }
     public void setRecompensa(int recompensa){
         this.recompensa = recompensa;
     }
-    public int posicionX(){
-        return posicionX;
+    public int getPosicionX(){
+        return posX;
     }
-    public void setPosicionX(int posicionX){
-        this.posicionX = posicionX;
+    public void setPosicionX(int posX){
+        this.posX = posX;
     }
-    public int posicionY(){
-        return posicionY;
+    public int getPosicionY(){
+        return posY;
     }
-    public void setPosicionY(int posicionY){
-        this.posicionY = posicionY;
+    public void setPosicionY(int posY){
+        this.posY = posY;
     }
-    public char representacion(){
+    public char getRepresentacion(){
         return representacion;
     }
     public void setRepresentacion(char representacion){
         this.representacion = representacion;
     }
+    
     //Otros métodos 
-    public void mover(){
-        //Método para mover al enemigo 
+    public void moverHacia(int objetivoX, int objetivoY){
+        //Método para mover al enemigo sobre el mapa
+        if (posX < objetivoX) {
+            posX++;
+        } else if (posX > objetivoX) {
+            posX--;
+        }
+
+        if (posY < objetivoY) {
+            posY++;
+        } else if (posY > objetivoY) {
+            posY--;
+        }
+
     }
-    public void recibirDaño(){
+    public void recibirDanio(int danio){
         //Método para recibir daño 
+        salud -= danio;
     }   
     public boolean esEliminado(){
         //Método para verificar si el enemigo fue eliminado 
-        return false;
+        return salud <= 0; 
     }
 }
