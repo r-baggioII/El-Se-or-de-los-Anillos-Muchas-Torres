@@ -1,15 +1,23 @@
-public class Enemigo {
+public abstract class Enemigo {
+    
     //Atributos de clase 
-    int salud; 
-    int velocidad;
-    int armadura;
-    int recompensa;
+    protected int salud; 
+    protected int velocidad;
+    protected int armadura;
+    protected int recompensa;
+    protected int posicionX;
+    protected int posicionY;
+    protected char representacion; //segun el enemigo tendrá un caracter que lo represente en el mapa
+
     //Constructores de la clase 
-    public Enemigo(int salud, int velocidad, int armadura, int recompensa){
+    public Enemigo(int salud, int velocidad, int armadura, int recompensa, int posicionX, int posicionY, char representacion){
         this.salud = salud;
         this.velocidad = velocidad;
         this.armadura = armadura;
         this.recompensa = recompensa;
+        this.posicionX = posicionX;
+        this.posicionY = posicionY;
+        this.representacion = representacion;
     }
     //Constructor por defecto 
     public Enemigo(){
@@ -42,6 +50,24 @@ public class Enemigo {
     }
     public void setRecompensa(int recompensa){
         this.recompensa = recompensa;
+    }
+    public int posicionX(){
+        return posicionX;
+    }
+    public void setPosicionX(int posicionX){
+        this.posicionX = posicionX;
+    }
+    public int posicionY(){
+        return posicionY;
+    }
+    public void setPosicionY(int posicionY){
+        this.posicionY = posicionY;
+    }
+    public char representacion(){
+        return representacion;
+    }
+    public void setRepresentacion(char representacion){
+        this.representacion = representacion;
     }
     //Otros métodos 
     public void mover(){

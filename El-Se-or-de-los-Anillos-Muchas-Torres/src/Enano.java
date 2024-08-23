@@ -1,6 +1,6 @@
 public class Enano extends Enemigo {
-    public Enano(){
-        super( 90, 8, 7, 5);
+    public Enano(int posX, int posY){
+        super( 90, 8, 7, 5,posX,posY,'e');
     }
     
     @Override

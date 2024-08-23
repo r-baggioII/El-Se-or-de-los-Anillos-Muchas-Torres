@@ -1,6 +1,6 @@
 public class Humano extends Enemigo{
-    public Humano(){
-        super( 100, 10, 5, 4);
+    public Humano(int posX, int posY){
+        super( 100, 10, 5, 4,posX,posY,'H');
     }
     
     @Override
