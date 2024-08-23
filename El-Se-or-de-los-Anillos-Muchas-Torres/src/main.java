@@ -6,7 +6,7 @@ public class main {
 
         //Inicar Oleada
         Oleada play = new Oleada(maps);
-        play.start();
+        play.start(maps);
 
     }
 }

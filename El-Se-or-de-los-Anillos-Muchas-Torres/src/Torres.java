@@ -1,4 +1,7 @@
 public class Torres {
+    private int vidaInicial;
+    private int rangoAtaque;
+    private String nombreTorre;
     private int posX;
     private int posY;
 
@@ -27,4 +30,8 @@ public class Torres {
     public int getPosY() {
         return posY;
     }
+
+    public int getVidaInicial() {return vidaInicial;}
+
+
 }

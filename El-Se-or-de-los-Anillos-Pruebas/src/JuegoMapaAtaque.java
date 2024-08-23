@@ -37,7 +37,7 @@ public class JuegoMapaAtaque {
 
             // Pausa para ver el movimiento
             try {
-                Thread.sleep(500); // Pausa de 500 ms para simular el movimiento
+                Thread.sleep(1000); // Pausa de 500 ms para simular el movimiento
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
