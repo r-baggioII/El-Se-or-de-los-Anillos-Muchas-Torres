@@ -9,7 +9,7 @@ public class Mapas {
 
     public Mapas() {}
 
-    public void inicarMapa(){
+    public void iniciarMapa(){
         // Inicializar el mapa vacío
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {

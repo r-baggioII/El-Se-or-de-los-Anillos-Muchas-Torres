@@ -63,7 +63,7 @@ public class Oleada {
             }
 
         }
-        System.out.println("¡El bot ha alcanzado la torre! "+cont+" veces");
+        System.out.println("¡El bot ha alcanzado la torre "+cont+" veces!");
     }
 
     // Método para imprimir el mapa
