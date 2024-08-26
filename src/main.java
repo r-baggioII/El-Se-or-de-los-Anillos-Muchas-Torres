@@ -15,7 +15,7 @@ public class main {
         //Inicar Oleada
         Oleada play = new Oleada(maps);
 
-        play.Start(maps,Nivel);
+        play.Start(maps,nivel);
 
     }
 }

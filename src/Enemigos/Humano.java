@@ -8,8 +8,4 @@ public class Humano extends Enemigo{
 
     public void aumentarNivel(){}
 
-    @Override
-    public void moverHacia(int objetivoX, int objetivoY) {
-        super.moverHacia(objetivoX, objetivoY);
-    }
 }
