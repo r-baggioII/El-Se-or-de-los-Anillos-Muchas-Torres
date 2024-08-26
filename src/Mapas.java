@@ -1,38 +1,46 @@
 public class Mapas {
 
-    public int cerroGloriaX;
-    public int cerroGloriaY;
-    int tamañoMapa = 15;
+    private int cerroGloriaX;
+    private int cerroGloriaY;
+    public int tamañoMapa = 15;
     char[][] mapa = new char[tamañoMapa][tamañoMapa];
 
     Torres torre = new Torres();
 
     public Mapas() {}
+    // Geters Y Seters
+    public int getTamañoMapa(){
+        return tamañoMapa;
+    }
+    public int getCerroGloriaX(){
+        return this.cerroGloriaX;
+    }
+    public int getCerroGloriaY(){
+        return this.cerroGloriaY;
+    }
+    public char[][] getMapa(){
+        return mapa;
+    }
+    //Metodos
 
     public void iniciarMapa(){
         // Inicializar el mapa vacío
-        for (int i = 0; i < tamañoMapa; i++) {
-            for (int j = 0; j < tamañoMapa; j++) {
-                mapa[i][j] = '*';
+        for (int i = 0; i < this.tamañoMapa; i++) {
+            for (int j = 0; j < this.tamañoMapa; j++) {
+                // Dividir cuadrantes
+                if (j == this.tamañoMapa / 2) {
+                    mapa[i][j] = '|'; // Dividir verticalmente
+                } else if (i == this.tamañoMapa / 2) {
+                    mapa[i][j] = '-'; // Dividir horizontalmente
+                } else {
+                    mapa[i][j] = '.'; // Resto del mapa
+                }
             }
         }
         // Posición de la torre en el centro del mapa
         cerroGloriaX = tamañoMapa / 2;
         cerroGloriaY = tamañoMapa / 2;
         mapa[cerroGloriaX][cerroGloriaY] = 'T'; // 'T' representa la torre
-    }
-
-    public int getSize(){
-        return tamañoMapa;
-    }
-    public int getTorreX(){
-        return cerroGloriaX;
-    }
-    public int getTorreY(){
-        return cerroGloriaY;
-    }
-    public char[][] getMapa(){
-        return mapa;
     }
 
     // Método para imprimir el mapa
@@ -46,6 +54,7 @@ public class Mapas {
         }
         System.out.println();
     }
+
     // Metodo para limpiar la pantalla o mover el cursor al principio
     public void clearScreen() {
         System.out.print("\r");
@@ -54,4 +63,5 @@ public class Mapas {
         }
         System.out.println();
     }
+
 }

@@ -1,3 +1,4 @@
+package Enemigos;
 public abstract class Enemigo {
     
     //Atributos de clase 
@@ -10,7 +11,7 @@ public abstract class Enemigo {
     protected char representacion; //segun el enemigo tendrá un caracter que lo represente en el mapa
 
     //Constructores de la clase 
-    public Enemigo(int saludInicial, int velocidad, int armadura, int recompensa, int inicialX, int inicialY, char representacion){
+    public Enemigo(int saludInicial, int velocidad, int armadura, int recompensa, char representacion, int inicialX, int inicialY){
         this.salud = saludInicial;
         this.velocidad = velocidad;
         this.armadura = armadura;
@@ -26,36 +27,42 @@ public abstract class Enemigo {
     public void setSalud(int salud){
         this.salud = salud; 
     }
+
     public int getVelocidad(){
         return velocidad; 
     }
     public void setVelocidad(int velocidad){
         this.velocidad = velocidad; 
     }
+
     public int getArmadura(){
         return armadura;
     }
     public void setAramaadura(int armadura){
         this.armadura = armadura; 
     }
+
     public int getRecompensa(){
         return recompensa;
     }
     public void setRecompensa(int recompensa){
         this.recompensa = recompensa;
     }
-    public int getPosicionX(){
-        return posX;
+
+    public int getPosX(){
+        return this.posX;
     }
-    public void setPosicionX(int posX){
+    public void setPosX(int posX){
         this.posX = posX;
     }
-    public int getPosicionY(){
-        return posY;
+
+    public int getPosY(){
+        return this.posY;
     }
-    public void setPosicionY(int posY){
+    public void setPosY(int posY){
         this.posY = posY;
     }
+
     public char getRepresentacion(){
         return representacion;
     }
