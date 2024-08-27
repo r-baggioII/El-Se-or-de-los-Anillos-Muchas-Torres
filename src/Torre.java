@@ -1,20 +1,20 @@
 
 import Enemigos.*; // Ensure this package import is correct
 
-public class Torres extends Defensa {
+public class Torre extends Defensa {
     private int rangoAtaque;
     private char nombreTorre;
     private int poderAtaque;
 
     // Constructor para inicializar la posición de la torre
-    public Torres(int posX, int posY) {
+    public Torre(int posX, int posY) {
         super(100, 50, posX, posY); // Calls the Defensa constructor
         this.rangoAtaque = 4;
         this.nombreTorre = '?';
         this.poderAtaque = 25;
     }
     //Construcotr por defecto sin arguemntos
-    public Torres() {
+    public Torre() {
         super(100, 50, 0, 0); //Por defecto la torre se coloca en la posición 0,0
         this.rangoAtaque = 4;
         this.nombreTorre = '?';
