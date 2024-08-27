@@ -27,7 +27,7 @@ public class Oleada {
 
     }
 
-    public void Start(Mapa maps,Nivel nivel,Torres torre) {
+    public void Start(Mapa maps,Nivel nivel,Torre torre) {
         int oleada = nivel.getNivelActual()*2;
         int ataques=0;
 

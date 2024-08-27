@@ -10,7 +10,7 @@ public class main {
         Mapa maps = new Mapa();
         maps.iniciarMapa();
         //Colocar Torres
-        Torres torre = new Torres();
+        Torre torre = new Torre();
         torre.colocarTorre(maps,2,3);
         //Iniciar Oleada
         Oleada play = new Oleada(maps);

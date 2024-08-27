@@ -6,7 +6,7 @@ public class Mapa {
     public int tamañoMapa = 15;
     char[][] mapa = new char[tamañoMapa][tamañoMapa];
 
-    Torres torre = new Torres();
+    Torre torre = new Torre();
 
     public Mapa() {}
     // Geters Y Seters
