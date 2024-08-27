@@ -2,6 +2,13 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 import Enemigos.*;
+import Enemigos.Enano;
+import Enemigos.Enemigo;
+import Enemigos.Hobbit;
+import Enemigos.Humano;
+import Enemigos.Elfo;
+
+
 
 
 public class Oleada {
@@ -38,8 +45,7 @@ public class Oleada {
                     enemigo = new Enano(0,rand.nextInt(this.size / 2 + 1, this.size));
                     break;
                 case 2:
-                    enemigo = new Elfo(rand.nextInt(0,this.size / 2 - 1), 0);
-                    break;
+                    enemigo = new Elfo(rand.nextInt(0, this.size / 2 - 1), 0);
                 case 3:
                     enemigo = new Hobbit(rand.nextInt(0,this.size / 2 + 1), 0);
                     break;

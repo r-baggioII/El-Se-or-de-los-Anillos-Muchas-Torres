@@ -10,7 +10,7 @@ public class main {
         //Colocar Torres
         Torres torre = new Torres();
         torre.colocarTorre(maps,2,3);
-        //Inicar Oleada
+        //Iniciar Oleada
         Oleada play = new Oleada(maps);
         play.Start(maps,nivel,torre);
     }
