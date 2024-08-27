@@ -28,10 +28,8 @@ public class Mapas {
         for (int i = 0; i < this.tamañoMapa; i++) {
             for (int j = 0; j < this.tamañoMapa; j++) {
                 // Dividir cuadrantes
-                if (j == this.tamañoMapa / 2) {
-                    mapa[i][j] = '|'; // Dividir verticalmente
-                } else if (i == this.tamañoMapa / 2) {
-                    mapa[i][j] = '-'; // Dividir horizontalmente
+                if (i == this.tamañoMapa/2 || j == this.tamañoMapa/2) {
+                    mapa[i][j] = '*'; // Dividir verticalmente
                 } else {
                     mapa[i][j] = '.'; // Resto del mapa
                 }
