@@ -1,3 +1,7 @@
+
+import java.util.Scanner;
+import Enemigos.*;
+
 public class main {
     public static void main(String[] args) {
         //Iniciar Nivel

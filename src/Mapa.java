@@ -1,3 +1,4 @@
+
 public class Mapa {
 
     private int cerroGloriaX;
