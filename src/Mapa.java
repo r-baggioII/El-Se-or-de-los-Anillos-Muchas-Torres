@@ -1,4 +1,4 @@
-public class Mapas {
+public class Mapa {
 
     private int cerroGloriaX;
     private int cerroGloriaY;
@@ -7,7 +7,7 @@ public class Mapas {
 
     Torres torre = new Torres();
 
-    public Mapas() {}
+    public Mapa() {}
     // Geters Y Seters
     public int getTamañoMapa(){
         return tamañoMapa;

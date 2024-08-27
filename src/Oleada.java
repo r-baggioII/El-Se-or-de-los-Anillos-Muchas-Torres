@@ -1,7 +1,7 @@
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
-import Enemigos.*;
+
 import Enemigos.Enano;
 import Enemigos.Enemigo;
 import Enemigos.Hobbit;
@@ -20,7 +20,7 @@ public class Oleada {
     private int torreY;
     private List<Enemigo> enemigos;
 
-    public Oleada(Mapas maps){
+    public Oleada(Mapa maps){
         this.mapa = maps.getMapa();
         this.size = maps.getTamañoMapa();
         this.torreX = maps.getCerroGloriaX();
@@ -29,7 +29,7 @@ public class Oleada {
 
     }
 
-    public void Start(Mapas maps,Nivel nivel,Torres torre) {
+    public void Start(Mapa maps, Nivel nivel, Torres torre) {
         int oleada = nivel.getNivelActual()*2;
         int ataques=0;
 

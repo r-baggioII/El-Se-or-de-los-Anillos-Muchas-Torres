@@ -37,7 +37,7 @@ public class Torres {
     }
 
     //Metodos
-    public void colocarTorre(Mapas maps,int x, int y) {
+    public void colocarTorre(Mapa maps, int x, int y) {
 
         if (x == maps.getCerroGloriaX() && y == maps.getCerroGloriaY() ) {
             throw new IllegalArgumentException("No se puede colocar una torre en la misma posición que la torre principal.");
