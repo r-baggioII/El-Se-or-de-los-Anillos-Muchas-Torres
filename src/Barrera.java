@@ -2,6 +2,7 @@ import Enemigos.Enemigo;
 
 public class Barrera extends Defensa {
     char nombreBarrera;
+
     public Barrera(int resistencia, int costo, int posX, int posY) {
         super(resistencia, costo, posX, posY);
         this.nombreBarrera = '$';
@@ -20,5 +21,8 @@ public class Barrera extends Defensa {
         }
     }
 
+    public void colocarEnMapa(char[][] mapa){
+        mapa[posX][posY] = this,nombreBarrera ; // '?' representa una torre adicional
+    }
     
 }

@@ -1,23 +1,12 @@
 public class JuegoMapaAtaque {
     public static void main(String[] args) {
-        int size = 9; // Tamaño del mapa
-        char[][] mapa = new char[size][size];
+        int size; // Tamaño del mapa
+        char[][] mapa;
 
-        // Inicializar el mapa vacío
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                // Dividir cuadrantes
-                if (j == size / 2) {
-                    mapa[i][j] = '|'; // Dividir verticalmente
-                } else if (i == size / 2) {
-                    mapa[i][j] = '-'; // Dividir horizontalmente
-                } else {
-                    mapa[i][j] = '.'; // Resto del mapa
-                }
-            }
-        }
-        
-
+        SeleccionMapa Smapa = new SeleccionMapa();
+        Smapa.seleccionDeMapa();
+        mapa = Smapa.getMapaSeleccionado();
+        size = mapa.length;
         // Posición de la torre en el centro del mapa
         int torreX = size / 2;
         int torreY = size / 2;
@@ -57,6 +46,7 @@ public class JuegoMapaAtaque {
             System.out.println("¡El bot ha alcanzado la torre!");
         }
     }
+
 
     public static void actualizarMapa(char[][] mapa, Bot bot, Torre torre) {
         //Limpia el mapa y mantiene las divisiones de los cuadrantes

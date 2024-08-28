@@ -1,7 +1,7 @@
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
-import Enemigos.*;
+
 import Enemigos.Enano;
 import Enemigos.Enemigo;
 import Enemigos.Hobbit;
@@ -27,7 +27,7 @@ public class Oleada {
 
     }
 
-    public void Start(Mapa maps,Nivel nivel,Torre torre) {
+    public void Start(Mapa maps, Nivel nivel,List<Defensa> miTorres,List<Defensa> miBarrera) {
         int oleada = nivel.getNivelActual()*2;
         int ataques=0;
 
@@ -61,19 +61,39 @@ public class Oleada {
             maps.imprimirMapa(this.mapa);
 
             List<Enemigo> eliminados = new ArrayList<>();
+            List<Defensa> torreEliminados = new ArrayList<>();
+            List<Defensa> barreraEliminados = new ArrayList<>();
             for (Enemigo enemigo : enemigos) {
-
                 // Limpiar la posición anterior del enemigo
                 this.mapa[enemigo.getPosX()][enemigo.getPosY()] = '.';
 
                 // Verificar si el enemigo ha sido eliminado
                 if (!enemigo.esEliminado()) {
-                    // La torre ataca al enemigo
-                    torre.lanzarAtaque(enemigo);
-                    torre.recibirAtaque(enemigo);
+                        // Las torres atacan al enemigo y reciben daño del enemigo
+                        for (Defensa torre : miTorres) {
+                            if (torre instanceof Torre) {
+                                ((Torre) torre).lanzarAtaque(enemigo);
+                                ((Torre) torre).recibirAtaque(enemigo);
+                            }
+                            if ( torre.getResistencia()<=0){
+                                torreEliminados.add(torre);
+                            }
+
+                        }
+                    /*
+                    for (Defensa barrera : miBarrera) {
+                        if (barrera instanceof Torre) {
+                            ((Barrera) barrera).lanzarAtaque(enemigo);
+                            ((Barrera) barrera).recibirAtaque(enemigo);
+                        }
+                        if ( barrera.getResistencia()<=0){
+                            barreraEliminados.add(barrera);
+                        }
+                    }
+                    */
 
                     // El enemigo se mueve hacia la torre
-                    enemigo.moverHacia(this.mapa,this.torreX, this.torreY,this.torreX,this.torreY);
+                    enemigo.moverHacia(this.mapa,this.torreX, this.torreY);
 
                     // Actualizar la nueva posición del enemigo
                     if (enemigo.getPosX() == this.torreX && enemigo.getPosY() == this.torreY) {
@@ -94,7 +114,8 @@ public class Oleada {
             }
 
             enemigos.removeAll(eliminados); // Eliminar enemigos que han sido eliminados o llegaron a la torre
-
+            miBarrera.removeAll(barreraEliminados);
+            //miTorres.removeAll(torreEliminados);
 
                 // Pausa para simular el movimiento
             try {
@@ -103,63 +124,8 @@ public class Oleada {
                 e.printStackTrace();
             }
         }
-    /*
-        // Enemigo cololado en el mapa
 
-        Humano humano = new Humano(0,this.size/2-1);
-        Enano eneano = new Enano(this.size/2-1,this.size);
-
-
-        this.mapa[humano.getPosX()][humano.getPosY()] = humano.getRepresentacion(); // '' representa al bot enemigo
-
-        // Ciclo de movimiento del bot
-        while (humano.getPosX() != this.torreX || humano.getPosY() != this.torreY) {
-
-            maps.clearScreen();
-            maps.imprimirMapa(this.mapa);
-
-            // Limpiar la posición anterior del bot
-            this.mapa[humano.getPosX()][humano.getPosY()] = '.';
-
-            // Mover el bot hacia la torre
-            if (humano.esEliminado != false ){
-                torre.recibirAtaque(humano,torre);
-                torre.lanzarAtaque(humano,torre);
-                humano.moverHacia(this.torreX,this.torreY);
-
-                // Actualizar la nueva posición del bot
-                if (humano.getPosX() == this.torreX && humano.getPosY() == this.torreY && cont!=oleada) {
-                    maps.imprimirMapa(this.mapa);
-                    System.out.println("Bot a atacado a Torre");
-
-                    new Humano(0, this.size);
-
-                    cont++;
-                    this.mapa[humano.getPosX()][humano.getPosY()] = humano.getRepresentacion(); // 'B' representa al bot enemigo
-                }else{
-                    this.mapa[humano.getPosX()][humano.getPosY()] = humano.getRepresentacion();
-                }
-
-                // Pausa para ver el movimiento
-                try {
-                    Thread.sleep(1000); // Pausa de 500 ms para simular el movimiento
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            else {
-                System.out.println("Bot Eliminado");
-                break;
-            }
-        }
-        if (humano.getPosX() == this.torreX && humano.getPosY() == this.torreY) {
-            System.out.println("¡El bot ha alcanzado la torre " + cont + " veces!");
-
-        }
-
-    */
     }
-
 
 }
 

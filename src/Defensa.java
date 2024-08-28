@@ -27,9 +27,7 @@ public class Defensa {
     }
 
     //Metodos 
-    public void colocarEnMapa(char[][] mapa){
-        
-    }
+
     public void restaurarVida(){
 
     }

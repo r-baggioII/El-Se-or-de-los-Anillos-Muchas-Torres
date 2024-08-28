@@ -1,5 +1,7 @@
-
 import Enemigos.*; // Ensure this package import is correct
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Torre extends Defensa {
     private int rangoAtaque;
@@ -10,14 +12,15 @@ public class Torre extends Defensa {
     public Torre(int posX, int posY) {
         super(100, 50, posX, posY); // Calls the Defensa constructor
         this.rangoAtaque = 4;
-        this.nombreTorre = '?';
+        this.nombreTorre = 'I';
         this.poderAtaque = 25;
+
     }
     //Construcotr por defecto sin arguemntos
     public Torre() {
         super(100, 50, 0, 0); //Por defecto la torre se coloca en la posición 0,0
         this.rangoAtaque = 4;
-        this.nombreTorre = '?';
+        this.nombreTorre = 'I';
         this.poderAtaque = 25;
     }
 
@@ -31,16 +34,19 @@ public class Torre extends Defensa {
     }
 
     // Métodos
-    public void colocarTorre(Mapa maps, int x, int y) {
-        if (x == maps.getCerroGloriaX() && y == maps.getCerroGloriaY()) {
-            throw new IllegalArgumentException("No se puede colocar una torre en la misma posición que la torre principal.");
-        } else if (x == maps.getTamañoMapa() / 2 || y == maps.getTamañoMapa() / 2) {
-            throw new IllegalArgumentException("No se puede colocar una torre en la misma posición que las barreras.");
-        }
+    public void colocarTorre(Mapa maps, Magia magia,int x,int y, char nombreTorre ) {
+            magia.gastarMagia(this.costo);
+            this.nombreTorre = nombreTorre;
+            if (x == maps.getCerroGloriaX() && y == maps.getCerroGloriaY()) {
+                throw new IllegalArgumentException("No se puede colocar una torre en la misma posición que la torre principal.");
+            } else if (x == maps.getTamañoMapa() / 2 || y == maps.getTamañoMapa() / 2) {
+                throw new IllegalArgumentException("No se puede colocar una torre en la misma posición que las barreras.");
+            }
 
-        this.posX = x; 
-        this.posY = y; 
-        colocarTorre(maps.getMapa());
+            this.posX = x;
+            this.posY = y;
+            colocarTorre(maps.getMapa());
+
     }
 
     // Método para colocar la torre en el mapa
@@ -52,7 +58,8 @@ public class Torre extends Defensa {
     public void recibirAtaque(Enemigo enemigo) {
         int distanciaX = Math.abs(this.posX - enemigo.getPosX()); 
         int distanciaY = Math.abs(this.posY - enemigo.getPosY()); 
-        if (distanciaX <= enemigo.getrangoAtaque() && distanciaY <= enemigo.getrangoAtaque()) {
+        if ((distanciaX <= enemigo.getrangoAtaque()) && (distanciaY <= enemigo.getrangoAtaque())) {
+            System.out.println("("+distanciaX + "," + distanciaY+"):"+enemigo.getrangoAtaque());
             this.resistencia -= enemigo.getRecompensa(); // Changed from vidaInicial to resistencia
             System.out.println("VIDA " + this.nombreTorre + ": " + this.resistencia);
         }
