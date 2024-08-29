@@ -23,23 +23,23 @@ public class main {
         boolean flag = true;
         while (flag){
             System.out.println("Colocar Torre: t ");
-            System.out.println("Colocar Defensa: d ");
+            System.out.println("Colocar Barreras: b ");
             String opcion = sc.nextLine();
             System.out.println("Posicion de la torre:");
             int posX = sc.nextInt();
             int posY= sc.nextInt();
             if (posX+1 <= maps.getTamañoMapa() && posY+1 <= maps.getTamañoMapa() ){
                 switch (opcion.toLowerCase()){
-                    case 't':
+                    case "t":
                         Torre torre = new Torre();
                         torre.colocarTorre(maps,magia,0,0,'I');
                         this.miTorres.add(torre);
-                    case 'd':
+                    case "b":
                         Barrera defensa= new Barrera(70,25,posX,posY);
                         defensa.colocarEnMapa(maps.getMapa());
                         this.miBarrera.add(defensa);
                     default:
-                        System.out.println("Torres y defensas colocados");
+                        System.out.println("Torres y barreras colocados");
                         flag = false;
                 }
             } else {
