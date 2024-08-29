@@ -92,13 +92,13 @@ public abstract class Enemigo {
             posY = torreY;
         }else{
             // Verificar si el movimiento en la dirección X está bloqueado
-            if (posX < torreX && mapa[posX + 1][posY] != '*' && mapa[posX + 1][posY] != torre.getNombreTorre()) {
+            if (posX < torreX && mapa[posX + 1][posY] != '*' && mapa[posX + 1][posY] != torre.getNombrDefensa()) {
                 posX++;
-            } else if (posX > torreX && mapa[posX - 1][posY] != '*' && mapa[posX - 1][posY] != torre.getNombreTorre()) {
+            } else if (posX > torreX && mapa[posX - 1][posY] != '*' && mapa[posX - 1][posY] != torre.getNombrDefensa()) {
                 posX--;
-            } else if (posY < torreY && mapa[posX][posY + 1] != '*' && mapa[posX][posY + 1] != torre.getNombreTorre()) { // Verificar si el movimiento en la dirección Y está bloqueado
+            } else if (posY < torreY && mapa[posX][posY + 1] != '*' && mapa[posX][posY + 1] != torre.getNombrDefensa()) { // Verificar si el movimiento en la dirección Y está bloqueado
                 posY++;
-            } else if (posY > torreY && mapa[posX][posY - 1] != '*' && mapa[posX][posY - 1] != torre.getNombreTorre()) {
+            } else if (posY > torreY && mapa[posX][posY - 1] != '*' && mapa[posX][posY - 1] != torre.getNombrDefensa()) {
                 posY--;
             } else {
                 // Si ambos caminos están bloqueados, buscar una ruta alternativa

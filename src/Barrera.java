@@ -1,26 +1,23 @@
 public class Barrera extends Defensa {
-    char nombreBarrera;
-
-    public Barrera(int resistencia, int costo, int posX, int posY) {
-        super(resistencia, costo, posX, posY);
-        this.nombreBarrera = '$';
+    //Constrcutor de la clase Barrera
+    public Barrera(int resistencia, int costo, int posX, int posY,char nombreBarrera) {
+        super(resistencia, costo, posX, posY,'$');
     }
+
+    //Metodo que recibe un ataque de un enemigo (implemenación del método abstracto de la clase Defensa)
     @Override
     public void recibirAtaque(Enemigo enemigo) {
         int distanciaX = Math.abs(this.posX - enemigo.getPosX()); 
         int distanciaY = Math.abs(this.posY - enemigo.getPosY()); 
         if (distanciaX <= enemigo.getrangoAtaque() && distanciaY <= enemigo.getrangoAtaque()) {
             this.resistencia -= enemigo.getRecompensa(); // Changed from vidaInicial to resistencia
-            System.out.println("VIDA " + this.nombreBarrera + ": " + this.resistencia);
+            System.out.println("VIDA " + this.nombreDefensa + ": " + this.resistencia);
         }
 
         if (this.resistencia <= 0) {
-            System.out.println("¡La barrera " + this.nombreBarrera + " ha sido destruida!");
+            System.out.println("¡La barrera " + this.nombreDefensa + " ha sido destruida!");
         }
     }
 
-    public void colocarEnMapa(char[][] mapa){
-        mapa[posX][posY] = this.nombreBarrera ; // '?' representa una torre adicional
-    }
     
 }

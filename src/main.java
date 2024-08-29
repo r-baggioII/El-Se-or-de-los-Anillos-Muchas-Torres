@@ -17,10 +17,10 @@ public class Main {
 
         // Iniciar Nivel
         Nivel nivel = new Nivel(1, 100);
-        
+
         // Iniciar Magia
         Magia magia = new Magia();
-        
+
         // Elejir Mapa
         Mapa maps = new Mapa();
         maps.iniciarMapa();
@@ -30,37 +30,46 @@ public class Main {
         while (flag) {
             System.out.println("Colocar Torre: t ");
             System.out.println("Colocar Barreras: b ");
-            String opcion = sc.nextLine();
-            System.out.println("Posicion de la torre:");
-            int posX = sc.nextInt();
-            int posY = sc.nextInt();
-            sc.nextLine(); // Consume the newline character after the integers
+            System.out.println("Finalizar colocación: q ");
+            String opcion = sc.nextLine().toLowerCase(); // Convert to lowercase to avoid case sensitivity
 
-            if (posX + 1 <= maps.getTamañoMapa() && posY + 1 <= maps.getTamañoMapa()) {
-                switch (opcion.toLowerCase()) {
-                    case "t":
-                        Torre torre = new Torre();
-                        torre.colocarTorre(maps, magia, 0, 0, 'I');
-                        game.miTorres.add(torre);
-                        break; // Add break to prevent fall-through
-
-                    case "b":
-                        Barrera defensa = new Barrera(70, 25, posX, posY);
-                        defensa.colocarEnMapa(maps.getMapa());
-                        game.miBarrera.add(defensa);
-                        break; // Add break to prevent fall-through
-
-                    default:
-                        System.out.println("Opción no válida. Intenta de nuevo.");
-                        break;
-                }
+            if (opcion.equals("q")) {
+                flag = false; // Set flag to false to exit the loop
+                System.out.println("Colocación finalizada.");
             } else {
-                System.out.println("Coordenadas fuera de los límites");
+                System.out.println("Posición de la torre:");
+                int posX = sc.nextInt();
+                int posY = sc.nextInt();
+                sc.nextLine(); // Consume the newline character after the integers
+
+                if (posX + 1 <= maps.getTamañoMapa() && posY + 1 <= maps.getTamañoMapa()) {
+                    switch (opcion) {
+                        case "t":
+                            Torre torre = new Torre();
+                            torre.colocarTorre(maps, magia, posX-1, posY-1, 't');
+                            game.miTorres.add(torre);
+                            break; // Add break to prevent fall-through
+
+                        case "b":
+                            break; // Add break to prevent fall-through
+                            //Barrera defensa = new Barrera(70, 25, posX, posY);
+                            //defensa.colocarEnMapa(maps.getMapa());
+                            //game.miBarrera.add(defensa);
+
+
+                        default:
+                            System.out.println("Opción no válida. Intenta de nuevo.");
+                            break;
+                    }
+                } else {
+                    System.out.println("Coordenadas fuera de los límites");
+                }
             }
         }
 
         // Iniciar Oleada
         Oleada play = new Oleada(maps);
         play.Start(maps, nivel, game.miTorres, game.miBarrera);
+        sc.close();
     }
 }
