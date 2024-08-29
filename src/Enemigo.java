@@ -1,4 +1,4 @@
-package Enemigos;
+
 public abstract class Enemigo {
     
     //Atributos de clase
@@ -81,7 +81,7 @@ public abstract class Enemigo {
         return salud <= 0;
     }
 
-    public void moverHacia(char[][] mapa, int torreX, int torreY) {
+    public void moverHacia(char[][] mapa, int torreX, int torreY,Torre torre) {
         // Verificar si está cerca de la torre (a 1 o 2 casillas de distancia)
         int distanciaX = Math.abs(posX - torreX);
         int distanciaY = Math.abs(posY - torreY);

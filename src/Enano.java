@@ -1,4 +1,4 @@
-package Enemigos;
+
 
 public class Enano extends Enemigo {
     public Enano(int posX, int posY){

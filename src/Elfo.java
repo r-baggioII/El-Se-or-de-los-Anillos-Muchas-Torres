@@ -1,4 +1,3 @@
-package Enemigos;
 
 public class Elfo extends Enemigo {
     public Elfo (int posX,int posY){

@@ -1,4 +1,4 @@
-package Enemigos;
+
 
 public class Hobbit extends Enemigo {
     public Hobbit(int posX, int posY){

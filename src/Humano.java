@@ -1,4 +1,4 @@
-package Enemigos;
+
 
 public class Humano extends Enemigo{
 

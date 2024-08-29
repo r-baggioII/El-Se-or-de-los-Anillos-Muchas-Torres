@@ -2,12 +2,6 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 
-import Enemigos.Enano;
-import Enemigos.Enemigo;
-import Enemigos.Hobbit;
-import Enemigos.Humano;
-import Enemigos.Elfo;
-
 
 public class Oleada {
 
@@ -72,13 +66,17 @@ public class Oleada {
                         // Las torres atacan al enemigo y reciben daño del enemigo
                         for (Defensa torre : miTorres) {
                             if (torre instanceof Torre) {
-                                ((Torre) torre).lanzarAtaque(enemigo);
-                                ((Torre) torre).recibirAtaque(enemigo);
-                            }
-                            if ( torre.getResistencia()<=0){
-                                torreEliminados.add(torre);
-                            }
+                                Torre currentTorre = (Torre) torre;
+                                currentTorre.lanzarAtaque(enemigo);
+                                currentTorre.recibirAtaque(enemigo);
+                                
+                                if ( torre.getResistencia()<=0){
+                                    torreEliminados.add(torre);
+                                }
+                                // El enemigo se mueve hacia la torre
+                                enemigo.moverHacia(this.mapa,this.torreX, this.torreY,currentTorre);
 
+                            }
                         }
                     /*
                     for (Defensa barrera : miBarrera) {
@@ -92,9 +90,7 @@ public class Oleada {
                     }
                     */
 
-                    // El enemigo se mueve hacia la torre
-                    enemigo.moverHacia(this.mapa,this.torreX, this.torreY);
-
+                   
                     // Actualizar la nueva posición del enemigo
                     if (enemigo.getPosX() == this.torreX && enemigo.getPosY() == this.torreY) {
                         ataques++;

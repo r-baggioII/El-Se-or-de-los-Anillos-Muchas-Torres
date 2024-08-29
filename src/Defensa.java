@@ -1,4 +1,3 @@
-import Enemigos.Enemigo;
 public class Defensa {
     public int resistencia; 
     public int costo; 

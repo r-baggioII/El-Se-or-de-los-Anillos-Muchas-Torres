@@ -1,5 +1,3 @@
-import Enemigos.Enemigo;
-
 public class Barrera extends Defensa {
     char nombreBarrera;
 
@@ -22,7 +20,7 @@ public class Barrera extends Defensa {
     }
 
     public void colocarEnMapa(char[][] mapa){
-        mapa[posX][posY] = this,nombreBarrera ; // '?' representa una torre adicional
+        mapa[posX][posY] = this.nombreBarrera ; // '?' representa una torre adicional
     }
     
 }
