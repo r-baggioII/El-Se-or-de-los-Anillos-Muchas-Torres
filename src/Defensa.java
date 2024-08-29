@@ -30,7 +30,9 @@ public abstract class Defensa {
 
     //Metodos
     public void restaurarVida(){}
+    //metodo polimorfico que se implementará en las clases barrera y torre
     abstract protected void recibirAtaque(Enemigo enemigo); //método abstracto que se implementará en las clases barrera y torre 
+                                                            
     
     protected void colocarEnMapa(char[][] mapa){
         mapa[posX][posY] = this.nombreDefensa; // 't' para torre y '$' para barrera

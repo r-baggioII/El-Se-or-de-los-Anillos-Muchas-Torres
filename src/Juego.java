@@ -2,17 +2,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+public class Juego {
     private List<Defensa> miTorres;
     private List<Defensa> miBarrera;
 
-    public Main() {
+    public Juego() {
         this.miTorres = new ArrayList<>();
         this.miBarrera = new ArrayList<>();
     }
 
     public static void main(String[] args) {
-        Main game = new Main(); // Create an instance of Main to access instance variables
+        Juego game = new Juego(); // Create an instance of Main to access instance variables
         Scanner sc = new Scanner(System.in);
 
         // Iniciar Nivel

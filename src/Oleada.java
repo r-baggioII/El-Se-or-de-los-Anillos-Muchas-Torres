@@ -100,7 +100,7 @@ public class Oleada {
                     } else {
                         this.mapa[enemigo.getPosX()][enemigo.getPosY()] = enemigo.getRepresentacion();
                     }
-                } else {
+                }else {
                     System.out.println(enemigo.getClass().getSimpleName() + " eliminado.");
                     eliminados.add(enemigo); // Marcar para eliminar
                 }

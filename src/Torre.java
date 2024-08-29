@@ -65,8 +65,10 @@ public class Torre extends Defensa {
     // Método para que la torre ataque a un enemigo
     public void lanzarAtaque(Enemigo enemigo) {
         if (enemigoEnRango(enemigo)) {
+            int newPosX = this.posX + 1; //Se le suma uno a la posicón para mostrar al usuario
+            int newPosY = this.posY + 1;
             enemigo.recibirDanio(this.poderAtaque);
-            System.out.println("La torre " + this.nombreDefensa + "en la posicón"+ "(" + this.posX + this.posY + ")" +" ha atacado al enemigo " + enemigo.getClass().getSimpleName() + " infligiendo " + this.poderAtaque + " de daño.");
+            System.out.println("La torre " + this.nombreDefensa + " en la posicón"+ "(" + newPosX + " , " +  newPosY + ")" + " ha atacado al enemigo " + enemigo.getClass().getSimpleName() + " infligiendo " + this.poderAtaque + " de daño.");
             System.out.println("VIDA " + enemigo.getRepresentacion() + ": " + enemigo.getSalud());
         }
     }
