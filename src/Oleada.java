@@ -15,8 +15,8 @@ public class Oleada {
     public Oleada(Mapa maps){
         this.mapa = maps.getMapa();
         this.size = maps.getTamañoMapa();
-        this.torreX = maps.getCerroGloriaX();
-        this.torreY = maps.getCerroGloriaY();
+        this.torreX = maps.cerroGloria.getPosX();
+        this.torreY = maps.cerroGloria.getPosY();
         this.enemigos = new ArrayList<>();
 
     }

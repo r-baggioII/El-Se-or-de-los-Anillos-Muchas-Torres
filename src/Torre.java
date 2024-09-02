@@ -16,7 +16,6 @@ public class Torre extends DefensaEstandar {
     //Construcotr por defecto sin arguemntos
     public Torre() {
         super(0, 0,'t', 0, 0); // Llama al constructor de Defensa
-        
         this.rangoAtaque = 4;
         this.poderAtaque = 25;
     }

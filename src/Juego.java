@@ -1,12 +1,16 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Juego {
     //Atributos
     private List<DefensaEstandar> miTorres;
     private List<DefensaEstandar> miBarrera;
+    private int nivelActual;
+    private Mapa mapa; 
+    private int puntosMagiaIniciales; 
+    private int puntosMagiaActuales;
+    private List<Nivel> niveles;
     // Constructor
     public Juego() {
         this.miTorres = new ArrayList<>();

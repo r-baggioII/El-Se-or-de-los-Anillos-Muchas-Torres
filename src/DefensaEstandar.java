@@ -33,7 +33,7 @@ public abstract class DefensaEstandar extends Defensa {
     
     protected void colocarEnMapa(Mapa maps, Magia magia,int x,int y, char nombreTorre ){
         //Verifica que la posición elegida sea correcta s
-        if (x == maps.getCerroGloriaX() && y == maps.getCerroGloriaY()) {
+        if (x == maps.cerroGloria.getPosX() && y == maps.cerroGloria.getPosY()) {
             throw new IllegalArgumentException("No se puede colocar una torre en la misma posición que la torre principal.");
         } else if (x == maps.getTamañoMapa() / 2 || y == maps.getTamañoMapa() / 2) {
             throw new IllegalArgumentException("No se puede colocar una torre en la misma posición que las fronteras de los cuatro reinos.");
