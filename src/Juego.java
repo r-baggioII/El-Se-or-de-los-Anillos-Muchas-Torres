@@ -7,25 +7,36 @@ public class Juego {
     private List<DefensaEstandar> miTorres;
     private List<DefensaEstandar> miBarrera;
     private int nivelActual;
-    private Mapa mapa; 
-    private int puntosMagiaIniciales; 
+    public Mapa mapa; 
+    private int puntosMagiaIniciales = 100; 
     private int puntosMagiaActuales;
     private List<Nivel> niveles;
+    private static Scanner sc = new Scanner(System.in);
+
     // Constructor
     public Juego() {
         this.miTorres = new ArrayList<>();
         this.miBarrera = new ArrayList<>();
+        this.nivelActual = 1;
+        this.mapa = new Mapa();
+        this.puntosMagiaActuales = puntosMagiaIniciales;
+        this.niveles = new ArrayList<>();
     }
     // Metodo para Inicar juego
-    public void iniciarJuego(Scanner sc,Mapa maps,Nivel nivel,Magia magia) {
+    public void iniciarJuego(Nivel nivel,Magia magia) {
         System.out.println("El Señor de los anillos: Muchas Morres");
         System.out.println("Bienvenido Al Juego ");
-        maps.imprimirMapa(maps.getMapa());
-        System.out.println("Nivel: "+nivel.getNivelActual());
-        System.out.println("Magia: "+nivel.getMagiaActual());
+        mapa.iniciarMapa(); // Iniciar Mapa
+        mapa.imprimirMapa(mapa.getMapa()); // Imprimir Mapa
+        System.out.println("Nivel: "+nivel.getNivelActual()); // Mostrar Nivel
+        System.out.println("Magia: "+nivel.getMagiaActual());  // Mostrar Magia
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
+        iniciarDefensa(sc, magia); // Iniciar Defensa
+        sc.close();
+        iniciarOleada(sc, nivel, miTorres, miBarrera);
     }
     // Metodo para Colocar Defensa
-    public void iniciarDefensa(Scanner sc,Mapa maps,Magia magia){
+    public void iniciarDefensa(Scanner sc,Magia magia){
         boolean flag = true;
         System.out.println("Invocar Torre:          T ");
         System.out.println("Invocar Barreras:       B ");
@@ -44,12 +55,12 @@ public class Juego {
                 System.out.print("> Y:");
                 int posX = sc.nextInt();
                 sc.nextLine(); 
-                if (posX + 1 <= maps.getTamañoMapa() && posY + 1 <= maps.getTamañoMapa()) {
+                if (posX + 1 <= this.mapa.getTamañoMapa() && posY + 1 <= this.mapa.getTamañoMapa()) {
                     switch (opcion.toLowerCase()) {
                         case "t":
                             Torre torre = new Torre();
                             if (magia.getMagiaActual() >= torre.getCosto()) {
-                                torre.colocarEnMapa(maps, magia, posX - 1, posY - 1, 't');
+                                torre.colocarEnMapa(this.mapa, magia, posX - 1, posY - 1, 't');
                                 this.miTorres.add(torre);
                             } else {
                                 System.out.println("No hay sificiente Magia");
@@ -58,7 +69,7 @@ public class Juego {
                         case "b":
                             Barrera barrera = new Barrera();
                             if (magia.getMagiaActual() >= barrera.getCosto()) {
-                                barrera.colocarEnMapa(maps, magia, posX - 1, posY - 1, 'b');
+                                barrera.colocarEnMapa(this.mapa, magia, posX - 1, posY - 1, 'b');
                                 this.miBarrera.add(barrera);
                             } else {
                                 System.out.println("No hay sificiente Magia");
@@ -74,7 +85,7 @@ public class Juego {
             } else {
                 System.out.println("Opcion no valida. Intenta de nuevo.");
             }
-            maps.imprimirMapa(maps.getMapa());
+            this.mapa.imprimirMapa(mapa.getMapa());
 
             //System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
             System.out.println("Colocar Torre:          T ");
@@ -85,28 +96,22 @@ public class Juego {
 
     }
     // Metodo para ver el estado del jugador
-    public void estado(Nivel nivel, Mapa maps, Magia magia,Defensa miTorre,Defensa miBarrera) {
+    public void estado(Nivel nivel, Magia magia,Defensa miTorre,Defensa miBarrera) {
         System.out.println("Magia actual: "+magia.getMagiaActual());
         System.out.println("Nivel actual: "+nivel.getNivelActual());
     }
 
+    public void iniciarOleada(Scanner sc, Nivel nivel, List<DefensaEstandar> miTorres, List<DefensaEstandar> miBarrera) {
+        Oleada play = new Oleada(this.mapa);
+        play.start(this.mapa, nivel, miTorres, miBarrera);
+    }
+
     public static void main(String[] args) {
-        Juego game = new Juego(); // Create an instance of Main to access instance variables
-        Scanner sc = new Scanner(System.in);
+        Juego game = new Juego(); 
         // Iniciar Nivel
         Nivel nivel = new Nivel(1, 100);
         // Iniciar Magia
         Magia magia = new Magia();
-        // Elejir Mapa
-        Mapa maps = new Mapa();
-        maps.iniciarMapa();
-        // Interacion con el jugador
-        game.iniciarJuego(sc,maps,nivel,magia);
-        game.iniciarDefensa(sc,maps,magia);
-        // Iniciar Oleada
-        Oleada play = new Oleada(maps);
-        play.start(maps, nivel, game.miTorres, game.miBarrera);
-        sc.close();
+        game.iniciarJuego(nivel,magia); // Iniciar Juego
     }
-
 }

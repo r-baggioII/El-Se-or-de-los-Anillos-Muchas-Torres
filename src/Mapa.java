@@ -6,7 +6,9 @@ public class Mapa {
     private int tamañoMapa = 17;
     char[][] mapa = new char[tamañoMapa][tamañoMapa];
 
-    public Mapa() {}
+    public Mapa() {
+        cerroGloria = new CerroGloria(0, 0); // Por defecto se coloca el cerro de la gloria en la posición (0,0)
+    }
     // Geters Y Seters
 
     //Dvuelve el tamaño del mapa 
