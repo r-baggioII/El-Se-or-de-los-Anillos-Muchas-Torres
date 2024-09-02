@@ -13,28 +13,10 @@ public class Juego {
         this.miBarrera = new ArrayList<>();
     }
     //Metodos
-    public static void main(String[] args) {
-        Juego game = new Juego(); // Create an instance of Main to access instance variables
-        Scanner sc = new Scanner(System.in);
-        // Iniciar Nivel
-        Nivel nivel = new Nivel(1, 100);
-        // Iniciar Magia
-        Magia magia = new Magia();
-        // Elejir Mapa
-        Mapa maps = new Mapa();
-        maps.iniciarMapa();
-        // Interacion con el jugador
-        game.iniciarJuego(sc,maps,nivel,magia);
-        game.iniciarDefensa(sc,maps,magia);
-        // Iniciar Oleada
-        Oleada play = new Oleada(maps);
-        play.start(maps, nivel, game.miTorres, game.miBarrera);
-        sc.close();
-    }
     // Metodo para Inicar juego
     public void iniciarJuego(Scanner sc,Mapa maps,Nivel nivel,Magia magia) {
         System.out.println("El Señor de los anillos: Muchas Morres");
-        System.out.println("Bienbenido Al Juego ");
+        System.out.println("Bienvenido Al Juego ");
         maps.imprimirMapa(maps.getMapa());
         System.out.println("Nivel: "+nivel.getNivelActual());
         System.out.println("Magia: "+nivel.getMagiaActual());
@@ -103,6 +85,25 @@ public class Juego {
     public void estado(Nivel nivel, Mapa maps, Magia magia,Defensa miTorre,Defensa miBarrera) {
         System.out.println("Magia actual: "+magia.getMagiaActual());
         System.out.println("Nivel actual: "+nivel.getNivelActual());
+    }
+
+    public static void main(String[] args) {
+        Juego game = new Juego(); // Create an instance of Main to access instance variables
+        Scanner sc = new Scanner(System.in);
+        // Iniciar Nivel
+        Nivel nivel = new Nivel(1, 100);
+        // Iniciar Magia
+        Magia magia = new Magia();
+        // Elejir Mapa
+        Mapa maps = new Mapa();
+        maps.iniciarMapa();
+        // Interacion con el jugador
+        game.iniciarJuego(sc,maps,nivel,magia);
+        game.iniciarDefensa(sc,maps,magia);
+        // Iniciar Oleada
+        Oleada play = new Oleada(maps);
+        play.start(maps, nivel, game.miTorres, game.miBarrera);
+        sc.close();
     }
 
 }
