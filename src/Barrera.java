@@ -1,15 +1,13 @@
-public class Barrera extends Defensa {
+public class Barrera extends DefensaEstandar {
     //Constrcutor de la clase Barrera
-
-
-
-
-    public Barrera(int posX, int posY) {
-        super(200, 25, posX, posY,'t'); // Llama al constructor de Defensa
+    //int posX, int posY, char nombreDefensa, int resistencia, int costoMagia 
+    public Barrera(int posX, int posY, int resistencia, int costoMagia) {
+        super(posX, posY,'b', resistencia, costoMagia); // Llama al constructor de Defensa
     }
     //Construcotr por defecto sin arguemntos
     public Barrera() {
-        super(100, 50, 0, 0,'d'); //Por defecto la torre se coloca en la posición 0,0
+        super(0, 0,'b', 0, 0); // Llama al constructor de Defensa
+
     }
-    //Metodo que recibe un ataque de un enemigo (implemenación del método abstracto de la clase Defensa)
+   
 }

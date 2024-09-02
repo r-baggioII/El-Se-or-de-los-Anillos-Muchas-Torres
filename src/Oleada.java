@@ -21,7 +21,7 @@ public class Oleada {
 
     }
 
-    public void start(Mapa maps, Nivel nivel,List<Defensa> miTorres,List<Defensa> miBarrera) {
+    public void start(Mapa maps, Nivel nivel,List<DefensaEstandar> miTorres,List<DefensaEstandar> miBarrera) {
         int oleada = nivel.getNivelActual()*2;
         int ataques=0;
 
@@ -55,8 +55,8 @@ public class Oleada {
             maps.imprimirMapa(this.mapa);
 
             List<Enemigo> eliminados = new ArrayList<>();
-            List<Defensa> torreEliminados = new ArrayList<>();
-            List<Defensa> barreraEliminados = new ArrayList<>();
+            List<DefensaEstandar> torreEliminados = new ArrayList<>();
+            List<DefensaEstandar> barreraEliminados = new ArrayList<>();
             for (Enemigo enemigo : enemigos) {
                 // Limpiar la posición anterior del enemigo
                 this.mapa[enemigo.getPosX()][enemigo.getPosY()] = '.';
@@ -65,7 +65,7 @@ public class Oleada {
                 if (!enemigo.esEliminado()) {
 
                     // Las torres atacan al enemigo y reciben daño del enemigo
-                    for (Defensa torre : miTorres) {
+                    for (DefensaEstandar torre : miTorres) {
                         if (torre instanceof Torre) {
                             Torre currentTorre = (Torre) torre;
                             currentTorre.lanzarAtaque(enemigo);
@@ -80,7 +80,7 @@ public class Oleada {
                         }
                     }
                     // Las defensas reciben ataques de los enemigos
-                    for (Defensa barrera : miBarrera) {
+                    for (DefensaEstandar barrera : miBarrera) {
                         if (barrera instanceof Barrera) {
                             ((Barrera) barrera).recibirAtaque(enemigo);
                         }

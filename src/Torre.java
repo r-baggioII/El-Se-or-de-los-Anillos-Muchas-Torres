@@ -2,20 +2,21 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Torre extends Defensa {
+public class Torre extends DefensaEstandar {
     private int rangoAtaque;
     private int poderAtaque;
 
     // Constructor para inicializar la posición de la torre
-    public Torre(int posX, int posY) {
-        super(100, 50, posX, posY,'t'); // Llama al constructor de Defensa 
+    public Torre(int posX, int posY, int resistencia, int costoMagia) {
+        super(posX, posY,'t', resistencia, costoMagia); // Llama al constructor de Defensa
         this.rangoAtaque = 4;
         this.poderAtaque = 25;
 
     }
     //Construcotr por defecto sin arguemntos
     public Torre() {
-        super(100, 50, 0, 0,'t'); //Por defecto la torre se coloca en la posición 0,0
+        super(0, 0,'t', 0, 0); // Llama al constructor de Defensa
+        
         this.rangoAtaque = 4;
         this.poderAtaque = 25;
     }

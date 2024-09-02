@@ -2,8 +2,7 @@ import java.util.Scanner;
 
 public class Mapa {
 
-    private int cerroGloriaX;
-    private int cerroGloriaY;
+    private CerroGloria torrePrincipal;
     private int tamañoMapa = 17;
     char[][] mapa = new char[tamañoMapa][tamañoMapa];
 
@@ -11,15 +10,19 @@ public class Mapa {
 
     public Mapa() {}
     // Geters Y Seters
+    //Dvuelve el tamaño del mapa 
     public int getTamañoMapa(){
         return tamañoMapa;
     }
+    //Devuelve la posición en X de la torre principal
     public int getCerroGloriaX(){
-        return this.cerroGloriaX;
+        return this.torrePrincipal.getPosX();
     }
+    //Devuelve la posición en Y de la torre principal
     public int getCerroGloriaY(){
-        return this.cerroGloriaY;
+        return this.torrePrincipal.getPosY();
     }
+    //Devuelve el mapa (matriz de tipo char)
     public char[][] getMapa(){
         return mapa;
     }
@@ -38,7 +41,9 @@ public class Mapa {
             }
         }
         // Posición de la torre en el centro del mapa
+        int cerroGloriaX = getCerroGloriaX();  
         cerroGloriaX = tamañoMapa / 2;
+        int cerroGloriaY =  getCerroGloriaY(); 
         cerroGloriaY = tamañoMapa / 2;
         mapa[cerroGloriaX][cerroGloriaY] = 'T'; // 'T' representa la torre
     }

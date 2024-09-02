@@ -5,14 +5,13 @@ import java.util.Scanner;
 
 public class Juego {
     //Atributos
-    private List<Defensa> miTorres;
-    private List<Defensa> miBarrera;
+    private List<DefensaEstandar> miTorres;
+    private List<DefensaEstandar> miBarrera;
     // Constructor
     public Juego() {
         this.miTorres = new ArrayList<>();
         this.miBarrera = new ArrayList<>();
     }
-    //Metodos
     // Metodo para Inicar juego
     public void iniciarJuego(Scanner sc,Mapa maps,Nivel nivel,Magia magia) {
         System.out.println("El Señor de los anillos: Muchas Morres");
@@ -40,7 +39,7 @@ public class Juego {
                 int posY = sc.nextInt();
                 System.out.print("> Y:");
                 int posX = sc.nextInt();
-                sc.nextLine(); // Consume the newline character after the integers
+                sc.nextLine(); 
                 if (posX + 1 <= maps.getTamañoMapa() && posY + 1 <= maps.getTamañoMapa()) {
                     switch (opcion.toLowerCase()) {
                         case "t":
@@ -51,7 +50,7 @@ public class Juego {
                             } else {
                                 System.out.println("No hay sificiente Magia");
                             }
-                            break; // Add break to prevent fall-through
+                            break;
                         case "b":
                             Barrera barrera = new Barrera();
                             if (magia.getMagiaActual() >= barrera.getCosto()) {
@@ -60,7 +59,7 @@ public class Juego {
                             } else {
                                 System.out.println("No hay sificiente Magia");
                             }
-                            break; // Add break to prevent fall-through
+                            break;
                         default:
                             System.out.println("Opción no válida. Intenta de nuevo.");
                             break;
