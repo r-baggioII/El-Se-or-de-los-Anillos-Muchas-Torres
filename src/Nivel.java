@@ -1,25 +1,32 @@
-public class Nivel {
-    int nivelActual;
-    int magiaActual;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Nivel(int nivelActual, int magiaActual) {
-        this.nivelActual = nivelActual;
-        this.magiaActual = magiaActual;
+public class Nivel {
+    int numeroNivel;
+    private List<Oleada> oleadas;
+
+    public Nivel(int numeroNivel) {
+        this.numeroNivel = numeroNivel;
+        this.oleadas = new ArrayList<>();
     }
 
     public int getNivelActual() {
-        return nivelActual;
-    }
-
-    public int getMagiaActual() {
-        return magiaActual;
+        return numeroNivel;
     }
 
     public void setNivelActual(int nivelActual) {
-        this.nivelActual = nivelActual;
+        this.numeroNivel = nivelActual;
     }
 
-    public void setMagiaActual(int magiaActual) {
-        this.magiaActual = magiaActual;
+    public void agregarOleada(Oleada oleada) {
+        oleadas.add(oleada);
     }
+    /*
+     *   public void iniciarNivel() {
+        System.out.println("Iniciando Nivel " + nivelActual);
+        for (Oleada oleada : oleadas) {
+            oleada.start();
+    }   } 
+     */
+ 
 }

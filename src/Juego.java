@@ -22,6 +22,25 @@ public class Juego {
         this.puntosMagiaActuales = puntosMagiaIniciales;
         this.niveles = new ArrayList<>();
     }
+    private void inicializarNiveles() {
+        // Nivel 1 con 1 oleada
+        Nivel nivel1 = new Nivel(1);
+        nivel1.agregarOleada(new Oleada());
+        niveles.add(nivel1);
+
+        // Nivel 2 con 2 oleadas
+        Nivel nivel2 = new Nivel(2);
+        nivel2.agregarOleada(new Oleada());
+        nivel2.agregarOleada(new Oleada());
+        niveles.add(nivel2);
+
+        // Nivel 3 con 3 oleadas
+        Nivel nivel3 = new Nivel(3);
+        nivel3.agregarOleada(new Oleada());
+        nivel3.agregarOleada(new Oleada());
+        nivel3.agregarOleada(new Oleada());
+        niveles.add(nivel3);
+    }
     // Metodo para Inicar juego
     public void iniciarJuego(Nivel nivel,Magia magia) {
         System.out.println("El Señor de los anillos: Muchas Morres");

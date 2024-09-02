@@ -12,16 +12,19 @@ public class Oleada {
     private int torreY;
     private List<Enemigo> enemigos;
 
+    //Comstructor por defecto de la clase Oleada
+    public Oleada(){}
+
+    //Constructor de la clase Oleada
     public Oleada(Mapa maps){
         this.mapa = maps.getMapa();
         this.size = maps.getTamañoMapa();
         this.torreX = maps.cerroGloria.getPosX();
         this.torreY = maps.cerroGloria.getPosY();
         this.enemigos = new ArrayList<>();
-
     }
 
-    public void start(Mapa maps, Nivel nivel,List<DefensaEstandar> miTorres,List<DefensaEstandar> miBarrera) {
+    public void iniciarOleada(Mapa maps, Nivel nivel,List<DefensaEstandar> miTorres,List<DefensaEstandar> miBarrera) {
         int oleada = nivel.getNivelActual()*2;
         int ataques=0;
 
