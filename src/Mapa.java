@@ -4,7 +4,7 @@ public class Mapa {
 
     private int cerroGloriaX;
     private int cerroGloriaY;
-    private int tamañoMapa = 15;
+    private int tamañoMapa = 17;
     char[][] mapa = new char[tamañoMapa][tamañoMapa];
 
     Torre torre = new Torre();
@@ -46,13 +46,20 @@ public class Mapa {
     // Método para imprimir el mapa
     public static void imprimirMapa(char[][] mapa) {
         // Limpiar la consola( ANSI escape sequences)
+        for (int n = 0; n < mapa.length+1;n++){
+            System.out.print( n%10 + "  ");
+        }
+        System.out.println();
+
         for (int i = 0; i < mapa.length; i++) {
+            System.out.print( (i+1)%10 + "  ");
             for (int j = 0; j < mapa[i].length; j++) {
-                System.out.print(mapa[i][j] + " ");
+                System.out.print(mapa[i][j] + "  ");
             }
             System.out.println();
         }
         System.out.println();
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
     // Metodo para limpiar la pantalla o mover el cursor al principio

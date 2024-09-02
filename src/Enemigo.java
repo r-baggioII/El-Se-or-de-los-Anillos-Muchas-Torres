@@ -81,7 +81,7 @@ public abstract class Enemigo {
         return salud <= 0;
     }
 
-    public void moverHacia(char[][] mapa, int torreX, int torreY,Torre torre) {
+    public void moverHacia(char[][] mapa, int torreX, int torreY,Defensa defensa) {
         // Verificar si está cerca de la torre (a 1 o 2 casillas de distancia)
         int distanciaX = Math.abs(posX - torreX);
         int distanciaY = Math.abs(posY - torreY);
@@ -92,13 +92,13 @@ public abstract class Enemigo {
             posY = torreY;
         }else{
             // Verificar si el movimiento en la dirección X está bloqueado
-            if (posX < torreX && mapa[posX + 1][posY] != '*' && mapa[posX + 1][posY] != torre.getNombrDefensa()) {
+            if (posX < torreX && mapa[posX + 1][posY] != '*' && mapa[posX + 1][posY] != defensa.getNombrDefensa()) {
                 posX++;
-            } else if (posX > torreX && mapa[posX - 1][posY] != '*' && mapa[posX - 1][posY] != torre.getNombrDefensa()) {
+            } else if (posX > torreX && mapa[posX - 1][posY] != '*' && mapa[posX - 1][posY] != defensa.getNombrDefensa()) {
                 posX--;
-            } else if (posY < torreY && mapa[posX][posY + 1] != '*' && mapa[posX][posY + 1] != torre.getNombrDefensa()) { // Verificar si el movimiento en la dirección Y está bloqueado
+            } else if (posY < torreY && mapa[posX][posY + 1] != '*' && mapa[posX][posY + 1] != defensa.getNombrDefensa()) { // Verificar si el movimiento en la dirección Y está bloqueado
                 posY++;
-            } else if (posY > torreY && mapa[posX][posY - 1] != '*' && mapa[posX][posY - 1] != torre.getNombrDefensa()) {
+            } else if (posY > torreY && mapa[posX][posY - 1] != '*' && mapa[posX][posY - 1] != defensa.getNombrDefensa()) {
                 posY--;
             } else {
                 // Si ambos caminos están bloqueados, buscar una ruta alternativa

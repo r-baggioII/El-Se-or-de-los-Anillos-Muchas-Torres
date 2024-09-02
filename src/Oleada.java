@@ -21,7 +21,7 @@ public class Oleada {
 
     }
 
-    public void Start(Mapa maps, Nivel nivel,List<Defensa> miTorres,List<Defensa> miBarrera) {
+    public void start(Mapa maps, Nivel nivel,List<Defensa> miTorres,List<Defensa> miBarrera) {
         int oleada = nivel.getNivelActual()*2;
         int ataques=0;
 
@@ -63,33 +63,32 @@ public class Oleada {
 
                 // Verificar si el enemigo ha sido eliminado
                 if (!enemigo.esEliminado()) {
-                        // Las torres atacan al enemigo y reciben daño del enemigo
-                        for (Defensa torre : miTorres) {
-                            if (torre instanceof Torre) {
-                                Torre currentTorre = (Torre) torre;
-                                currentTorre.lanzarAtaque(enemigo);
-                                currentTorre.recibirAtaque(enemigo);
-                                
-                                if ( torre.getResistencia()<=0){
-                                    torreEliminados.add(torre);
-                                }
-                                // El enemigo se mueve hacia la torre
-                                enemigo.moverHacia(this.mapa,this.torreX, this.torreY,currentTorre);
 
+                    // Las torres atacan al enemigo y reciben daño del enemigo
+                    for (Defensa torre : miTorres) {
+                        if (torre instanceof Torre) {
+                            Torre currentTorre = (Torre) torre;
+                            currentTorre.lanzarAtaque(enemigo);
+                            currentTorre.recibirAtaque(enemigo);
+
+                            if ( torre.getResistencia()<=0){
+                                torreEliminados.add(torre);
                             }
+                            // El enemigo se mueve hacia la torre
+                            enemigo.moverHacia(this.mapa,this.torreX, this.torreY,currentTorre);
+
                         }
-                    /*
+                    }
+                    // Las defensas reciben ataques de los enemigos
                     for (Defensa barrera : miBarrera) {
-                        if (barrera instanceof Torre) {
-                            ((Barrera) barrera).lanzarAtaque(enemigo);
+                        if (barrera instanceof Barrera) {
                             ((Barrera) barrera).recibirAtaque(enemigo);
                         }
                         if ( barrera.getResistencia()<=0){
                             barreraEliminados.add(barrera);
                         }
+                        enemigo.moverHacia(this.mapa,this.torreX, this.torreY,barrera);
                     }
-                    */
-
                    
                     // Actualizar la nueva posición del enemigo
                     if (enemigo.getPosX() == this.torreX && enemigo.getPosY() == this.torreY) {
