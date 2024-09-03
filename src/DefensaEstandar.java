@@ -13,18 +13,7 @@ public abstract class DefensaEstandar extends Defensa {
 
     public void restaurarVida() {}
 
-    public void recibirAtaque(Enemigo enemigo) {
-        int distanciaX = Math.abs(this.posX - enemigo.getPosX());
-        int distanciaY = Math.abs(this.posY - enemigo.getPosY());
-        if (distanciaX <= enemigo.getrangoAtaque() && distanciaY <= enemigo.getrangoAtaque()) {
-            this.resistencia -= enemigo.getRecompensa(); 
-            System.out.println("VIDA " + this.nombreDefensa + ": " + this.resistencia);
-        }
-
-        if (this.resistencia <= 0) {
-            System.out.println("¡La barrera " + this.nombreDefensa + " ha sido destruida!");
-        }
-    }
+    public abstract void recibirAtaque(Enemigo enemigo);
 }
 
 

@@ -3,4 +3,7 @@ public class CerroGloria extends Defensa {
     public CerroGloria(int posX, int posY){
         super(posX,posY,'C');
     }
+    public int getVidas(){
+        return vidas;
+    }
 }

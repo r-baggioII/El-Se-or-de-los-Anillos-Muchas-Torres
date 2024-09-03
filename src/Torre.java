@@ -47,6 +47,21 @@ public class Torre extends DefensaEstandar implements ColocableEnMapa {
         int distanciaY = Math.abs(this.posY - enemigo.getPosY()); 
         return distanciaX <= rangoAtaque && distanciaY <= rangoAtaque;
     }
+    
+    @Override
+    public void recibirAtaque(Enemigo enemigo) {
+        int distanciaX = Math.abs(this.posX - enemigo.getPosX());
+        int distanciaY = Math.abs(this.posY - enemigo.getPosY());
+        if (distanciaX <= enemigo.getrangoAtaque() && distanciaY <= enemigo.getrangoAtaque()) {
+            this.resistencia -= enemigo.getRecompensa();
+            System.out.println("VIDA " + this.nombreDefensa + ": " + this.resistencia);
+        }
+
+        if (this.resistencia <= 0) {
+            System.out.println("¡La Torre " + this.nombreDefensa + "en la posición" + "(" + posX + ", " + posY + ")"+ "ha sido destruida!");
+        }
+    }
+
     @Override
     public void colocarEnMapa(Mapa mapa) {
         //Verifica que la posición elegida sea correcta s

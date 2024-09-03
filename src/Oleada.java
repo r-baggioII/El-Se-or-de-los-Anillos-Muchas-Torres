@@ -5,7 +5,6 @@ import java.util.List;
 public class Oleada {
 
     Random rand = new Random();
-    private Mapa mapa;
     private List<Enemigo> enemigos;
 
     // Constructor por defecto
@@ -13,36 +12,36 @@ public class Oleada {
         this.enemigos = new ArrayList<>();
     }
 
-    // Constructor que recibe un objeto Mapa
-    public Oleada(Mapa mapa) {
-        this.mapa = mapa;
-        this.enemigos = new ArrayList<>();
-    }
+    // Método para iniciar la oleada con enemigos según el nivel
+    public void iniciarOleada(Mapa mapa, int nivelActual, List<DefensaEstandar> miTorres, List<DefensaEstandar> miBarrera) {
+        int cantEnemigos;
 
-    public void iniciarOleada(int nivelActual, List<DefensaEstandar> miTorres, List<DefensaEstandar> miBarrera) {
-        int oleada = nivelActual * 2;
+        // Determinar la cantidad de enemigos según el nivel
+        switch (nivelActual) {
+            case 1: cantEnemigos = 2; break;  // Nivel 1: 2 enemigos
+            case 2: cantEnemigos = 3; break;  // Nivel 2: 3 enemigos
+            case 3: cantEnemigos = 4; break;  // Nivel 3: 4 enemigos
+            default: cantEnemigos = 0; break; // Valor por defecto si el nivel es inválido
+        }
+
         int ataques = 0;
 
         // Generar enemigos al inicio de la oleada
-        for (int i = 0; i < oleada; i++) {
-            int tipoEnemigo = rand.nextInt(oleada / 2 + 1);
+        for (int i = 0; i < cantEnemigos; i++) {
             Enemigo enemigo;
-            switch (tipoEnemigo) {
-                case 0:
-                    enemigo = new Humano(0, rand.nextInt(0, mapa.getTamañoMapa() / 2 - 1));
-                    break;
-                case 1:
-                    enemigo = new Enano(0, rand.nextInt(mapa.getTamañoMapa() / 2 + 1, mapa.getTamañoMapa()));
-                    break;
-                case 2:
-                    enemigo = new Elfo(rand.nextInt(0, mapa.getTamañoMapa() / 2 - 1), 0);
-                    break;
-                case 3:
-                    enemigo = new Hobbit(rand.nextInt(0, mapa.getTamañoMapa() / 2 + 1), 0);
-                    break;
-                default:
-                    enemigo = new Humano(0, rand.nextInt(0, mapa.getTamañoMapa() / 2 - 1));
+
+            // Generar el tipo de enemigo basado en el nivel
+            if (nivelActual == 1) {
+                // Nivel 1: Humanos o Enanos
+                enemigo = generarEnemigo(mapa, rand.nextInt(2));
+            } else if (nivelActual == 2) {
+                // Nivel 2: Humanos, Enanos o Elfos
+                enemigo = generarEnemigo(mapa, rand.nextInt(3));
+            } else {
+                // Nivel 3: Humanos, Enanos, Elfos o Hobbits
+                enemigo = generarEnemigo(mapa, rand.nextInt(4));
             }
+
             enemigos.add(enemigo);
             mapa.setElemento(enemigo.getPosX(), enemigo.getPosY(), enemigo.getRepresentacion());
         }
@@ -55,7 +54,7 @@ public class Oleada {
             List<Enemigo> eliminados = new ArrayList<>();
             List<DefensaEstandar> torreEliminados = new ArrayList<>();
             List<DefensaEstandar> barreraEliminados = new ArrayList<>();
-            
+
             for (Enemigo enemigo : enemigos) {
                 // Limpiar la posición anterior del enemigo
                 mapa.setElemento(enemigo.getPosX(), enemigo.getPosY(), '.');
@@ -65,8 +64,7 @@ public class Oleada {
 
                     // Las torres atacan al enemigo y reciben daño del enemigo
                     for (DefensaEstandar torre : miTorres) {
-                        if (torre instanceof Torre) {
-                            Torre currentTorre = (Torre) torre;
+                        if (torre instanceof Torre currentTorre) {
                             currentTorre.lanzarAtaque(enemigo);
                             currentTorre.recibirAtaque(enemigo);
 
@@ -80,8 +78,8 @@ public class Oleada {
 
                     // Las defensas reciben ataques de los enemigos
                     for (DefensaEstandar barrera : miBarrera) {
-                        if (barrera instanceof Barrera) {
-                            ((Barrera) barrera).recibirAtaque(enemigo);
+                        if (barrera instanceof Barrera currentBarrera) {
+                            currentBarrera.recibirAtaque(enemigo);
                         }
                         if (barrera.getResistencia() <= 0) {
                             barreraEliminados.add(barrera);
@@ -90,9 +88,10 @@ public class Oleada {
                     }
 
                     // Actualizar la nueva posición del enemigo
-                    if (enemigo.getPosX() == mapa.cerroGloria.getPosX() && enemigo.getPosY() == mapa.cerroGloria.getPosY()) {
+                    if (enemigo.getPosX() == mapa.cerroGloria.getPosX() && enemigo.getPosY() == mapa.cerroGloria.getPosY() && !(eliminados.contains(enemigo))) {
                         ataques++;
-                        System.out.println(enemigo.getClass().getSimpleName() + " ha atacado a CERRO DE LA GLORIA. Vidas: " + (oleada - ataques));
+                        mapa.cerroGloria.vidas -= ataques; //Se le resta una vida al cerro de la gloria por cada ataque
+                        System.out.println(enemigo.getClass().getSimpleName() + " ha atacado a CERRO DE LA GLORIA. Vidas: " + mapa.cerroGloria.vidas);
                         eliminados.add(enemigo);
                         break;
                     } else {
@@ -104,7 +103,7 @@ public class Oleada {
                 }
             }
 
-            if (ataques == oleada) {
+            if (ataques == cantEnemigos) {
                 break;
             }
 
@@ -118,6 +117,22 @@ public class Oleada {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    // Método para generar enemigos basado en el tipo
+    private Enemigo generarEnemigo(Mapa mapa, int tipoEnemigo) {
+        switch (tipoEnemigo) {
+            case 0:
+                return new Humano(0, rand.nextInt(0, mapa.getTamañoMapa() / 2 - 1));
+            case 1:
+                return new Enano(0, rand.nextInt(mapa.getTamañoMapa() / 2 + 1, mapa.getTamañoMapa()));
+            case 2:
+                return new Elfo(rand.nextInt(0, mapa.getTamañoMapa() / 2 - 1), 0);
+            case 3:
+                return new Hobbit(rand.nextInt(0, mapa.getTamañoMapa() / 2 + 1), 0);
+            default:
+                return new Humano(0, rand.nextInt(0, mapa.getTamañoMapa() / 2 - 1));
         }
     }
 }

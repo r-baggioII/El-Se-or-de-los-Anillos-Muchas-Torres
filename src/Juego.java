@@ -68,20 +68,56 @@ public class Juego {
     }
 
 
-    // Metodo para Inicar juego
     public void iniciarJuego() {
-        System.out.println("El Señor de los anillos: Muchas Morres");
-        System.out.println("Bienvenido Al Juego ");
-        mapa.iniciarMapa(); // Iniciar Mapa
-        mapa.imprimirMapa(mapa.getMapa()); // Imprimir Mapa
-        inicializarNiveles(); // Inicializar Niveles
-        System.out.println("Nivel: "+this.nivelActual); // Mostrar Nivel
-        System.out.println("Magia: "+this.puntosMagiaActuales);  // Mostrar puntos de Magia actuales 
-        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
-        iniciarDefensa(); // Iniciar Defensa
-        sc.close();
-        iniciarOleada();
+        System.out.println("El Señor de los Anillos: Muchas Morres");
+        System.out.println("Bienvenido al Juego");
+
+        // Iniciar y mostrar el mapa
+        mapa.iniciarMapa();
+        mapa.imprimirMapa(mapa.getMapa());
+
+        // Inicializar niveles con sus oleadas
+        inicializarNiveles();
+
+        // Iterar por cada nivel
+        for (Nivel nivel : niveles) {
+            this.nivelActual = nivel.getNivel();  // Obtener el número del nivel actual
+            System.out.println("Nivel: " + this.nivelActual);
+            System.out.println("Magia: " + this.puntosMagiaActuales);
+            System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
+
+            // Iniciar defensas antes de cada nivel
+            iniciarDefensa();
+
+            // Iterar por cada oleada en el nivel actual
+            for (Oleada oleada : nivel.getOleadas()) {
+                System.out.println("Iniciando oleada en Nivel: " + this.nivelActual);
+
+                // Inicializar la oleada
+                oleada.iniciarOleada(mapa, this.nivelActual, miTorres, miBarrera);
+
+                // Verificar el estado del juego después de cada oleada
+                if (!chequearEstadoJuego()) {
+                    System.out.println("Has perdido. El juego ha terminado.");
+                    return;  // Termina el juego si se cumple la condición de perder
+                }
+            }
+
+            // Incrementar puntos de magia o realizar otras acciones al completar un nivel
+            this.puntosMagiaActuales += 10;  // Ejemplo: Incrementar puntos de magia al finalizar un nivel
+        }
+
+        // Mostrar mensaje de victoria si todos los niveles se completaron
+        System.out.println("¡Felicidades! Has completado todos los niveles.");
     }
+
+    // Metodo auxiliar para verificar si el juego continúa o termina
+    private boolean chequearEstadoJuego() {
+        // Lógica para verificar si el jugador ha perdido (por ejemplo, si el cerro de la gloria ha sido destruido)
+        // Retorna true si el juego debe continuar, false si el jugador ha perdido
+        return mapa.cerroGloria.getVidas() > 0;  // Ejemplo: verifica la resistencia del cerro de la gloria
+    }
+
 
     public void iniciarDefensa(){
         boolean flag = true;
@@ -105,7 +141,7 @@ public class Juego {
                 if (posX + 1 <= this.mapa.getTamañoMapa() && posY + 1 <= this.mapa.getTamañoMapa()) {
                     switch (opcion.toLowerCase()) {
                         case "t":
-                            Torre torre = new Torre();
+                            Torre torre = new Torre(posX-1,posY-1,50,25); // Se le resta 1 a la posición (está indexado desde 0)
                             if (this.puntosMagiaActuales >= torre.getCosto()) {
                                 this.gastarPuntosMagia(torre.getCosto());
                                 torre.colocarEnMapa(this.mapa);
@@ -115,7 +151,7 @@ public class Juego {
                             }
                             break;
                         case "b":
-                            Barrera barrera = new Barrera();
+                            Barrera barrera = new Barrera(posX-1,posY-1,50,25);
                             if (this.puntosMagiaActuales >= barrera.getCosto()) {
                                 this.gastarPuntosMagia(barrera.getCosto());
                                 barrera.colocarEnMapa(this.mapa);
@@ -149,8 +185,8 @@ public class Juego {
     }
 
     public void iniciarOleada() {
-        Oleada play = new Oleada(this.mapa);
-        play.iniciarOleada(this.nivelActual, miTorres, miBarrera);
+        Oleada play = new Oleada();
+        play.iniciarOleada(mapa,this.nivelActual, miTorres, miBarrera);
     }
 
 
