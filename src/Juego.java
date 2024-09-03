@@ -78,12 +78,12 @@ public class Juego {
         System.out.println("Nivel: "+this.nivelActual); // Mostrar Nivel
         System.out.println("Magia: "+this.puntosMagiaActuales);  // Mostrar puntos de Magia actuales 
         System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
-        iniciarDefensa(sc); // Iniciar Defensa
+        iniciarDefensa(); // Iniciar Defensa
         sc.close();
-        iniciarOleada(sc, miTorres, miBarrera);
+        iniciarOleada();
     }
 
-    public void iniciarDefensa(Scanner sc){
+    public void iniciarDefensa(){
         boolean flag = true;
         System.out.println("Invocar Torre:          T ");
         System.out.println("Invocar Barreras:       B ");
@@ -148,7 +148,7 @@ public class Juego {
         System.out.println("Nivel actual: "+this.nivelActual);
     }
 
-    public void iniciarOleada(Scanner sc, List<DefensaEstandar> miTorres, List<DefensaEstandar> miBarrera) {
+    public void iniciarOleada() {
         Oleada play = new Oleada(this.mapa);
         play.iniciarOleada(this.nivelActual, miTorres, miBarrera);
     }

@@ -8,10 +8,12 @@ public class Oleada {
     private Mapa mapa;
     private List<Enemigo> enemigos;
 
-    // Constructor de la clase Oleada
-    public Oleada(){} //constructor por defecto
+    // Constructor por defecto
+    public Oleada() {
+        this.enemigos = new ArrayList<>();
+    }
 
-    // Constructor de la clase Oleada
+    // Constructor que recibe un objeto Mapa
     public Oleada(Mapa mapa) {
         this.mapa = mapa;
         this.enemigos = new ArrayList<>();
@@ -23,26 +25,26 @@ public class Oleada {
 
         // Generar enemigos al inicio de la oleada
         for (int i = 0; i < oleada; i++) {
-            int tipoEnemigo = rand.nextInt(oleada / 2 + 1); // Generar un número aleatorio entre 0 y 3
+            int tipoEnemigo = rand.nextInt(oleada / 2 + 1);
             Enemigo enemigo;
             switch (tipoEnemigo) {
                 case 0:
-                    enemigo = new Humano(0, rand.nextInt(0, this.mapa.getTamañoMapa() / 2 - 1));
+                    enemigo = new Humano(0, rand.nextInt(0, mapa.getTamañoMapa() / 2 - 1));
                     break;
                 case 1:
-                    enemigo = new Enano(0, rand.nextInt(this.mapa.getTamañoMapa()  / 2 + 1, this.mapa.getTamañoMapa() ));
+                    enemigo = new Enano(0, rand.nextInt(mapa.getTamañoMapa() / 2 + 1, mapa.getTamañoMapa()));
                     break;
                 case 2:
-                    enemigo = new Elfo(rand.nextInt(0,this.mapa.getTamañoMapa()  / 2 - 1), 0);
+                    enemigo = new Elfo(rand.nextInt(0, mapa.getTamañoMapa() / 2 - 1), 0);
                     break;
                 case 3:
-                    enemigo = new Hobbit(rand.nextInt(0,this.mapa.getTamañoMapa()  / 2 + 1), 0);
+                    enemigo = new Hobbit(rand.nextInt(0, mapa.getTamañoMapa() / 2 + 1), 0);
                     break;
                 default:
-                    enemigo = new Humano(0, rand.nextInt(0, this.mapa.getTamañoMapa() / 2 - 1));
+                    enemigo = new Humano(0, rand.nextInt(0, mapa.getTamañoMapa() / 2 - 1));
             }
             enemigos.add(enemigo);
-            this.mapa.setElemento(enemigo.getPosX(), enemigo.getPosY(), enemigo.getRepresentacion());
+            mapa.setElemento(enemigo.getPosX(), enemigo.getPosY(), enemigo.getRepresentacion());
         }
 
         // Ciclo de movimiento de los enemigos
@@ -72,7 +74,7 @@ public class Oleada {
                                 torreEliminados.add(torre);
                             }
                             // El enemigo se mueve hacia la torre
-                            enemigo.moverHacia(mapa.getMapa(), mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY(), currentTorre);
+                            enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY(), currentTorre);
                         }
                     }
 
@@ -84,11 +86,11 @@ public class Oleada {
                         if (barrera.getResistencia() <= 0) {
                             barreraEliminados.add(barrera);
                         }
-                        enemigo.moverHacia(mapa.getMapa(),  mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY(), barrera);
+                        enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY(), barrera);
                     }
 
                     // Actualizar la nueva posición del enemigo
-                    if (enemigo.getPosX() ==mapa.cerroGloria.getPosX() && enemigo.getPosY() == mapa.cerroGloria.getPosY()) {
+                    if (enemigo.getPosX() == mapa.cerroGloria.getPosX() && enemigo.getPosY() == mapa.cerroGloria.getPosY()) {
                         ataques++;
                         System.out.println(enemigo.getClass().getSimpleName() + " ha atacado a CERRO DE LA GLORIA. Vidas: " + (oleada - ataques));
                         eliminados.add(enemigo);
