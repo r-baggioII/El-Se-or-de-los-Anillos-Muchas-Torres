@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Juego {
+
     //Atributos
     private List<DefensaEstandar> miTorres;
     private List<DefensaEstandar> miBarrera;
@@ -106,7 +107,7 @@ public class Juego {
                             Torre torre = new Torre();
                             if (this.puntosMagiaActuales >= torre.getCosto()) {
                                 this.gastarPuntosMagia(torre.getCosto());
-                                torre.colocarEnMapa(this.mapa, posX - 1, posY - 1, 't');
+                                torre.colocarEnMapa(this.mapa);
                                 this.miTorres.add(torre);
                             } else {
                                 System.out.println("No hay suficiente Magia");
@@ -116,7 +117,7 @@ public class Juego {
                             Barrera barrera = new Barrera();
                             if (this.puntosMagiaActuales >= barrera.getCosto()) {
                                 this.gastarPuntosMagia(barrera.getCosto());
-                                barrera.colocarEnMapa(this.mapa, posX - 1, posY - 1, 'b');
+                                barrera.colocarEnMapa(this.mapa);
                                 this.miBarrera.add(barrera);
                             } else {
                                 System.out.println("No hay suficiente Magia");

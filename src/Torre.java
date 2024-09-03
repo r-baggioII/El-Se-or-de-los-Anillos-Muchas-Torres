@@ -2,20 +2,19 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Torre extends DefensaEstandar {
+public class Torre extends DefensaEstandar implements ColocableEnMapa {
     private int rangoAtaque;
     private int poderAtaque;
 
     // Constructor para inicializar la posición de la torre
     public Torre(int posX, int posY, int resistencia, int costoMagia) {
-        super(posX, posY,'t', resistencia, costoMagia); // Llama al constructor de Defensa
+        super(posX, posY, 't', resistencia, costoMagia);
         this.rangoAtaque = 4;
         this.poderAtaque = 25;
-
     }
-    //Construcotr por defecto sin arguemntos
+
     public Torre() {
-        super(0, 0,'t', 0, 0); // Llama al constructor de Defensa
+        super(0, 0, 't', 0, 0);
         this.rangoAtaque = 4;
         this.poderAtaque = 25;
     }
@@ -48,21 +47,15 @@ public class Torre extends DefensaEstandar {
         int distanciaY = Math.abs(this.posY - enemigo.getPosY()); 
         return distanciaX <= rangoAtaque && distanciaY <= rangoAtaque;
     }
-    /*
-    public void colocarTorre(Mapa maps, Magia magia,int x,int y, char nombreTorre ) {
-        //Gastar magia al colocar la torre
-        magia.gastarMagia(this.costo);
-        this.nombreDefensa = nombreTorre;
+    @Override
+    public void colocarEnMapa(Mapa mapa) {
         //Verifica que la posición elegida sea correcta s
-        if (x == maps.getCerroGloriaX() && y == maps.getCerroGloriaY()) {
+        if (this.posX == mapa.cerroGloria.getPosX() && this.posY == mapa.cerroGloria.getPosY()) {
             throw new IllegalArgumentException("No se puede colocar una torre en la misma posición que la torre principal.");
-        } else if (x == maps.getTamañoMapa() / 2 || y == maps.getTamañoMapa() / 2) {
+        } else if (this.posX == mapa.getTamañoMapa() / 2 || this.posY == mapa.getTamañoMapa() / 2) {
             throw new IllegalArgumentException("No se puede colocar una torre en la misma posición que las fronteras de los cuatro reinos.");
         }
         //Coloca la torre en el mapa
-        this.posX = x;
-        this.posY = y;
-        colocarEnMapa(maps.getMapa());
+        mapa.setElemento(this.posX, this.posY, this.nombreDefensa); // 't' representa la torre
     }
-    */
 }
