@@ -1,4 +1,8 @@
-public class Magia {
+
+/*
+YA NO USAMOS LA CLASE MAGIA, AHORA USAMOS LA CLASE JUEGO PARA MANEJAR LOS PUNTOS DE MAGIA, ETC
+
+ * public class Magia {
     public final int magiaInicial = 100;
     public final int magiaMaxima = 600;
     public int magiaActual;
@@ -33,3 +37,5 @@ public class Magia {
         }
     }
 }
+ */
+

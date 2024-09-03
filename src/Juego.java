@@ -10,6 +10,7 @@ public class Juego {
     public Mapa mapa; 
     private int puntosMagiaIniciales = 100; 
     private int puntosMagiaActuales;
+    private final int puntosMagiaMaximos = 600;
     private List<Nivel> niveles;
     private static Scanner sc = new Scanner(System.in);
 
@@ -22,6 +23,7 @@ public class Juego {
         this.puntosMagiaActuales = puntosMagiaIniciales;
         this.niveles = new ArrayList<>();
     }
+    
     //Getters y Setters 
     public int getNivelActual() {
         return nivelActual;
@@ -52,8 +54,20 @@ public class Juego {
         nivel3.agregarOleada(new Oleada());
         niveles.add(nivel3);
     }
+
+    public void gastarPuntosMagia(int costo) {
+        if (this.puntosMagiaActuales - costo < 0) {
+            this.puntosMagiaActuales = 0; // No puede ser negativo (debería indicar al usuario que no puede comprar la defensa)
+            System.out.println("No tienes suficientes puntos de magia para esta compra.");
+        } else {
+            this.puntosMagiaActuales -= costo;
+            System.out.println("Compra realizada. Puntos de magia restantes: " + this.puntosMagiaActuales);
+        }
+    }
+
+
     // Metodo para Inicar juego
-    public void iniciarJuego(Magia magia) {
+    public void iniciarJuego() {
         System.out.println("El Señor de los anillos: Muchas Morres");
         System.out.println("Bienvenido Al Juego ");
         mapa.iniciarMapa(); // Iniciar Mapa
@@ -62,23 +76,22 @@ public class Juego {
         System.out.println("Nivel: "+this.nivelActual); // Mostrar Nivel
         System.out.println("Magia: "+this.puntosMagiaActuales);  // Mostrar puntos de Magia actuales 
         System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
-        iniciarDefensa(sc, magia); // Iniciar Defensa
+        iniciarDefensa(sc); // Iniciar Defensa
         sc.close();
-        iniciarOleada(sc, this.nivelActual, miTorres, miBarrera);
+        iniciarOleada(sc, miTorres, miBarrera);
     }
-    // Metodo para Colocar Defensa
-    public void iniciarDefensa(Scanner sc,Magia magia){
+
+    public void iniciarDefensa(Scanner sc){
         boolean flag = true;
         System.out.println("Invocar Torre:          T ");
         System.out.println("Invocar Barreras:       B ");
         System.out.println("Finalizar Invocacion:   Q ");
         while (flag) {
             System.out.print(">");
-            String opcion = sc.nextLine().toLowerCase(); // Convert to lowercase to avoid case sensitivity
-            if (opcion.equals("q")){
+            String opcion = sc.nextLine().toLowerCase();
+            if (opcion.equals("q")) {
                 System.out.println("Invocacion Exitosa.");
-                break; // Set flag to false to exit the loop
-
+                break;
             } else if (opcion.equals("t") || opcion.equals("b")) {
                 System.out.println("Cordenadas de la Defensa:");
                 System.out.print("> X:");
@@ -86,24 +99,27 @@ public class Juego {
                 System.out.print("> Y:");
                 int posX = sc.nextInt();
                 sc.nextLine(); 
+    
                 if (posX + 1 <= this.mapa.getTamañoMapa() && posY + 1 <= this.mapa.getTamañoMapa()) {
                     switch (opcion.toLowerCase()) {
                         case "t":
                             Torre torre = new Torre();
-                            if (magia.getMagiaActual() >= torre.getCosto()) {
-                                torre.colocarEnMapa(this.mapa, magia, posX - 1, posY - 1, 't');
+                            if (this.puntosMagiaActuales >= torre.getCosto()) {
+                                this.gastarPuntosMagia(torre.getCosto());
+                                torre.colocarEnMapa(this.mapa, posX - 1, posY - 1, 't');
                                 this.miTorres.add(torre);
                             } else {
-                                System.out.println("No hay sificiente Magia");
+                                System.out.println("No hay suficiente Magia");
                             }
                             break;
                         case "b":
                             Barrera barrera = new Barrera();
-                            if (magia.getMagiaActual() >= barrera.getCosto()) {
-                                barrera.colocarEnMapa(this.mapa, magia, posX - 1, posY - 1, 'b');
+                            if (this.puntosMagiaActuales >= barrera.getCosto()) {
+                                this.gastarPuntosMagia(barrera.getCosto());
+                                barrera.colocarEnMapa(this.mapa, posX - 1, posY - 1, 'b');
                                 this.miBarrera.add(barrera);
                             } else {
-                                System.out.println("No hay sificiente Magia");
+                                System.out.println("No hay suficiente Magia");
                             }
                             break;
                         default:
@@ -117,30 +133,28 @@ public class Juego {
                 System.out.println("Opcion no valida. Intenta de nuevo.");
             }
             this.mapa.imprimirMapa(mapa.getMapa());
-
-            //System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
+    
             System.out.println("Colocar Torre:          T ");
             System.out.println("Colocar Barreras:       B ");
             System.out.println("Finalizar colocación:   Q ");
-
         }
-
     }
+    
     // Metodo para ver el estado del jugador
-    public void estado(Nivel nivel, Magia magia,Defensa miTorre,Defensa miBarrera) {
-        System.out.println("Magia actual: "+magia.getMagiaActual());
+    public void estado(Nivel nivel,Defensa miTorre,Defensa miBarrera) {
+        System.out.println("Magia actual: "+this.puntosMagiaActuales);
         System.out.println("Nivel actual: "+this.nivelActual);
     }
 
-    public void iniciarOleada(Scanner sc, int nivel, List<DefensaEstandar> miTorres, List<DefensaEstandar> miBarrera) {
+    public void iniciarOleada(Scanner sc, List<DefensaEstandar> miTorres, List<DefensaEstandar> miBarrera) {
         Oleada play = new Oleada(this.mapa);
-        play.iniciarOleada(nivel, miTorres, miBarrera);
+        play.iniciarOleada(this.nivelActual, miTorres, miBarrera);
     }
 
+
+    ///MAIN
     public static void main(String[] args) {
         Juego game = new Juego(); 
-        // Iniciar Magia
-        Magia magia = new Magia();
-        game.iniciarJuego(magia); // Iniciar Juego
+        game.iniciarJuego(); //solo llama al metodo iniciarJuego y Juego hace el resto
     }
 }
