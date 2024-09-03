@@ -36,6 +36,7 @@ public class Juego {
         return puntosMagiaActuales;
     }
 
+    //Todavía no está implementada la lógica de niveles
     private void inicializarNiveles() {
         // Nivel 1 con 1 oleada
         Nivel nivel1 = new Nivel(1);
