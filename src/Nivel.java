@@ -9,11 +9,10 @@ public class Nivel {
         this.numeroNivel = numeroNivel;
         this.oleadas = new ArrayList<>();
     }
-
-    public int getNivelActual() {
+    public int getNumeroNivel() {
         return numeroNivel;
     }
-
+    
     public void setNivelActual(int nivelActual) {
         this.numeroNivel = nivelActual;
     }

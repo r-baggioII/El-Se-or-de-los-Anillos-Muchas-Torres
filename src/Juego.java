@@ -22,6 +22,17 @@ public class Juego {
         this.puntosMagiaActuales = puntosMagiaIniciales;
         this.niveles = new ArrayList<>();
     }
+    //Getters y Setters 
+    public int getNivelActual() {
+        return nivelActual;
+    }
+    public void setNivelActual(int nivelActual) {
+        this.nivelActual = nivelActual;
+    }
+    public int getPuntosMagiaActuales() {
+        return puntosMagiaActuales;
+    }
+
     private void inicializarNiveles() {
         // Nivel 1 con 1 oleada
         Nivel nivel1 = new Nivel(1);
@@ -42,17 +53,18 @@ public class Juego {
         niveles.add(nivel3);
     }
     // Metodo para Inicar juego
-    public void iniciarJuego(Nivel nivel,Magia magia) {
+    public void iniciarJuego(Magia magia) {
         System.out.println("El Señor de los anillos: Muchas Morres");
         System.out.println("Bienvenido Al Juego ");
         mapa.iniciarMapa(); // Iniciar Mapa
         mapa.imprimirMapa(mapa.getMapa()); // Imprimir Mapa
-        System.out.println("Nivel: "+nivel.getNivelActual()); // Mostrar Nivel
-        System.out.println("Magia: "+nivel.getMagiaActual());  // Mostrar Magia
+        inicializarNiveles(); // Inicializar Niveles
+        System.out.println("Nivel: "+this.nivelActual); // Mostrar Nivel
+        System.out.println("Magia: "+this.puntosMagiaActuales);  // Mostrar puntos de Magia actuales 
         System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
         iniciarDefensa(sc, magia); // Iniciar Defensa
         sc.close();
-        iniciarOleada(sc, nivel, miTorres, miBarrera);
+        iniciarOleada(sc, this.nivelActual, miTorres, miBarrera);
     }
     // Metodo para Colocar Defensa
     public void iniciarDefensa(Scanner sc,Magia magia){
@@ -117,20 +129,18 @@ public class Juego {
     // Metodo para ver el estado del jugador
     public void estado(Nivel nivel, Magia magia,Defensa miTorre,Defensa miBarrera) {
         System.out.println("Magia actual: "+magia.getMagiaActual());
-        System.out.println("Nivel actual: "+nivel.getNivelActual());
+        System.out.println("Nivel actual: "+this.nivelActual);
     }
 
-    public void iniciarOleada(Scanner sc, Nivel nivel, List<DefensaEstandar> miTorres, List<DefensaEstandar> miBarrera) {
+    public void iniciarOleada(Scanner sc, int nivel, List<DefensaEstandar> miTorres, List<DefensaEstandar> miBarrera) {
         Oleada play = new Oleada(this.mapa);
-        play.start(this.mapa, nivel, miTorres, miBarrera);
+        play.iniciarOleada(nivel, miTorres, miBarrera);
     }
 
     public static void main(String[] args) {
         Juego game = new Juego(); 
-        // Iniciar Nivel
-        Nivel nivel = new Nivel(1, 100);
         // Iniciar Magia
         Magia magia = new Magia();
-        game.iniciarJuego(nivel,magia); // Iniciar Juego
+        game.iniciarJuego(magia); // Iniciar Juego
     }
 }
