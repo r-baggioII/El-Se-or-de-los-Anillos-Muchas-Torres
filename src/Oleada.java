@@ -87,7 +87,7 @@ public class Oleada {
                         }
                         enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY(), barrera);
                     }
-
+                    enemigos.removeAll(eliminados);
                     // Actualizar la nueva posición del enemigo
                     if (enemigo.getPosX() == mapa.cerroGloria.getPosX() && enemigo.getPosY() == mapa.cerroGloria.getPosY() && !(eliminados.contains(enemigo))) {
                         ataques++;
@@ -108,7 +108,7 @@ public class Oleada {
                 break;
             }
 
-            enemigos.removeAll(eliminados); // Eliminar enemigos que han sido eliminados o llegaron a la torre
+             // Eliminar enemigos que han sido eliminados o llegaron a la torre ·············
             miBarrera.removeAll(barreraEliminados);
             // miTorres.removeAll(torreEliminados); // Opcional: Descomentar si quieres eliminar las torres destruidas
 
@@ -122,37 +122,58 @@ public class Oleada {
     }
 
     private Enemigo generarEnemigo(Mapa mapa, int tipoEnemigo) {
-        int mitadMapa = mapa.getTamañoMapa() / 2;
+        int tamañoMapa = mapa.getTamañoMapa();
+        int mitadMapa = tamañoMapa / 2;
         Random rand = new Random(); // Asegúrate de que el generador de números aleatorios esté inicializado correctamente
+
+        int limiteX = mitadMapa; // La coordenada límite en el eje X
+        int limiteY = mitadMapa; // La coordenada límite en el eje Y
 
         switch (tipoEnemigo) {
             case 0: // Enanos
-                // Generar coordenadas dentro del primer cuadrante
-                int enanoX = rand.nextInt(mitadMapa); // 0 a n/2 - 1
-                int enanoY = rand.nextInt(mitadMapa); // 0 a n/2 - 1
+                // Generar coordenadas dentro del primer cuadrante evitando la fila y columna 9
+                int enanoX;
+                int enanoY;
+                do {
+                    enanoX = rand.nextInt(limiteX); // 0 a n/2 - 1
+                    enanoY = rand.nextInt(limiteY); // 0 a n/2 - 1
+                } while (enanoX == 8 || enanoY == 8); // Ajusta para evitar el límite específico
                 return new Enano(enanoX, enanoY);
 
             case 1: // Humanos
-                // Generar coordenadas dentro del segundo cuadrante
-                int humanoX = rand.nextInt(mitadMapa); // 0 a n/2 - 1
-                int humanoY = mitadMapa + rand.nextInt(mitadMapa); // n/2 a n - 1
+                // Generar coordenadas dentro del segundo cuadrante evitando la fila y columna 9
+                int humanoX;
+                int humanoY;
+                do {
+                    humanoX = rand.nextInt(limiteX); // 0 a n/2 - 1
+                    humanoY = mitadMapa + rand.nextInt(limiteY); // n/2 a n - 1
+                } while (humanoX == 8 || humanoY == 8 + mitadMapa); // Ajusta para evitar el límite específico
                 return new Humano(humanoX, humanoY);
 
             case 2: // Hobbits
-                // Generar coordenadas dentro del tercer cuadrante
-                int hobbitX = mitadMapa + rand.nextInt(mitadMapa); // n/2 a n - 1
-                int hobbitY = rand.nextInt(mitadMapa); // 0 a n/2 - 1
+                // Generar coordenadas dentro del tercer cuadrante evitando la fila y columna 9
+                int hobbitX;
+                int hobbitY;
+                do {
+                    hobbitX = mitadMapa + rand.nextInt(limiteX); // n/2 a n - 1
+                    hobbitY = rand.nextInt(limiteY); // 0 a n/2 - 1
+                } while (hobbitX == 8 + mitadMapa || hobbitY == 8); // Ajusta para evitar el límite específico
                 return new Hobbit(hobbitX, hobbitY);
 
             case 3: // Elfos
-                // Generar coordenadas dentro del cuarto cuadrante
-                int elfoX = mitadMapa + rand.nextInt(mitadMapa); // n/2 a n - 1
-                int elfoY = mitadMapa + rand.nextInt(mitadMapa); // n/2 a n - 1
+                // Generar coordenadas dentro del cuarto cuadrante evitando la fila y columna 9
+                int elfoX;
+                int elfoY;
+                do {
+                    elfoX = mitadMapa + rand.nextInt(limiteX); // n/2 a n - 1
+                    elfoY = mitadMapa + rand.nextInt(limiteY); // n/2 a n - 1
+                } while (elfoX == 8 + mitadMapa || elfoY == 8 + mitadMapa); // Ajusta para evitar el límite específico
                 return new Elfo(elfoX, elfoY);
 
             default:
                 return null; // En caso de que el tipo de enemigo no sea válido
         }
     }
+
 
 }
