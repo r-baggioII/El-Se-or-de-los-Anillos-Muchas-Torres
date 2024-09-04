@@ -54,6 +54,7 @@ public class Oleada {
             List<Enemigo> eliminados = new ArrayList<>();
             List<DefensaEstandar> torreEliminados = new ArrayList<>();
             List<DefensaEstandar> barreraEliminados = new ArrayList<>();
+            Mapa.imprimirMapa(mapa.getMapa());
 
             for (Enemigo enemigo : enemigos) {
                 // Limpiar la posición anterior del enemigo
@@ -120,19 +121,38 @@ public class Oleada {
         }
     }
 
-    // Método para generar enemigos basado en el tipo
     private Enemigo generarEnemigo(Mapa mapa, int tipoEnemigo) {
+        int mitadMapa = mapa.getTamañoMapa() / 2;
+        Random rand = new Random(); // Asegúrate de que el generador de números aleatorios esté inicializado correctamente
+
         switch (tipoEnemigo) {
-            case 0:
-                return new Humano(0, rand.nextInt(0, mapa.getTamañoMapa() / 2 - 1));
-            case 1:
-                return new Enano(0, rand.nextInt(mapa.getTamañoMapa() / 2 + 1, mapa.getTamañoMapa()));
-            case 2:
-                return new Elfo(rand.nextInt(0, mapa.getTamañoMapa() / 2 - 1), 0);
-            case 3:
-                return new Hobbit(rand.nextInt(0, mapa.getTamañoMapa() / 2 + 1), 0);
+            case 0: // Enanos
+                // Generar coordenadas dentro del primer cuadrante
+                int enanoX = rand.nextInt(mitadMapa); // 0 a n/2 - 1
+                int enanoY = rand.nextInt(mitadMapa); // 0 a n/2 - 1
+                return new Enano(enanoX, enanoY);
+
+            case 1: // Humanos
+                // Generar coordenadas dentro del segundo cuadrante
+                int humanoX = rand.nextInt(mitadMapa); // 0 a n/2 - 1
+                int humanoY = mitadMapa + rand.nextInt(mitadMapa); // n/2 a n - 1
+                return new Humano(humanoX, humanoY);
+
+            case 2: // Hobbits
+                // Generar coordenadas dentro del tercer cuadrante
+                int hobbitX = mitadMapa + rand.nextInt(mitadMapa); // n/2 a n - 1
+                int hobbitY = rand.nextInt(mitadMapa); // 0 a n/2 - 1
+                return new Hobbit(hobbitX, hobbitY);
+
+            case 3: // Elfos
+                // Generar coordenadas dentro del cuarto cuadrante
+                int elfoX = mitadMapa + rand.nextInt(mitadMapa); // n/2 a n - 1
+                int elfoY = mitadMapa + rand.nextInt(mitadMapa); // n/2 a n - 1
+                return new Elfo(elfoX, elfoY);
+
             default:
-                return new Humano(0, rand.nextInt(0, mapa.getTamañoMapa() / 2 - 1));
+                return null; // En caso de que el tipo de enemigo no sea válido
         }
     }
+
 }

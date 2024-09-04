@@ -78,7 +78,7 @@ public class Mapa {
         }
         System.out.println();
     }
-
+    //Eliminar este método
     public void elegirMapas(Scanner sc) {
         char[][] mapa1 = new char[][]{
                 {'*', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '*'},
