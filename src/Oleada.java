@@ -87,7 +87,6 @@ public class Oleada {
                         }
                         enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY(), barrera);
                     }
-                    enemigos.removeAll(eliminados);
                     // Actualizar la nueva posición del enemigo
                     if (enemigo.getPosX() == mapa.cerroGloria.getPosX() && enemigo.getPosY() == mapa.cerroGloria.getPosY() && !(eliminados.contains(enemigo))) {
                         ataques++;
@@ -109,6 +108,7 @@ public class Oleada {
             }
 
              // Eliminar enemigos que han sido eliminados o llegaron a la torre ·············
+            enemigos.removeAll(eliminados);
             miBarrera.removeAll(barreraEliminados);
             // miTorres.removeAll(torreEliminados); // Opcional: Descomentar si quieres eliminar las torres destruidas
 
