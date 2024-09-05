@@ -37,18 +37,12 @@ public class Juego {
 
     private void inicializarNiveles() {
         Nivel nivel1 = new Nivel(1);
-        nivel1.agregarOleada(new Oleada());
         niveles.add(nivel1);
 
         Nivel nivel2 = new Nivel(2);
-        nivel2.agregarOleada(new Oleada());
-        nivel2.agregarOleada(new Oleada());
         niveles.add(nivel2);
 
         Nivel nivel3 = new Nivel(3);
-        nivel3.agregarOleada(new Oleada());
-        nivel3.agregarOleada(new Oleada());
-        nivel3.agregarOleada(new Oleada());
         niveles.add(nivel3);
     }
 
@@ -172,10 +166,13 @@ public class Juego {
         System.out.println("Nivel actual: " + this.nivelActual);
     }
 
+    /*
     public void iniciarOleada() {
         Oleada play = new Oleada();
         play.iniciarOleada(mapa, this.nivelActual, miTorres, miBarrera);
     }
+     */
+
 
     public static void main(String[] args) {
         Juego game = new Juego();
