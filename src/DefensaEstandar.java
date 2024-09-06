@@ -21,19 +21,17 @@ public abstract class DefensaEstandar extends Defensa {
     }
 
     public void informarEstado() {
+        int newPosX = this.posX + 1;
+        int newPosY = this.posY + 1;
         if (!esEliminada()) {
-            System.out.println("Defensa " + this.nombreDefensa + " en (" + posX + ", " + posY + ") - VIDA: " + this.resistencia);
+            System.out.println("Defensa " + this.nombreDefensa + " en (" + newPosX + ", " + newPosY + ") - VIDA: " + this.resistencia);
         } else {
-            System.out.println("Defensa en (" + posX + ", " + posY + ") ha sido destruida.");
+            System.out.println("Defensa en (" + newPosX + ", " + newPosY + ") ha sido destruida.");
         }
     }
 
     public void recibirAtaque(Enemigo enemigo) {
-        int distanciaX = Math.abs(this.posX - enemigo.getPosX());
-        int distanciaY = Math.abs(this.posY - enemigo.getPosY());
-        if (distanciaX <= enemigo.getrangoAtaque() && distanciaY <= enemigo.getrangoAtaque()) {
-            this.resistencia -= enemigo.getRecompensa(); //debería cambiarse por el poder de ataque del enemigo
-        }
+            this.resistencia -= enemigo.getDanioAtaque();
     }
 }
 

@@ -7,16 +7,18 @@ public abstract class Enemigo {
     protected int recompensa;
     protected int posX; //posición en el mapa
     protected int posY;
+    protected int danioAtaque;
     protected char representacion; //segun el enemigo tendrá un caracter que lo represente en el mapa
 
     //Constructores de la clase 
-    public Enemigo(int saludInicial, int rangoAtaque, int recompensa, char representacion, int inicialX, int inicialY){
+    public Enemigo(int saludInicial, int rangoAtaque, int recompensa, char representacion, int inicialX, int inicialY, int danioAtaque){
         this.salud = saludInicial;
         this.rangoAtaque = rangoAtaque;
         this.recompensa = recompensa;
         this.posX = inicialX;
         this.posY = inicialY;
         this.representacion = representacion;
+        this.danioAtaque = danioAtaque;
     }
     //Setters y Getters 
     public int getSalud(){
@@ -45,14 +47,14 @@ public abstract class Enemigo {
         return this.posX;
     }
     public void setPosX(int posX){
-        this.posX = posX + 1;
+        this.posX = posX;
     }
 
     public int getPosY(){
         return this.posY;
     }
     public void setPosY(int posY){
-        this.posY = posY + 1;
+        this.posY = posY;
     }
 
     public char getRepresentacion(){
@@ -61,19 +63,35 @@ public abstract class Enemigo {
     public void setRepresentacion(char representacion){
         this.representacion = representacion;
     }
-    
+
+    public int getDanioAtaque(){return danioAtaque;}
+    public void setDanioAtaque(int danioAtaque){ this.danioAtaque = danioAtaque; }
+
     //Otros métodos
-    public void recibirDanio(int danio){
-        //Método para recibir daño
-        salud -= danio;
+    public void recibirAtaque(Torre torre){
+        this.salud -= torre.getPoderAtaque();
+    }
+
+    public void lanzarAtaque(Defensa defensa) {
+        int newPosX = this.posX + 1; //Se le suma uno a la posicón para mostrar al usuario
+        int newPosY = this.posY + 1;
+        System.out.println("El enemigo " + this.representacion + " en la posicón"+ "(" + newPosX + " , " +  newPosY + ")" + " ha atacado a la defensa " + defensa.getClass().getSimpleName() + " infligiendo " + this.danioAtaque + " de daño.");
     }
 
     public void informarEstado() {
+        int newPosX = this.posX + 1;
+        int newPosY = this.posY + 1;
         if (!esEliminado()) {
-            System.out.println("Enemigo " + this.representacion + " en (" + posX  + ", " + posY  + ") - VIDA: " + this.salud);
+            System.out.println("Enemigo " + this.representacion + " en (" + newPosX  + ", " + newPosY  + ") - VIDA: " + this.salud);
         } else {
-            System.out.println("Enemigo " + this.representacion + "(" + posX +  ", " + posY + ") eliminado.");
+            System.out.println("Enemigo " + this.representacion + " (" + newPosX+  ", " + newPosY + ") eliminado.");
         }
+    }
+
+    public boolean defensaEnRango(Defensa defensa) {
+        int distanciaX = Math.abs(this.posX - defensa.getPosX());
+        int distanciaY = Math.abs(this.posY - defensa.getPosY());
+        return distanciaX <= this.rangoAtaque && distanciaY <= this.rangoAtaque;
     }
 
 

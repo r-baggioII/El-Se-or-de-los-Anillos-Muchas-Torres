@@ -74,9 +74,10 @@ public class Juego {
             iniciarDefensa();
 
             for (Oleada oleada : nivel.getOleadas()) {
+                System.out.println("Cantidad de Oleadas en este nivel " + nivel.getOleadas().size());
                 System.out.println("Iniciando oleada en Nivel: " + this.nivelActual);
 
-                oleada.iniciarOleada(mapa, this.nivelActual, miTorres, miBarrera);
+                oleada.iniciarOleada(mapa, miTorres, miBarrera);
 
                 if (!chequearEstadoJuego()) {
                     System.out.println("Has perdido. El juego ha terminado.");
@@ -84,7 +85,7 @@ public class Juego {
                 }
             }
 
-            this.puntosMagiaActuales += 10;
+            this.puntosMagiaActuales += 50; //Luego de cada nivel se otorgan al jugador 50 puntos
         }
 
         System.out.println("¡Felicidades! Has completado todos los niveles.");

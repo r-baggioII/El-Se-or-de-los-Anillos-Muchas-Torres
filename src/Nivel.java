@@ -39,9 +39,9 @@ public class Nivel {
                 Oleada oleada4 = new Oleada(tiposDeEnemigos);oleadas.add(oleada4);
                 Oleada oleada5 = new Oleada(tiposDeEnemigos); oleadas.add(oleada5);
                 Oleada oleada6 = new Oleada(tiposDeEnemigos); oleadas.add(oleada6);
+                break;
         }
-
-
+        
     }
 
     //Determina el tipo de enemigo según el numero
