@@ -72,7 +72,7 @@ public abstract class Enemigo {
         if (!esEliminado()) {
             System.out.println("Enemigo " + this.representacion + " en (" + posX + ", " + posY + ") - VIDA: " + this.salud);
         } else {
-            System.out.println("Enemigo en (" + posX + ", " + posY + ") eliminado.");
+            System.out.println("Enemigo " + this.representacion + "(" + posX + ", " + posY + ") eliminado.");
         }
     }
 

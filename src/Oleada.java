@@ -40,6 +40,7 @@ public class Oleada {
                         if (torre instanceof Torre currentTorre) {
                             currentTorre.lanzarAtaque(enemigo);
                             currentTorre.recibirAtaque(enemigo);
+                            enemigo.informarEstado();
 
                             if (torre.getResistencia() <= 0) {
                                 torreEliminados.add(torre);
@@ -59,7 +60,7 @@ public class Oleada {
                         enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY(), barrera);
                     }
 
-                    enemigo.informarEstado();
+
 
                     // Actualizar la nueva posición del enemigo
                     if (enemigo.getPosX() == mapa.cerroGloria.getPosX() && enemigo.getPosY() == mapa.cerroGloria.getPosY()) {
