@@ -22,7 +22,6 @@ public class Oleada {
 
         // Ciclo de movimiento de los enemigos
         while (!enemigos.isEmpty()) {
-            mapa.clearScreen();  // Limpiar el mapa antes de imprimir
             Mapa.imprimirMapa(mapa.getMapa());  // Mostrar el mapa actualizado
 
             List<Enemigo> eliminados = new ArrayList<>();

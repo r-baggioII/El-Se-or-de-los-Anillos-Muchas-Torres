@@ -70,7 +70,8 @@ public class Mapa {
         System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
-    // Metodo para limpiar la pantalla o mover el cursor al principio
+    /*/*
+     // Metodo para limpiar la pantalla o mover el cursor al principio
     public void clearScreen() {
         System.out.print("\r");
         for (int i = 0; i < 80; i++) {
@@ -78,5 +79,7 @@ public class Mapa {
         }
         System.out.println();
     }
+     */
+
 
 }
