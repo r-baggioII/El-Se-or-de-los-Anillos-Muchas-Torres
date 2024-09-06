@@ -45,14 +45,14 @@ public abstract class Enemigo {
         return this.posX;
     }
     public void setPosX(int posX){
-        this.posX = posX;
+        this.posX = posX + 1;
     }
 
     public int getPosY(){
         return this.posY;
     }
     public void setPosY(int posY){
-        this.posY = posY;
+        this.posY = posY + 1;
     }
 
     public char getRepresentacion(){
@@ -70,9 +70,9 @@ public abstract class Enemigo {
 
     public void informarEstado() {
         if (!esEliminado()) {
-            System.out.println("Enemigo " + this.representacion + " en (" + posX + ", " + posY + ") - VIDA: " + this.salud);
+            System.out.println("Enemigo " + this.representacion + " en (" + posX  + ", " + posY  + ") - VIDA: " + this.salud);
         } else {
-            System.out.println("Enemigo " + this.representacion + "(" + posX + ", " + posY + ") eliminado.");
+            System.out.println("Enemigo " + this.representacion + "(" + posX +  ", " + posY + ") eliminado.");
         }
     }
 
