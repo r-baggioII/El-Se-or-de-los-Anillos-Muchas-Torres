@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Oleada {
 
-    private List<Enemigo> enemigos;
+    public List<Enemigo> enemigos;
 
     // Constructor que recibe una lista de enemigos ya creada
     public Oleada(List<Enemigo> enemigos) {

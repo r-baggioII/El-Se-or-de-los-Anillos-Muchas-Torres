@@ -76,7 +76,7 @@ public class Juego {
             for (Oleada oleada : nivel.getOleadas()) {
                 System.out.println("Cantidad de Oleadas en este nivel " + nivel.getOleadas().size());
                 System.out.println("Iniciando oleada en Nivel: " + this.nivelActual);
-
+                System.out.println("Tamaño de la oleada -->> " + oleada.enemigos.size());
                 oleada.iniciarOleada(mapa, miTorres, miBarrera);
 
                 if (!chequearEstadoJuego()) {
