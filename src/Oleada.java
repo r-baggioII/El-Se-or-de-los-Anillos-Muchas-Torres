@@ -17,7 +17,9 @@ public class Oleada {
         // Asignar posiciones aleatorias iniciales a los enemigos
         for (Enemigo enemigo : enemigos) {
             asignarPosicionAleatoria(enemigo, mapa);
+            mapa.setElemento(enemigo.getPosX(), enemigo.getPosY(), enemigo.representacion);
         }
+
 
         // Ciclo de movimiento de los enemigos
         while (!enemigos.isEmpty()) {
@@ -41,24 +43,28 @@ public class Oleada {
                             currentTorre.lanzarAtaque(enemigo);
                             currentTorre.recibirAtaque(enemigo);
                             enemigo.informarEstado();
+                            torre.informarEstado();
 
                             if (torre.getResistencia() <= 0) {
                                 torreEliminados.add(torre);
                             }
                             // El enemigo se mueve hacia la torre
-                            enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY(), currentTorre);
+                            enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY());
                         }
                     }
+
                     // Las defensas reciben ataques de los enemigos
                     for (DefensaEstandar barrera : miBarrera) {
                         if (barrera instanceof Barrera currentBarrera) {
                             currentBarrera.recibirAtaque(enemigo);
+                            barrera.informarEstado();
                         }
                         if (barrera.getResistencia() <= 0) {
                             barreraEliminados.add(barrera);
                         }
-                        enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY(), barrera);
+                        enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY());
                     }
+
 
 
 
@@ -147,7 +153,5 @@ public class Oleada {
         // Asignar la nueva posición al enemigo
         enemigo.setPosX(posX);
         enemigo.setPosY(posY);
-        // Actualizar el mapa con la nueva posición del enemigo
-        mapa.setElemento(posX, posY, enemigo.getRepresentacion());
     }
 }
