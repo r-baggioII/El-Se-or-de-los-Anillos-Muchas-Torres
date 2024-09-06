@@ -4,17 +4,15 @@ public abstract class Enemigo {
     //Atributos de clase
     protected int rangoAtaque;
     protected int salud;
-    protected int armadura;
     protected int recompensa;
     protected int posX; //posición en el mapa
     protected int posY;
     protected char representacion; //segun el enemigo tendrá un caracter que lo represente en el mapa
 
     //Constructores de la clase 
-    public Enemigo(int saludInicial, int rangoAtaque, int armadura, int recompensa, char representacion, int inicialX, int inicialY){
+    public Enemigo(int saludInicial, int rangoAtaque, int recompensa, char representacion, int inicialX, int inicialY){
         this.salud = saludInicial;
         this.rangoAtaque = rangoAtaque;
-        this.armadura = armadura;
         this.recompensa = recompensa;
         this.posX = inicialX;
         this.posY = inicialY;
@@ -35,12 +33,6 @@ public abstract class Enemigo {
         this.rangoAtaque = rangoAtaque;
     }
 
-    public int getArmadura(){
-        return armadura;
-    }
-    public void setAramadura(int armadura){
-        this.armadura = armadura; 
-    }
 
     public int getRecompensa(){
         return recompensa;
@@ -75,6 +67,15 @@ public abstract class Enemigo {
         //Método para recibir daño
         salud -= danio;
     }
+
+    public void informarEstado() {
+        if (!esEliminado()) {
+            System.out.println("Enemigo " + this.representacion + " en (" + posX + ", " + posY + ") - VIDA: " + this.salud);
+        } else {
+            System.out.println("Enemigo en (" + posX + ", " + posY + ") eliminado.");
+        }
+    }
+
 
     public boolean esEliminado(){
         //Método para verificar si el enemigo fue eliminado

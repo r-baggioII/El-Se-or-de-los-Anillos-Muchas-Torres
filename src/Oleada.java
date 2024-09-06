@@ -14,8 +14,6 @@ public class Oleada {
 
     // Método para iniciar la oleada con enemigos según el nivel
     public void iniciarOleada(Mapa mapa, int nivelActual, List<DefensaEstandar> miTorres, List<DefensaEstandar> miBarrera) {
-        int ataques = 0;
-
         // Asignar posiciones aleatorias iniciales a los enemigos
         for (Enemigo enemigo : enemigos) {
             asignarPosicionAleatoria(enemigo, mapa);
@@ -29,6 +27,7 @@ public class Oleada {
             List<Enemigo> eliminados = new ArrayList<>();
             List<DefensaEstandar> torreEliminados = new ArrayList<>();
             List<DefensaEstandar> barreraEliminados = new ArrayList<>();
+            int ataquesActuales = 0;
 
             for (Enemigo enemigo : enemigos) {
                 // Limpiar la posición anterior del enemigo
@@ -49,7 +48,6 @@ public class Oleada {
                             enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY(), currentTorre);
                         }
                     }
-
                     // Las defensas reciben ataques de los enemigos
                     for (DefensaEstandar barrera : miBarrera) {
                         if (barrera instanceof Barrera currentBarrera) {
@@ -61,30 +59,35 @@ public class Oleada {
                         enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY(), barrera);
                     }
 
+                    enemigo.informarEstado();
+
                     // Actualizar la nueva posición del enemigo
-                    if (enemigo.getPosX() == mapa.cerroGloria.getPosX() && enemigo.getPosY() == mapa.cerroGloria.getPosY() && !(eliminados.contains(enemigo))) {
-                        ataques++;
-                        mapa.cerroGloria.vidas -= ataques;  // Se le resta una vida al cerro de la gloria por cada ataque
-                        System.out.println(enemigo.getClass().getSimpleName() + " ha atacado a CERRO DE LA GLORIA. Vidas: " + mapa.cerroGloria.vidas);
+                    if (enemigo.getPosX() == mapa.cerroGloria.getPosX() && enemigo.getPosY() == mapa.cerroGloria.getPosY()) {
+                        ataquesActuales++;
+                        mapa.cerroGloria.vidas -= 1;  // Se le resta una vida al cerro de la gloria por cada ataque
+                        System.out.println("----------------------------------------------------------------------------------------------------------------------------------");
+                        System.out.println(enemigo.getClass().getSimpleName() + " ha atacado a CERRO DE LA GLORIA. Vidas restantes: " + mapa.cerroGloria.vidas);
                         eliminados.add(enemigo);  // El enemigo que llegó al Cerro de la Gloria es eliminado
-                        break;  // Detener el ciclo si un enemigo llega
+                        enemigo.setSalud(0);
                     } else {
                         mapa.setElemento(enemigo.getPosX(), enemigo.getPosY(), enemigo.getRepresentacion());  // Colocar al enemigo en su nueva posición
                     }
                 } else {
-                    System.out.println(enemigo.getClass().getSimpleName() + " eliminado.");
                     eliminados.add(enemigo);  // Agregar a la lista de eliminados
+                    mapa.setElemento(enemigo.getPosX(), enemigo.getPosY(), '.'); //Si el enemigo fue eliminado se remueve del mapa
                 }
             }
 
-            if (ataques == enemigos.size()) {
-                break;  // Terminar si todos los enemigos han atacado
-            }
-
-            // Eliminar enemigos que han sido eliminados o llegaron a la torre
+            // Eliminar enemigos que han sido eliminados o llegaron al Cerro de la Gloria
             enemigos.removeAll(eliminados);
             miBarrera.removeAll(barreraEliminados);
-            // miTorres.removeAll(torreEliminados);  // Opcional: Descomentar si quieres eliminar las torres destruidas
+            //miTorres.removeAll(torreEliminados);
+
+
+            if (ataquesActuales > 0 && ataquesActuales == enemigos.size()) {
+                System.out.println("¡Los Enemigos han atacado al cerro de la gloria!");
+                break;
+            }
 
             // Pausa para simular el movimiento
             try {
@@ -93,7 +96,14 @@ public class Oleada {
                 e.printStackTrace();
             }
         }
+        Mapa.imprimirMapa(mapa.getMapa());  // Mostrar el mapa actualizado después de terminar la oleada
+
+        if (enemigos.isEmpty()) {
+            System.out.println("¡Todos los enemigos han sido eliminados!");
+        }
+
     }
+
 
     // Método para asignar posiciones aleatorias a los enemigos
     private void asignarPosicionAleatoria(Enemigo enemigo, Mapa mapa) {
@@ -112,25 +122,25 @@ public class Oleada {
             do {
                 posX = rand.nextInt(limiteX);  // 0 a n/2 - 1
                 posY = rand.nextInt(limiteY);  // 0 a n/2 - 1
-            } while (posX == 8 || posY == 8);  // Evitar fila y columna 8
+            } while (mapa.getElemento(posX,posY) != '.' || mapa.getElemento(posX,posY) == '*');
         } else if (enemigo instanceof Humano) {
             // Segundo cuadrante
             do {
                 posX = rand.nextInt(limiteX);  // 0 a n/2 - 1
                 posY = mitadMapa + rand.nextInt(limiteY);  // n/2 a n - 1
-            } while (posX == 8 || posY == mitadMapa + 8);  // Evitar fila y columna 8
+            } while (mapa.getElemento(posX,posY) != '.' || mapa.getElemento(posX,posY) == '*');
         } else if (enemigo instanceof Hobbit) {
             // Tercer cuadrante
             do {
                 posX = mitadMapa + rand.nextInt(limiteX);  // n/2 a n - 1
                 posY = rand.nextInt(limiteY);  // 0 a n/2 - 1
-            } while (posX == mitadMapa + 8 || posY == 8);  // Evitar fila y columna 8
+            } while (mapa.getElemento(posX,posY) != '.' || mapa.getElemento(posX,posY) == '*');
         } else if (enemigo instanceof Elfo) {
             // Cuarto cuadrante
             do {
                 posX = mitadMapa + rand.nextInt(limiteX);  // n/2 a n - 1
                 posY = mitadMapa + rand.nextInt(limiteY);  // n/2 a n - 1
-            } while (posX == mitadMapa + 8 || posY == mitadMapa + 8);  // Evitar fila y columna 8
+            } while (mapa.getElemento(posX,posY) != '.' || mapa.getElemento(posX,posY) == '*');
         }
 
         // Asignar la nueva posición al enemigo

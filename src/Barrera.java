@@ -11,19 +11,6 @@ public class Barrera extends DefensaEstandar implements ColocableEnMapa {
     }
 
     @Override
-    public void recibirAtaque(Enemigo enemigo) {
-        int distanciaX = Math.abs(this.posX - enemigo.getPosX());
-        int distanciaY = Math.abs(this.posY - enemigo.getPosY());
-        if (distanciaX <= enemigo.getrangoAtaque() && distanciaY <= enemigo.getrangoAtaque()) {
-            this.resistencia -= enemigo.getRecompensa();
-            System.out.println("VIDA " + this.nombreDefensa + ": " + this.resistencia);
-        }
-
-        if (this.resistencia <= 0) {
-            System.out.println("¡La Barrera " + this.nombreDefensa + "en la posición" + "(" + posX + ", " + posY + ")"+ "ha sido destruida!");
-        }
-    }
-    @Override
     public void colocarEnMapa(Mapa mapa) {
         //Verifica que la posición elegida sea correcta s
         if (this.posX == mapa.cerroGloria.getPosX() && this.posY == mapa.cerroGloria.getPosY()) {
