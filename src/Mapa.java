@@ -51,6 +51,9 @@ public class Mapa {
         mapa[cerroGloria.getPosX()][cerroGloria.getPosY()] = 'T'; // 'T' representa la torre
     }
 
+    public boolean verificarLugar(int posX,int posY){
+        return this.mapa[posX][posY] != '.';
+    }
     // Método para imprimir el mapa
     public static void imprimirMapa(char[][] mapa) {
         // Limpiar la consola( ANSI escape sequences)
@@ -62,11 +65,18 @@ public class Mapa {
         for (int i = 0; i < mapa.length; i++) {
             System.out.print((i + 1) % 10 + "  ");
             for (int j = 0; j < mapa[i].length; j++) {
-                System.out.print(mapa[i][j] + "  ");
+                if (mapa[i][j] == '.') {
+                    System.out.print("\u001B[32m"+mapa[i][j] + "  "+"\u001B[0m");
+                } else if (mapa[i][j] == '*') {
+                    System.out.print("\u001B[31m"+mapa[i][j] + "  "+"\u001B[0m");
+                } else {
+                    System.out.print(mapa[i][j] + "  ");
+                }
             }
             System.out.println();
         }
         System.out.println();
+
         System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
@@ -81,5 +91,6 @@ public class Mapa {
     }
      */
 
-
 }
+
+

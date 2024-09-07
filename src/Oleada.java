@@ -5,6 +5,7 @@ import java.util.List;
 public class Oleada {
 
     public List<Enemigo> enemigos;
+    public Random rand = new Random();
 
     // Constructor que recibe una lista de enemigos ya creada
     public Oleada(List<Enemigo> enemigos) {
@@ -123,8 +124,6 @@ public class Oleada {
 
         }
         Mapa.imprimirMapa(mapa.getMapa());  // Mostrar el mapa actualizado después de la Oleada
-
-
     }
 
     private void eliminarDeMapa(Mapa mapa,List<DefensaEstandar> torreEliminados, List<DefensaEstandar> barerraEliminados ) {
@@ -140,7 +139,6 @@ public class Oleada {
     private void asignarPosicionAleatoria(Enemigo enemigo, Mapa mapa) {
         int tamañoMapa = mapa.getTamañoMapa();
         int mitadMapa = tamañoMapa / 2;
-        Random rand = new Random();
 
         int limiteX = mitadMapa;
         int limiteY = mitadMapa;
@@ -149,38 +147,57 @@ public class Oleada {
 
         // Asignar posición aleatoria según el tipo de enemigo
         if (enemigo instanceof Enano) {
-            // Primer cuadrante
-            do {
-                posX = rand.nextInt(limiteX);
-                posY = rand.nextInt(limiteY);
-            } while (mapa.getElemento(posX,posY) != '.' );
-
+            // Primer cuadrante: una de las coordenadas siempre será 0
+            do{
+                posX = rand.nextInt(limiteX);  // Genera un valor entre 0 y n/2 - 1
+                posY = rand.nextInt(limiteY);  // Genera un valor entre 0 y n/2 - 1
+                if (rand.nextBoolean()) {
+                    posX = 0;  // Posibilidad de que posX sea 0
+                } else {
+                    posY = 0;  // Posibilidad de que posY sea 0
+                }
+            }while (mapa.verificarLugar(posX,posY));
 
         } else if (enemigo instanceof Humano) {
-            // Segundo cuadrante
-            do {
-                posX = rand.nextInt(limiteX);
-                posY = mitadMapa + rand.nextInt(limiteY);
-            } while (mapa.getElemento(posX,posY) != '.' );
-
-
+            // Segundo cuadrante: una de las coordenadas siempre será 0
+            do{
+                posX = rand.nextInt(limiteX);  // Genera un valor entre 0 y n/2 - 1
+                posY = rand.nextInt(mitadMapa+1 ,tamañoMapa);  // Genera un valor entre n/2 y n - 1
+                if (rand.nextBoolean()) {
+                    posX = 0;  // Posibilidad de que posX sea 0
+                } else {
+                    posY = tamañoMapa-1;  // Posibilidad de que posY esté en el inicio del cuadrante
+                }
+            }while (mapa.verificarLugar(posX,posY));
         } else if (enemigo instanceof Hobbit) {
-            // Tercer cuadrante
-            do {
-                posX = mitadMapa + rand.nextInt(limiteX);
-                posY = rand.nextInt(limiteY);
-            } while (mapa.getElemento(posX,posY) != '.' );
-
+            // Tercer cuadrante: una de las coordenadas siempre será 0
+            do{
+                posX =rand.nextInt(mitadMapa+1,tamañoMapa);  // Genera un valor entre n/2 y n - 1
+                posY = rand.nextInt(limiteY);  // Genera un valor entre 0 y n/2 - 1
+                if (rand.nextBoolean()) {
+                    posX = tamañoMapa-1;  // Posibilidad de que posX esté en el inicio del cuadrante
+                } else {
+                    posY = 0;  // Posibilidad de que posY sea 0
+                }
+            }while (mapa.verificarLugar(posX,posY));
         } else if (enemigo instanceof Elfo) {
-            // Cuarto cuadrante
-            do {
-                posX = mitadMapa + rand.nextInt(limiteX);
-                posY = mitadMapa + rand.nextInt(limiteY);
-            } while (mapa.getElemento(posX,posY) != '.' );
+            // Cuarto cuadrante: una de las coordenadas siempre será 0
+            do{
+            posX = rand.nextInt(mitadMapa+1,tamañoMapa);  // Genera un valor entre n/2 y n - 1
+            posY = rand.nextInt(mitadMapa+1,tamañoMapa);  // Genera un valor entre n/2 y n - 1
+            if (rand.nextBoolean()) {
+                posX = tamañoMapa-1;  // Posibilidad de que posX esté en el inicio del cuadrante
+            } else {
+                posY = tamañoMapa-1;  // Posibilidad de que posY esté en el inicio del cuadrante
+            }
+            }while (mapa.verificarLugar(posX,posY));
         }
 
         // Asignar la nueva posición al enemigo
         enemigo.setPosX(posX);
         enemigo.setPosY(posY);
+        // Actualizar el mapa con la nueva posición del enemigo
+        mapa.setElemento(posX, posY, enemigo.getRepresentacion());
     }
+
 }

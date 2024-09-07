@@ -3,15 +3,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Juego {
-
-    private List<DefensaEstandar> miTorres;
-    private List<DefensaEstandar> miBarrera;
     private int nivelActual;
-    public Mapa mapa;
     private int puntosMagiaIniciales = 100;
     private int puntosMagiaActuales;
     private final int puntosMagiaMaximos = 600;
+    private List<DefensaEstandar> miTorres;
+    private List<DefensaEstandar> miBarrera;
     private List<Nivel> niveles;
+    public Mapa mapa;
     private static Scanner sc = new Scanner(System.in);
 
     public Juego() {
@@ -26,13 +25,14 @@ public class Juego {
     public int getNivelActual() {
         return nivelActual;
     }
-
     public void setNivelActual(int nivelActual) {
         this.nivelActual = nivelActual;
     }
-
     public int getPuntosMagiaActuales() {
         return puntosMagiaActuales;
+    }
+    private boolean chequearEstadoJuego() {
+        return mapa.cerroGloria.getVidas() > 0;
     }
 
     private void inicializarNiveles() {
@@ -91,9 +91,6 @@ public class Juego {
         System.out.println("¡Felicidades! Has completado todos los niveles.");
     }
 
-    private boolean chequearEstadoJuego() {
-        return mapa.cerroGloria.getVidas() > 0;
-    }
 
     public void iniciarDefensa() {
         boolean flag = true;
@@ -109,13 +106,13 @@ public class Juego {
             } else if (opcion.equals("t") || opcion.equals("b")) {
                 System.out.println("Cordenadas de la Defensa:");
                 System.out.print("> X:");
-                int posX = sc.nextInt();
-                System.out.print("> Y:");
                 int posY = sc.nextInt();
+                System.out.print("> Y:");
+                int posX = sc.nextInt();
                 sc.nextLine();
 
-                if (posX >= 0 && posX < this.mapa.getTamañoMapa() && posY >= 0 && posY < this.mapa.getTamañoMapa()) {
-                    if (verificarPosicion(posX-1, posY-1)) {
+                if (posX > 0 && posX < this.mapa.getTamañoMapa() && posY > 0 && posY < this.mapa.getTamañoMapa()) {
+                    if (!mapa.verificarLugar(posX-1, posY-1)) {
                         switch (opcion) {
                             case "t":
                                 Torre torre = new Torre(posX-1, posY-1, 50, 25);
@@ -157,24 +154,6 @@ public class Juego {
             System.out.println("Finalizar colocación:   Q ");
         }
     }
-
-    public boolean verificarPosicion(int x, int y) {
-        return this.mapa.getElemento(x, y) == '.'; // Si está desocupada la posición devuelve verdadero
-    }
-
-    public void estado(Nivel nivel, Defensa miTorre, Defensa miBarrera) {
-        System.out.println("Magia actual: " + this.puntosMagiaActuales);
-        System.out.println("Nivel actual: " + this.nivelActual);
-    }
-
-    /*
-    public void iniciarOleada() {
-        Oleada play = new Oleada();
-        play.iniciarOleada(mapa, this.nivelActual, miTorres, miBarrera);
-    }
-     */
-
-
     public static void main(String[] args) {
         Juego game = new Juego();
         game.iniciarJuego();
