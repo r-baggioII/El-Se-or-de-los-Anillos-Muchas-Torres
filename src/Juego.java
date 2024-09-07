@@ -115,7 +115,7 @@ public class Juego {
                     if (!mapa.verificarLugar(posX-1, posY-1)) {
                         switch (opcion) {
                             case "t":
-                                Torre torre = new Torre(posX-1, posY-1, 50, 25);
+                                Torre torre = new Torre(posX-1, posY-1, 3, 25);
                                 if (this.puntosMagiaActuales >= torre.getCosto()) {
                                     this.gastarPuntosMagia(torre.getCosto());
                                     torre.colocarEnMapa(this.mapa);

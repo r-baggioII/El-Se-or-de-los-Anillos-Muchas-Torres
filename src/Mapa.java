@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class Mapa {
@@ -54,6 +55,17 @@ public class Mapa {
     public boolean verificarLugar(int posX,int posY){
         return this.mapa[posX][posY] != '.';
     }
+
+    //Metodo que quita las toores y defensas eliniadas del mapa
+    public void quitarMapa(List<DefensaEstandar> barreraEliminados,List<DefensaEstandar> torreEliminados){
+        for (DefensaEstandar defensaEstandar : torreEliminados) {
+            this.mapa[defensaEstandar.getPosX()][defensaEstandar.getPosY()] = '.';
+        }
+        for (DefensaEstandar defensaEstandar : barreraEliminados) {
+            this.mapa[defensaEstandar.posX][defensaEstandar.posY] = '.';
+        }
+    }
+
     // Método para imprimir el mapa
     public static void imprimirMapa(char[][] mapa) {
         // Limpiar la consola( ANSI escape sequences)

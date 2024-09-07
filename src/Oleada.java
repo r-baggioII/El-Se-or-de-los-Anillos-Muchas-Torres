@@ -18,7 +18,6 @@ public class Oleada {
         for (Enemigo enemigo : enemigos) {
             asignarPosicionAleatoria(enemigo, mapa);
             mapa.setElemento(enemigo.getPosX(), enemigo.getPosY(), enemigo.representacion);
-
         }
 
         // Ciclo de movimiento de los enemigos
@@ -51,11 +50,12 @@ public class Oleada {
                             if (enemigo.defensaEnRango(currentTorre)) {
                                 enemigo.lanzarAtaque(currentTorre);
                                 currentTorre.recibirAtaque(enemigo);
-                                torre.informarEstado();
                             }
 
                             if (torre.getResistencia() <= 0) {
                                 torreEliminados.add(torre);
+                            }else{
+                                torre.informarEstado();
                             }
                         }
                     }
@@ -67,17 +67,18 @@ public class Oleada {
                             if (enemigo.defensaEnRango(barrera)) {
                                 currentBarrera.recibirAtaque(enemigo);
                             }
-
-                            barrera.informarEstado();
                         }
 
                         if (barrera.getResistencia() <= 0) {
                             barreraEliminados.add(barrera);
-                        }
+                        } else {
+                            barrera.informarEstado();}
                     }
 
-                    // Mover al enemigo hacia el Cerro de la Gloria
-                    enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY());
+                    // Mover al enemigo hacia el Cerro de la Gloria si no se topa con una barrera
+                    if ( false == distanciaEnemenigo(miBarrera,enemigo) ){
+                        enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY());
+                    }
 
                     // Actualizar la nueva posición del enemigo
                     if (enemigo.getPosX() == mapa.cerroGloria.getPosX() && enemigo.getPosY() == mapa.cerroGloria.getPosY()) {
@@ -99,7 +100,7 @@ public class Oleada {
             enemigos.removeAll(eliminados);
 
             //Elimina del mapa a las barreras y torres que han sido destruidas
-            //eliminarDeMapa(mapa,barreraEliminados,torreEliminados);
+            mapa.quitarMapa(barreraEliminados,torreEliminados);
             miBarrera.removeAll(barreraEliminados);
             miTorres.removeAll(torreEliminados);
 
@@ -124,15 +125,6 @@ public class Oleada {
 
         }
         Mapa.imprimirMapa(mapa.getMapa());  // Mostrar el mapa actualizado después de la Oleada
-    }
-
-    private void eliminarDeMapa(Mapa mapa,List<DefensaEstandar> torreEliminados, List<DefensaEstandar> barerraEliminados ) {
-        for (DefensaEstandar torre : torreEliminados) {
-            mapa.setElemento(torre.getPosX(), torre.getPosY(), '.');
-        }
-        for (DefensaEstandar barrera : barerraEliminados) {
-            mapa.setElemento(barrera.getPosX(), barrera.getPosY(), '.');
-        }
     }
 
     // Método para asignar posiciones aleatorias a los enemigos
@@ -198,6 +190,19 @@ public class Oleada {
         enemigo.setPosY(posY);
         // Actualizar el mapa con la nueva posición del enemigo
         mapa.setElemento(posX, posY, enemigo.getRepresentacion());
+    }
+
+    private boolean distanciaEnemenigo( List<DefensaEstandar> miBarerras, Enemigo enemigo ) {
+        int distanciaX, distanciaY;
+        int posX = enemigo.getPosX(), posY = enemigo.getPosY();
+        for (DefensaEstandar barrera : miBarerras) {
+            distanciaX = Math.abs(posX - barrera.getPosX());
+            distanciaY = Math.abs(posY - barrera.getPosY());
+            if (distanciaY==1 && distanciaX ==1){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
