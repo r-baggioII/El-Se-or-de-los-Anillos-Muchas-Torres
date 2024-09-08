@@ -3,15 +3,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Juego {
-
-    private List<DefensaEstandar> miTorres;
-    private List<DefensaEstandar> miBarrera;
     private int nivelActual;
-    public Mapa mapa;
     private int puntosMagiaIniciales = 100;
     private int puntosMagiaActuales;
     private final int puntosMagiaMaximos = 600;
+    private List<DefensaEstandar> miTorres;
+    private List<DefensaEstandar> miBarrera;
     private List<Nivel> niveles;
+    public Mapa mapa;
     private static Scanner sc = new Scanner(System.in);
 
     public Juego() {
@@ -26,13 +25,14 @@ public class Juego {
     public int getNivelActual() {
         return nivelActual;
     }
-
     public void setNivelActual(int nivelActual) {
         this.nivelActual = nivelActual;
     }
-
     public int getPuntosMagiaActuales() {
         return puntosMagiaActuales;
+    }
+    private boolean chequearEstadoJuego() {
+        return mapa.cerroGloria.getVidas() > 0;
     }
 
     private void inicializarNiveles() {
@@ -57,8 +57,23 @@ public class Juego {
     }
 
     public void iniciarJuego() {
-        System.out.println("El Señor de los Anillos: Muchas Morres");
-        System.out.println("Bienvenido al Juego");
+
+        System.out.println("\u001B[34m"+"El Señor de los Anillos: Muchas Morres"+"\u001B[0m");
+        System.out.println("\u001B[35m"+"Bienvenido al Juego"+"\u001B[0m");
+
+        char torre = '\u2656';    // ♖
+        char barrera = '\u2592';  // ▒
+        char enano = '\u2692';    // ⚒
+        char elfo = '\u2694';     // ⚔
+        char humano = '\u263C';   // ☼
+        char hobbit = '\u26C7';   // ⚇
+
+        System.out.println("Torre: " + torre);
+        System.out.println("Barrera: " + barrera);
+        System.out.println("Enano: " + enano);
+        System.out.println("Elfo: " + elfo);
+        System.out.println("Humano: " + humano);
+        System.out.println("Hobbit: " + hobbit);
 
         mapa.iniciarMapa();
         mapa.imprimirMapa(mapa.getMapa());
@@ -91,16 +106,14 @@ public class Juego {
         System.out.println("¡Felicidades! Has completado todos los niveles.");
     }
 
-    private boolean chequearEstadoJuego() {
-        return mapa.cerroGloria.getVidas() > 0;
-    }
 
     public void iniciarDefensa() {
         boolean flag = true;
-        System.out.println("Invocar Torre:          T ");
-        System.out.println("Invocar Barreras:       B ");
-        System.out.println("Finalizar Invocacion:   Q ");
-        while (flag) {
+        do {
+            System.out.println("Invocar Torre:          T");
+            System.out.println("Invocar Barreras:       B");
+            System.out.println("Finalizar Invocacion:   Q ");
+
             System.out.print(">");
             String opcion = sc.nextLine().toLowerCase();
             if (opcion.equals("q")) {
@@ -109,16 +122,16 @@ public class Juego {
             } else if (opcion.equals("t") || opcion.equals("b")) {
                 System.out.println("Cordenadas de la Defensa:");
                 System.out.print("> X:");
-                int posX = sc.nextInt();
-                System.out.print("> Y:");
                 int posY = sc.nextInt();
+                System.out.print("> Y:");
+                int posX = sc.nextInt();
                 sc.nextLine();
 
-                if (posX >= 0 && posX < this.mapa.getTamañoMapa() && posY >= 0 && posY < this.mapa.getTamañoMapa()) {
-                    if (verificarPosicion(posX-1, posY-1)) {
+                if (posX > 0 && posX < this.mapa.getTamañoMapa() && posY > 0 && posY < this.mapa.getTamañoMapa()) {
+                    if (!mapa.verificarLugar(posX-1, posY-1)) {
                         switch (opcion) {
                             case "t":
-                                Torre torre = new Torre(posX-1, posY-1, 3, 25);
+                                Torre torre = new Torre(posX-1, posY-1, 100, 50);
                                 if (this.puntosMagiaActuales >= torre.getCosto()) {
                                     this.gastarPuntosMagia(torre.getCosto());
                                     torre.colocarEnMapa(this.mapa);
@@ -151,30 +164,8 @@ public class Juego {
                 System.out.println("Opción no válida. Intenta de nuevo.");
             }
             this.mapa.imprimirMapa(mapa.getMapa());
-
-            System.out.println("Colocar Torre:          T ");
-            System.out.println("Colocar Barreras:       B ");
-            System.out.println("Finalizar colocación:   Q ");
-        }
+        } while (flag);
     }
-
-    public boolean verificarPosicion(int x, int y) {
-        return this.mapa.getElemento(x, y) == '.'; // Si está desocupada la posición devuelve verdadero
-    }
-
-    public void estado(Nivel nivel, Defensa miTorre, Defensa miBarrera) {
-        System.out.println("Magia actual: " + this.puntosMagiaActuales);
-        System.out.println("Nivel actual: " + this.nivelActual);
-    }
-
-    /*
-    public void iniciarOleada() {
-        Oleada play = new Oleada();
-        play.iniciarOleada(mapa, this.nivelActual, miTorres, miBarrera);
-    }
-     */
-
-
     public static void main(String[] args) {
         Juego game = new Juego();
         game.iniciarJuego();
