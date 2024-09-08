@@ -8,13 +8,13 @@ public class Torre extends DefensaEstandar implements ColocableEnMapa {
 
     // Constructor para inicializar la posición de la torre
     public Torre(int posX, int posY, int resistencia, int costoMagia) {
-        super(posX, posY, 't', resistencia, costoMagia);
+        super(posX, posY, '\u2656', resistencia, costoMagia);
         this.rangoAtaque = 4;
         this.poderAtaque = 25;
     }
 
     public Torre() {
-        super(0, 0, 't', 0, 0);
+        super(0, 0, '\u2656', 0, 0);
         this.rangoAtaque = 4;
         this.poderAtaque = 25;
     }

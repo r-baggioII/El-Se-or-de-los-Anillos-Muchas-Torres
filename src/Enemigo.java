@@ -111,23 +111,23 @@ public abstract class Enemigo {
             posY = torreY;
         }else{
             // Verificar si el movimiento en la dirección X está bloqueado
-            if (posX < torreX && mapa.getElemento(posX + 1, posY) != '*' && mapa.getElemento(posX + 1, posY) != 'b'  && mapa.getElemento(posX + 1, posY) != 't'){
+            if (posX < torreX && mapa.getElemento(posX + 1, posY) == '.'){
                 posX++;
-            } else if (posX > torreX && mapa.getElemento(posX - 1, posY) != '*' && mapa.getElemento(posX - 1, posY) != 'b' && mapa.getElemento(posX - 1, posY) != 't') {
+            } else if (posX > torreX && mapa.getElemento(posX - 1, posY) == '.') {
                 posX--;
-            } else if (posY < torreY && mapa.getElemento(posX, posY +1) != '*' && mapa.getElemento(posX, posY +1) != 'b' && mapa.getElemento(posX, posY +1) != 't')  { // Verificar si el movimiento en la dirección Y está bloqueado
+            } else if (posY < torreY && mapa.getElemento(posX, posY +1) == '.' )  { // Verificar si el movimiento en la dirección Y está bloqueado
                 posY++;
-            } else if (posY > torreY &&  mapa.getElemento(posX, posY -1) != '*' && mapa.getElemento(posX, posY -1) != 'b' && mapa.getElemento(posX, posY -1) != 't') {
+            } else if (posY > torreY &&  mapa.getElemento(posX, posY -1) == '.') {
                 posY--;
             } else {
                 // Si ambos caminos están bloqueados, buscar una ruta alternativa
-                if (mapa.getElemento(posX + 1, posY) != '*' && posX < mapa.getTamañoMapa() - 1) {
+                if (mapa.getElemento(posX + 1, posY) == '.' && posX < mapa.getTamañoMapa() - 1) {
                     posX++;
-                } else if (mapa.getElemento(posX - 1, posY) != '*' && posX > 0) {
+                } else if (mapa.getElemento(posX - 1, posY) == '.' && posX > 0) {
                     posX--;
-                } else if (mapa.getElemento(posX, posY +1) != '*' && posY < mapa.getTamañoMapa() - 1) {
+                } else if (mapa.getElemento(posX, posY +1) == '.' && posY < mapa.getTamañoMapa() - 1) {
                     posY++;
-                } else if (mapa.getElemento(posX, posY -1) != '*' && posY > 0) {
+                } else if (mapa.getElemento(posX, posY -1) == '.' && posY > 0) {
                     posY--;
                 }
             }

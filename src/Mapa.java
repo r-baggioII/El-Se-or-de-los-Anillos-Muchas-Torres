@@ -49,7 +49,7 @@ public class Mapa {
         // Posición de la torre en el centro del mapa
         cerroGloria.posX = this.tamañoMapa / 2;
         cerroGloria.posY = this.tamañoMapa / 2;
-        mapa[cerroGloria.getPosX()][cerroGloria.getPosY()] = 'T'; // 'T' representa la torre
+        mapa[cerroGloria.getPosX()][cerroGloria.getPosY()] = '\u26EB'; // 'T' representa la torre
     }
 
     public boolean verificarLugar(int posX,int posY){
@@ -57,7 +57,7 @@ public class Mapa {
     }
 
     //Metodo que quita las toores y defensas eliniadas del mapa
-    public void quitarMapa(List<DefensaEstandar> barreraEliminados,List<DefensaEstandar> torreEliminados){
+    public void quitarDefensas(List<DefensaEstandar> barreraEliminados,List<DefensaEstandar> torreEliminados){
         for (DefensaEstandar defensaEstandar : torreEliminados) {
             this.mapa[defensaEstandar.getPosX()][defensaEstandar.getPosY()] = '.';
         }
@@ -81,6 +81,10 @@ public class Mapa {
                     System.out.print("\u001B[32m"+mapa[i][j] + "  "+"\u001B[0m");
                 } else if (mapa[i][j] == '*') {
                     System.out.print("\u001B[31m"+mapa[i][j] + "  "+"\u001B[0m");
+                } else if (mapa[i][j] == '\u2656') {
+                    System.out.print("\u001B[35m"+mapa[i][j] + "  "+"\u001B[0m");
+                } else if (mapa[i][j] == '\u2592') {
+                    System.out.print("\u001B[36m"+mapa[i][j] + "  "+"\u001B[0m");
                 } else {
                     System.out.print(mapa[i][j] + "  ");
                 }

@@ -57,8 +57,23 @@ public class Juego {
     }
 
     public void iniciarJuego() {
-        System.out.println("El Señor de los Anillos: Muchas Morres");
-        System.out.println("Bienvenido al Juego");
+
+        System.out.println("\u001B[34m"+"El Señor de los Anillos: Muchas Morres"+"\u001B[0m");
+        System.out.println("\u001B[35m"+"Bienvenido al Juego"+"\u001B[0m");
+
+        char torre = '\u2656';    // ♖
+        char barrera = '\u2592';  // ▒
+        char enano = '\u2692';    // ⚒
+        char elfo = '\u2694';     // ⚔
+        char humano = '\u263C';   // ☼
+        char hobbit = '\u26C7';   // ⚇
+
+        System.out.println("Torre: " + torre);
+        System.out.println("Barrera: " + barrera);
+        System.out.println("Enano: " + enano);
+        System.out.println("Elfo: " + elfo);
+        System.out.println("Humano: " + humano);
+        System.out.println("Hobbit: " + hobbit);
 
         mapa.iniciarMapa();
         mapa.imprimirMapa(mapa.getMapa());
@@ -94,10 +109,11 @@ public class Juego {
 
     public void iniciarDefensa() {
         boolean flag = true;
-        System.out.println("Invocar Torre:          T ");
-        System.out.println("Invocar Barreras:       B ");
-        System.out.println("Finalizar Invocacion:   Q ");
-        while (flag) {
+        do {
+            System.out.println("Invocar Torre:          T");
+            System.out.println("Invocar Barreras:       B");
+            System.out.println("Finalizar Invocacion:   Q ");
+
             System.out.print(">");
             String opcion = sc.nextLine().toLowerCase();
             if (opcion.equals("q")) {
@@ -115,7 +131,7 @@ public class Juego {
                     if (!mapa.verificarLugar(posX-1, posY-1)) {
                         switch (opcion) {
                             case "t":
-                                Torre torre = new Torre(posX-1, posY-1, 3, 25);
+                                Torre torre = new Torre(posX-1, posY-1, 100, 50);
                                 if (this.puntosMagiaActuales >= torre.getCosto()) {
                                     this.gastarPuntosMagia(torre.getCosto());
                                     torre.colocarEnMapa(this.mapa);
@@ -148,11 +164,7 @@ public class Juego {
                 System.out.println("Opción no válida. Intenta de nuevo.");
             }
             this.mapa.imprimirMapa(mapa.getMapa());
-
-            System.out.println("Colocar Torre:          T ");
-            System.out.println("Colocar Barreras:       B ");
-            System.out.println("Finalizar colocación:   Q ");
-        }
+        } while (flag);
     }
     public static void main(String[] args) {
         Juego game = new Juego();

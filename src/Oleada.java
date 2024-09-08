@@ -100,7 +100,7 @@ public class Oleada {
             enemigos.removeAll(eliminados);
 
             //Elimina del mapa a las barreras y torres que han sido destruidas
-            mapa.quitarMapa(barreraEliminados,torreEliminados);
+            mapa.quitarDefensas(barreraEliminados,torreEliminados);
             miBarrera.removeAll(barreraEliminados);
             miTorres.removeAll(torreEliminados);
 
