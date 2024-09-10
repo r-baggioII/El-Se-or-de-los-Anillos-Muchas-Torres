@@ -56,89 +56,6 @@ public class Juego {
         }
     }
 
-    public void mostrarHistoria() {
-
-        System.out.println("\u001B[34m" + "El Señor de los Anillos: Muchas Morres" + "\u001B[0m"); //Azul
-
-        System.out.print("\u001B[35m" + "----------------------------------------" + "\u001B[0m\n"); //púrpura
-
-        System.out.println("\u001B[36m" + "En este reino, la última esperanza de la humanidad reside en la defensa de una antigua fortaleza en lo alto del cerro."); //cian
-        System.out.println("El enemigo ha formado una poderosa alianza entre humanos, enanos, elfos y hobbits, dispuestos a conquistar el Cerro de la Gloria.");
-        System.out.println("Tu misión es proteger la fortaleza utilizando torres y barreras estratégicamente para detener las oleadas de enemigos.");
-        System.out.println("Si el cerro cae, el reino estará perdido para siempre.");
-        System.out.println("¡Demuestra tu valía y defiende el Cerro de la Gloria a toda costa!" + "\u001B[0m");
-    }
-
-    private void mostrarMenuGuia() {
-        // Título del menú en verde
-        System.out.println("\u001B[32m" + "========== MENÚ ==========" + "\u001B[0m");
-
-        // Opciones del menú en amarillo
-        System.out.println("\u001B[33m" + "1. Comenzar Juego" + "\u001B[0m");
-        System.out.println("\u001B[33m" + "2. Ver Historia" + "\u001B[0m");
-        System.out.println("\u001B[33m" + "3. Ver Guía" + "\u001B[0m");
-        System.out.println("\u001B[33m" + "4. Salir" + "\u001B[0m");
-
-        // Línea de separación en púrpura
-        System.out.println("\u001B[35m" + "==========================" + "\u001B[0m");
-
-        // Título de la guía en azul
-        System.out.println("\u001B[34m" + "Guía del Jugador:" + "\u001B[0m");
-
-        // Contenido de la guía en cian
-        System.out.println("\u001B[36m" + " - Coloca hasta 5 elementos de defensa: torres o barreras.");
-        System.out.println(" - Cada nivel tiene varias oleadas de enemigos que aumentan en dificultad.");
-        System.out.println(" - Las torres atacan automáticamente a los enemigos cuando están en rango.");
-        System.out.println(" - El objetivo es proteger la torre principal. Si cae, perderás.");
-        System.out.println(" - Usa tus recursos con sabiduría y planifica tu defensa.");
-        System.out.println("¡Buena suerte!" + "\u001B[0m");
-    }
-
-    private void leerOpcionMenu() {
-        int opcion;
-
-        do {
-            // Pedir al usuario que ingrese una opción
-            System.out.print("\u001B[32m" + "Elige una opción (1-4): " + "\u001B[0m");
-            opcion = sc.nextInt();
-            sc.nextLine();
-
-            // Procesar la opción seleccionada
-            switch (opcion) {
-                case 1:
-                    // Comenzar el juego
-                    System.out.println("\u001B[33m" + "Iniciando el juego..." + "\u001B[0m");
-                    empezarJuego();
-                    break;
-                case 2:
-                    // Mostrar historia
-                    System.out.println("\u001B[34m" + "Mostrando la historia..." + "\u001B[0m");
-                    mostrarHistoria();
-                    break;
-                case 3:
-                    // Mostrar guía
-                    System.out.println("\u001B[36m" + "Mostrando la guía..." + "\u001B[0m");
-                    mostrarMenuGuia();
-                    break;
-                case 4:
-                    // Salir
-                    System.out.println("\u001B[31m" + "Saliendo del juego. ¡Hasta la próxima!" + "\u001B[0m");
-                    break;
-                default:
-                    // Opción no válida
-                    System.out.println("\u001B[31m" + "Opción no válida. Por favor, elige entre 1 y 4." + "\u001B[0m");
-            }
-        } while (opcion != 4); // El menú sigue apareciendo hasta que el usuario elija la opción de salir
-    }
-
-
-    private void iniciarJuego() {
-
-        mostrarHistoria();
-        mostrarMenuGuia();
-        leerOpcionMenu();
-    }
-
     private void empezarJuego(){
         char torre = '\u2656';    // ♖
         char barrera = '\u2592';  // ▒
@@ -171,17 +88,15 @@ public class Juego {
                 System.out.println("Cantidad de Oleadas en este nivel " + nivel.getOleadas().size());
                 System.out.println("Iniciando oleada en Nivel: " + this.nivelActual);
                 System.out.println("Tamaño de la oleada -->> " + oleada.enemigos.size());
-                oleada.iniciarOleada(mapa, miTorres, miBarrera);
+                oleada.iniciarOleada(mapa, miTorres, miBarrera,this.puntosMagiaActuales);
 
                 if (!chequearEstadoJuego()) {
                     System.out.println("Has perdido. El juego ha terminado.");
                     return;
                 }
             }
-
             this.puntosMagiaActuales += 50; //Luego de cada nivel se otorgan al jugador 50 puntos
         }
-
         System.out.println("¡Felicidades! Has completado todos los niveles.");
     }
 
@@ -243,6 +158,83 @@ public class Juego {
             }
             this.mapa.imprimirMapa(mapa.getMapa());
         } while (flag);
+    }
+    private void leerOpcionMenu() {
+        int opcion;
+
+        do {
+            // Pedir al usuario que ingrese una opción
+            System.out.print("\u001B[32m" + "Elige una opción (1-4): " + "\u001B[0m");
+            opcion = sc.nextInt();
+            sc.nextLine();
+
+            // Procesar la opción seleccionada
+            switch (opcion) {
+                case 1:
+                    // Comenzar el juego
+                    System.out.println("\u001B[33m" + "Iniciando el juego..." + "\u001B[0m");
+                    empezarJuego();
+                    break;
+                case 2:
+                    // Mostrar historia
+                    System.out.println("\u001B[34m" + "Mostrando la historia..." + "\u001B[0m");
+                    mostrarHistoria();
+                    break;
+                case 3:
+                    // Mostrar guía
+                    System.out.println("\u001B[36m" + "Mostrando la guía..." + "\u001B[0m");
+                    mostrarMenuGuia();
+                    break;
+                case 4:
+                    // Salir
+                    System.out.println("\u001B[31m" + "Saliendo del juego. ¡Hasta la próxima!" + "\u001B[0m");
+                    break;
+                default:
+                    // Opción no válida
+                    System.out.println("\u001B[31m" + "Opción no válida. Por favor, elige entre 1 y 4." + "\u001B[0m");
+            }
+        } while (opcion != 4); // El menú sigue apareciendo hasta que el usuario elija la opción de salir
+    }
+    private void mostrarMenuGuia() {
+        // Título del menú en verde
+        System.out.println("\u001B[32m" + "========== MENÚ ==========" + "\u001B[0m");
+
+        // Opciones del menú en amarillo
+        System.out.println("\u001B[33m" + "1. Comenzar Juego" + "\u001B[0m");
+        System.out.println("\u001B[33m" + "2. Ver Historia" + "\u001B[0m");
+        System.out.println("\u001B[33m" + "3. Ver Guía" + "\u001B[0m");
+        System.out.println("\u001B[33m" + "4. Salir" + "\u001B[0m");
+
+        // Línea de separación en púrpura
+        System.out.println("\u001B[35m" + "==========================" + "\u001B[0m");
+
+        // Título de la guía en azul
+        System.out.println("\u001B[34m" + "Guía del Jugador:" + "\u001B[0m");
+
+        // Contenido de la guía en cian
+        System.out.println("\u001B[36m" + " - Coloca hasta 5 elementos de defensa: torres o barreras.");
+        System.out.println(" - Cada nivel tiene varias oleadas de enemigos que aumentan en dificultad.");
+        System.out.println(" - Las torres atacan automáticamente a los enemigos cuando están en rango.");
+        System.out.println(" - El objetivo es proteger la torre principal. Si cae, perderás.");
+        System.out.println(" - Usa tus recursos con sabiduría y planifica tu defensa.");
+        System.out.println("¡Buena suerte!" + "\u001B[0m");
+    }
+    public void mostrarHistoria() {
+
+        System.out.println("\u001B[34m" + "El Señor de los Anillos: Muchas Morres" + "\u001B[0m"); //Azul
+
+        System.out.print("\u001B[35m" + "----------------------------------------" + "\u001B[0m\n"); //púrpura
+
+        System.out.println("\u001B[36m" + "En este reino, la última esperanza de la humanidad reside en la defensa de una antigua fortaleza en lo alto del cerro."); //cian
+        System.out.println("El enemigo ha formado una poderosa alianza entre humanos, enanos, elfos y hobbits, dispuestos a conquistar el Cerro de la Gloria.");
+        System.out.println("Tu misión es proteger la fortaleza utilizando torres y barreras estratégicamente para detener las oleadas de enemigos.");
+        System.out.println("Si el cerro cae, el reino estará perdido para siempre.");
+        System.out.println("¡Demuestra tu valía y defiende el Cerro de la Gloria a toda costa!" + "\u001B[0m");
+    }
+    private void iniciarJuego() {
+        mostrarHistoria();
+        mostrarMenuGuia();
+        leerOpcionMenu();
     }
     public static void main(String[] args) {
         Juego game = new Juego();
