@@ -57,12 +57,9 @@ public class Mapa {
     }
 
     //Metodo que quita las toores y defensas eliniadas del mapa
-    public void quitarDefensas(List<DefensaEstandar> barreraEliminados,List<DefensaEstandar> torreEliminados){
-        for (DefensaEstandar defensaEstandar : torreEliminados) {
+    public void quitarDefensas(List<DefensaEstandar> miDefensasEliminados) {
+        for (DefensaEstandar defensaEstandar : miDefensasEliminados) {
             this.mapa[defensaEstandar.getPosX()][defensaEstandar.getPosY()] = '.';
-        }
-        for (DefensaEstandar defensaEstandar : barreraEliminados) {
-            this.mapa[defensaEstandar.posX][defensaEstandar.posY] = '.';
         }
     }
 

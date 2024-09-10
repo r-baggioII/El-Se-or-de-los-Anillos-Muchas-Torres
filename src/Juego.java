@@ -7,15 +7,13 @@ public class Juego {
     private int puntosMagiaIniciales = 100;
     private int puntosMagiaActuales;
     private final int puntosMagiaMaximos = 600;
-    private List<DefensaEstandar> miTorres;
-    private List<DefensaEstandar> miBarrera;
+    List<DefensaEstandar> miDefensas;
     private List<Nivel> niveles;
     public Mapa mapa;
     private static Scanner sc = new Scanner(System.in);
 
     public Juego() {
-        this.miTorres = new ArrayList<>();
-        this.miBarrera = new ArrayList<>();
+        this.miDefensas = new ArrayList<>();
         this.nivelActual = 1;
         this.mapa = new Mapa();
         this.puntosMagiaActuales = puntosMagiaIniciales;
@@ -88,7 +86,7 @@ public class Juego {
                 System.out.println("Cantidad de Oleadas en este nivel " + nivel.getOleadas().size());
                 System.out.println("Iniciando oleada en Nivel: " + this.nivelActual);
                 System.out.println("Tamaño de la oleada -->> " + oleada.enemigos.size());
-                oleada.iniciarOleada(mapa, miTorres, miBarrera,this.puntosMagiaActuales);
+                oleada.iniciarOleada(mapa,miDefensas,this.puntosMagiaActuales);
 
                 if (!chequearEstadoJuego()) {
                     System.out.println("Has perdido. El juego ha terminado.");
@@ -128,7 +126,7 @@ public class Juego {
                                 if (this.puntosMagiaActuales >= torre.getCosto()) {
                                     this.gastarPuntosMagia(torre.getCosto());
                                     torre.colocarEnMapa(this.mapa);
-                                    this.miTorres.add(torre);
+                                    this.miDefensas.add(torre);
                                 } else {
                                     System.out.println("No hay suficiente Magia");
                                 }
@@ -138,7 +136,7 @@ public class Juego {
                                 if (this.puntosMagiaActuales >= barrera.getCosto()) {
                                     this.gastarPuntosMagia(barrera.getCosto());
                                     barrera.colocarEnMapa(this.mapa);
-                                    this.miBarrera.add(barrera);
+                                    this.miDefensas.add(barrera);
                                 } else {
                                     System.out.println("No hay suficiente Magia");
                                 }
