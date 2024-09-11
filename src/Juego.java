@@ -4,9 +4,8 @@ import java.util.Scanner;
 
 public class Juego {
     private int nivelActual;
-    private int puntosMagiaIniciales = 100;
-    private int puntosMagiaActuales;
-    private final int puntosMagiaMaximos = 600;
+    public PuntajeMagico puntajeMagico;
+
     List<DefensaEstandar> miDefensas;
     private List<Nivel> niveles;
     public Mapa mapa;
@@ -16,8 +15,8 @@ public class Juego {
         this.miDefensas = new ArrayList<>();
         this.nivelActual = 1;
         this.mapa = new Mapa();
-        this.puntosMagiaActuales = puntosMagiaIniciales;
         this.niveles = new ArrayList<>();
+        this.puntajeMagico = new PuntajeMagico();
     }
 
     public int getNivelActual() {
@@ -25,9 +24,6 @@ public class Juego {
     }
     public void setNivelActual(int nivelActual) {
         this.nivelActual = nivelActual;
-    }
-    public int getPuntosMagiaActuales() {
-        return puntosMagiaActuales;
     }
     private boolean chequearEstadoJuego() {
         return mapa.cerroGloria.getVidas() > 0;
@@ -42,16 +38,6 @@ public class Juego {
 
         Nivel nivel3 = new Nivel(3);
         niveles.add(nivel3);
-    }
-
-    public void gastarPuntosMagia(int costo) {
-        if (this.puntosMagiaActuales - costo < 0) {
-            this.puntosMagiaActuales = 0;
-            System.out.println("No tienes suficientes puntos de magia para esta compra.");
-        } else {
-            this.puntosMagiaActuales -= costo;
-            System.out.println("Compra realizada. Puntos de magia restantes: " + this.puntosMagiaActuales);
-        }
     }
 
     private void empezarJuego(){
@@ -77,7 +63,7 @@ public class Juego {
         for (Nivel nivel : niveles) {
             this.nivelActual = nivel.getNivel();
             System.out.println("Nivel: " + this.nivelActual);
-            System.out.println("Magia: " + this.puntosMagiaActuales);
+            System.out.println("Magia: " + puntajeMagico.getPuntosMagiaActuales());
             System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
 
             iniciarDefensa();
@@ -86,14 +72,14 @@ public class Juego {
                 System.out.println("Cantidad de Oleadas en este nivel " + nivel.getOleadas().size());
                 System.out.println("Iniciando oleada en Nivel: " + this.nivelActual);
                 System.out.println("Tamaño de la oleada -->> " + oleada.enemigos.size());
-                oleada.iniciarOleada(mapa,miDefensas,this.puntosMagiaActuales);
+                oleada.iniciarOleada(mapa,miDefensas,puntajeMagico);
 
                 if (!chequearEstadoJuego()) {
                     System.out.println("Has perdido. El juego ha terminado.");
                     return;
                 }
             }
-            this.puntosMagiaActuales += 50; //Luego de cada nivel se otorgan al jugador 50 puntos
+            puntajeMagico.aumentarMagia(50); //Luego de cada nivel se otorgan al jugador 50 puntos
         }
         System.out.println("¡Felicidades! Has completado todos los niveles.");
     }
@@ -113,9 +99,9 @@ public class Juego {
             } else if (opcion.equals("t") || opcion.equals("b")) {
                 System.out.println("Cordenadas de la Defensa:");
                 System.out.print("> X:");
-                int posY = sc.nextInt();
-                System.out.print("> Y:");
                 int posX = sc.nextInt();
+                System.out.print("> Y:");
+                int posY = sc.nextInt();
                 sc.nextLine();
 
                 if (posX > 0 && posX < this.mapa.getTamañoMapa() && posY > 0 && posY < this.mapa.getTamañoMapa()) {
@@ -123,8 +109,8 @@ public class Juego {
                         switch (opcion) {
                             case "t":
                                 Torre torre = new Torre(posX-1, posY-1, 100, 50);
-                                if (this.puntosMagiaActuales >= torre.getCosto()) {
-                                    this.gastarPuntosMagia(torre.getCosto());
+                                if (puntajeMagico.getPuntosMagiaActuales() >= torre.getCosto()) {
+                                    puntajeMagico.gastarPuntosMagia(torre.getCosto());
                                     torre.colocarEnMapa(this.mapa);
                                     this.miDefensas.add(torre);
                                 } else {
@@ -133,8 +119,8 @@ public class Juego {
                                 break;
                             case "b":
                                 Barrera barrera = new Barrera(posX-1, posY-1, 50, 25);
-                                if (this.puntosMagiaActuales >= barrera.getCosto()) {
-                                    this.gastarPuntosMagia(barrera.getCosto());
+                                if (puntajeMagico.getPuntosMagiaActuales() >= barrera.getCosto()) {
+                                    puntajeMagico.gastarPuntosMagia(barrera.getCosto());
                                     barrera.colocarEnMapa(this.mapa);
                                     this.miDefensas.add(barrera);
                                 } else {
@@ -229,12 +215,13 @@ public class Juego {
         System.out.println("Si el cerro cae, el reino estará perdido para siempre.");
         System.out.println("¡Demuestra tu valía y defiende el Cerro de la Gloria a toda costa!" + "\u001B[0m");
     }
-    private void iniciar() {
+    private void iniciarJuego() {
+        mostrarHistoria();
         mostrarMenuGuia();
         leerOpcionMenu();
     }
     public static void main(String[] args) {
         Juego game = new Juego();
-        game.iniciar();
+        game.iniciarJuego();
     }
 }

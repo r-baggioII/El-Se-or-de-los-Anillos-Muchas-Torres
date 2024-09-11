@@ -100,10 +100,6 @@ public abstract class Enemigo {
         return salud <= 0;
     }
 
-    public void superAtaque(Mapa mapa){};
-    public void superAtaque(){};
-
-
 
     public void moverHacia(Mapa mapa, int torreX, int torreY) {
         // Verificar si está cerca de la torre (a 1 o 2 casillas de distancia)

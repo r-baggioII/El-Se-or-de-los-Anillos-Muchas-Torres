@@ -1,3 +1,4 @@
+
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +14,10 @@ public class Oleada {
     }
 
     // Método para iniciar la oleada con enemigos según el nivel
-    public void iniciarOleada(Mapa mapa, List<DefensaEstandar> miDefensas,int puntosMagiaActuales) {
+    public void iniciarOleada(Mapa mapa, List<DefensaEstandar> miDefensas,PuntajeMagico puntosMagia ) {
         // Asignar posiciones aleatorias iniciales a los enemigos
         for (Enemigo enemigo : enemigos) {
-            asignarPosicion(enemigo, mapa);
+            manejoPosicion(enemigo, mapa);
             mapa.setElemento(enemigo.getPosX(), enemigo.getPosY(), enemigo.representacion);
         }
 
@@ -26,6 +27,7 @@ public class Oleada {
 
             List<Enemigo> eliminados = new ArrayList<>();
             List<DefensaEstandar> miDefensasEliminados = new ArrayList<>();
+            boolean todosEnCerro = true; // Bandera para verificar si todos los enemigos vivos están en el cerro
 
             for (Enemigo enemigo : enemigos) {
                 // Limpiar la posición anterior del enemigo
@@ -33,19 +35,16 @@ public class Oleada {
 
                 // Verificar si el enemigo ha sido eliminado
                 if (!enemigo.esEliminado()) {
+                    todosEnCerro = false; // Si hay algún enemigo vivo fuera del cerro, cambiar la bandera
 
-                    manejarAtaques(miDefensas,miDefensasEliminados, enemigo,mapa);
+                    manejarAtaques(miDefensas,miDefensasEliminados, enemigo);
 
-                    //Mover al enemigo si este no se encuetra frente a una barrera
-                    if ( !sePuedeMoverEnemigo(miDefensas,enemigo) ){
+                    // Mover al enemigo hacia el Cerro de la Gloria si no se topa con una barrera
+                    if ( !distanciaEnemenigo(miDefensas,enemigo) ){
                         enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY());
                     }
-
-                    if (rand.nextDouble() < 0.10) {  // 0.10 representa una probabilidad del 10%
-                        if (enemigo instanceof Enano){
-                            enemigo.superAtaque(mapa);
-                        }
-                        enemigo.superAtaque(); //Realiza el super ataque
+                    if (rand.nextDouble() < 0.05) {  // 0.05 representa una probabilidad del 5%
+                        superAtaque(enemigo,mapa);  // Realiza el super ataque
                     }
                     // Actualizar la nueva posición del enemigo
                     if (enemigo.getPosX() == mapa.cerroGloria.getPosX() && enemigo.getPosY() == mapa.cerroGloria.getPosY()) {
@@ -60,7 +59,8 @@ public class Oleada {
                     }
                 } else {
                     System.out.println("Recompensa: "+enemigo.getClass().getSimpleName()+"+"+enemigo.getRecompensa());
-                    puntosMagiaActuales += enemigo.getRecompensa();
+                    puntosMagia.aumentarMagia(enemigo.getRecompensa());
+
                     eliminados.add(enemigo);  // Agregar a la lista de eliminados
                     mapa.setElemento(enemigo.getPosX(), enemigo.getPosY(), '.'); //Si el enemigo fue eliminado se remueve del mapa
                 }
@@ -79,6 +79,11 @@ public class Oleada {
                 break;
             }
 
+            // Verificar si todos los enemigos que siguen vivos están en el Cerro de la Gloria
+            if (todosEnCerro) {
+                System.out.println("Todos los enemigos vivos han llegado al Cerro de la Gloria. La oleada ha terminado.");
+                break;
+            }
 
             // Pausa para simular el movimiento
             try {
@@ -89,12 +94,10 @@ public class Oleada {
 
         }
         Mapa.imprimirMapa(mapa.getMapa());  // Mostrar el mapa actualizado después de la Oleada
-
     }
 
-
-    // Metodo para asignar una posiciónn aleaotria a los enemigos al comienzo de la oleada
-    private void asignarPosicion(Enemigo enemigo, Mapa mapa) {
+    // Método para asignar posiciones aleatorias a los enemigos
+    private void manejoPosicion(Enemigo enemigo, Mapa mapa) {
         int tamañoMapa = mapa.getTamañoMapa();
         int mitadMapa = tamañoMapa / 2;
         int posX = 0, posY = 0;
@@ -137,13 +140,13 @@ public class Oleada {
         } else if (enemigo instanceof Elfo) {
             // Cuarto cuadrante: una de las coordenadas siempre será 0
             do{
-            posX = rand.nextInt(mitadMapa+1,tamañoMapa);  // Genera un valor entre n/2 y n - 1
-            posY = rand.nextInt(mitadMapa+1,tamañoMapa);  // Genera un valor entre n/2 y n - 1
-            if (rand.nextBoolean()) {
-                posX = tamañoMapa-1;  // Posibilidad de que posX esté en el inicio del cuadrante
-            } else {
-                posY = tamañoMapa-1;  // Posibilidad de que posY esté en el inicio del cuadrante
-            }
+                posX = rand.nextInt(mitadMapa+1,tamañoMapa);  // Genera un valor entre n/2 y n - 1
+                posY = rand.nextInt(mitadMapa+1,tamañoMapa);  // Genera un valor entre n/2 y n - 1
+                if (rand.nextBoolean()) {
+                    posX = tamañoMapa-1;  // Posibilidad de que posX esté en el inicio del cuadrante
+                } else {
+                    posY = tamañoMapa-1;  // Posibilidad de que posY esté en el inicio del cuadrante
+                }
             }while (mapa.verificarLugar(posX,posY));
         }
 
@@ -154,50 +157,49 @@ public class Oleada {
         mapa.setElemento(posX, posY, enemigo.getRepresentacion());
     }
 
-    private void manejarAtaques(List<DefensaEstandar> miDefensas, List<DefensaEstandar> miDefensasEliminados, Enemigo enemigo, Mapa mapa) {
-        boolean defensaAtacada = false;  // Variable para evitar múltiples informes de estado innecesarios
-
+    // Metodo que permite al enemigo atacar a las defensas y viseversa
+    private void manejarAtaques(List<DefensaEstandar> miDefensas,List<DefensaEstandar> miDefensasEliminados, Enemigo enemigo) {
+        // Las torres atacan al enemigo y reciben daño del enemigo
         for (DefensaEstandar defensa : miDefensas) {
-            // Ataque de las torres
+            // Si la defensa es una torre, verifica y realiza los ataques correspondientes
             if (defensa instanceof Torre torre) {
                 if (torre.enemigoEnRango(enemigo)) {
-                    if (enemigo instanceof Hobbit hobbit && hobbit.getSigilo() > 0) {
+                    // Usa el super ataque de Hobbit
+                    if (enemigo instanceof Hobbit hobbit && hobbit.getSigilo()>0){
                         hobbit.pasoSigiloso();
-                    } else {
+                    } else{
                         torre.lanzarAtaque(enemigo);
                     }
                     enemigo.recibirAtaque(torre);
-                    enemigo.informarEstado();  // Muestra el estado del enemigo después del ataque
+                    enemigo.informarEstado();
                 }
             }
 
-            // Ataque de los enemigos
+            // Verificar si el enemigo está en rango de cualquier defensa (torres y barreras)
             if (enemigo.defensaEnRango(defensa)) {
-                if (enemigo instanceof Elfo elfo && elfo.getSuperAtaque()) {
+                //Verifica si se activo el super ataque de elfo y cunatos toros le queda
+                if (enemigo instanceof Elfo elfo && elfo.getSuperAtaque()){
                     elfo.restarTiros();
                 }
                 enemigo.lanzarAtaque(defensa);
                 defensa.recibirAtaque(enemigo);
-                defensaAtacada = true;  // Solo se mostrará el estado una vez si fue atacada
             }
 
-            // Eliminación de defensas destruidas
+            // Manejo de eliminación o informe de estado de la defensa
             if (defensa.getResistencia() <= 0) {
-                miDefensasEliminados.add(defensa);
-            }
-        }
+                if (defensa instanceof Torre) {
+                    miDefensasEliminados.add(defensa);
+                } else if (defensa instanceof Barrera) {
 
-        // Mostrar estado de las defensas al final del ciclo si fueron atacadas
-        if (defensaAtacada) {
-            for (DefensaEstandar defensa : miDefensas) {
+                    miDefensasEliminados.add(defensa);
+                }
+            } else {
                 defensa.informarEstado();
             }
         }
     }
 
-
-    //Verifica si el enemigo se encuentra frente a frente con una barrera
-    private boolean sePuedeMoverEnemigo( List<DefensaEstandar> miDefensas, Enemigo enemigo ) {
+    private boolean distanciaEnemenigo( List<DefensaEstandar> miDefensas, Enemigo enemigo ) {
         for (DefensaEstandar barrera : miDefensas) {
             if (miDefensas instanceof Barrera){
                 return barrera.enemigoEnRango(enemigo);
@@ -205,7 +207,6 @@ public class Oleada {
         }
         return false;
     }
-/*
 
     private void superAtaque(Enemigo enemigo,Mapa mapa){  // Realiza el super ataque
         if (enemigo instanceof Enano) {
@@ -219,10 +220,9 @@ public class Oleada {
             ((Elfo) enemigo).superTiro();
         } else if (enemigo instanceof Humano) {
             System.out.println("\u001B[33m" +"Hobbit ACTIVO HABILIDAD ESPECIAL"+ "\u001B[0m");
-            ((Humano) enemigo).aumentarDanioAtaque();
+            ((Humano) enemigo).escudoProtecion();
         }
 
     }
- */
 
 }
