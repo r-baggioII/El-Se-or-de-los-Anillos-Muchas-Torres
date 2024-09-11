@@ -229,12 +229,12 @@ public class Juego {
         System.out.println("Si el cerro cae, el reino estará perdido para siempre.");
         System.out.println("¡Demuestra tu valía y defiende el Cerro de la Gloria a toda costa!" + "\u001B[0m");
     }
-    private void iniciarJuego() {
+    private void iniciar() {
         mostrarMenuGuia();
         leerOpcionMenu();
     }
     public static void main(String[] args) {
         Juego game = new Juego();
-        game.iniciarJuego();
+        game.iniciar();
     }
 }

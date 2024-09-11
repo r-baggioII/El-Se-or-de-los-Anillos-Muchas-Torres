@@ -89,7 +89,9 @@ public class Oleada {
 
         }
         Mapa.imprimirMapa(mapa.getMapa());  // Mostrar el mapa actualizado después de la Oleada
+
     }
+
 
     // Metodo para asignar una posiciónn aleaotria a los enemigos al comienzo de la oleada
     private void asignarPosicion(Enemigo enemigo, Mapa mapa) {

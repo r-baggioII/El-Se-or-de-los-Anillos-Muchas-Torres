@@ -11,7 +11,6 @@ public abstract class DefensaEstandar extends Defensa {
     public int getResistencia() { return resistencia; }
     public int getCosto() { return costoMagia; }
 
-    public void restaurarVida() {}
 
     public boolean esEliminada(){
         if(this.resistencia <=0){
