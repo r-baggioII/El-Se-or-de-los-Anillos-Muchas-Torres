@@ -6,7 +6,7 @@ public class Elfo extends Enemigo {
         this.turnos = 5;
     }
 
-    //Esta abilidad permite al elfo atacar a distancia por tiempo limitados
+    //Esta habilidad permite al elfo atacar a distancia por tiempo limitado
     public void superTiro(){
         this.rangoAtaque+=3;
     }
@@ -25,4 +25,11 @@ public class Elfo extends Enemigo {
     public boolean getSuperAtaque(){
         return superAtaque;
     }
+
+    @Override
+    public void superAtaque() {
+        System.out.println("\u001B[33m" + "Elfo ACTIVÓ HABILIDAD ESPECIAL" + "\u001B[0m");
+        superTiro();  // Habilidad especial de Elfo
+    }
+
 }

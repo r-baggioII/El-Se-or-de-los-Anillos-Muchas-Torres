@@ -100,7 +100,9 @@ public abstract class Enemigo {
         return salud <= 0;
     }
 
-    //public abstract void superAtaque(Mapa mapa);
+    public void superAtaque(Mapa mapa){};
+    public void superAtaque(){};
+
 
 
     public void moverHacia(Mapa mapa, int torreX, int torreY) {

@@ -7,11 +7,17 @@ public class Enano extends Enemigo {
 
     // El enano bloquea una posicion cuando da x pasos
     public void bloquearCamino(Mapa mapa){
-        mapa.setElemento(posX, posY, '*');
+        mapa.setElemento(this.posX, this.posY, '*');
     }
 
     public void contarCamino(){
         this.contarPasos++;
+    }
+
+    @Override
+    public void superAtaque(Mapa mapa) {
+        System.out.println("\u001B[33m" + "Enano ACTIVÓ HABILIDAD ESPECIAL" + "\u001B[0m");
+        bloquearCamino(mapa);  // Habilidad especial de Enano
     }
     
 }
