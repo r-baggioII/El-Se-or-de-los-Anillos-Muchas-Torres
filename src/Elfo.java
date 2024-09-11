@@ -5,6 +5,7 @@ public class Elfo extends Enemigo {
         super( 120, 3, 10,'\u2694', posX,posY,15);
         this.turnos = 5;
     }
+
     //Esta abilidad permite al elfo atacar a distancia por tiempo limitados
     public void superTiro(){
         this.rangoAtaque+=3;

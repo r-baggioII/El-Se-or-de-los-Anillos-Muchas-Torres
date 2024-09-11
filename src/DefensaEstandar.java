@@ -33,6 +33,7 @@ public abstract class DefensaEstandar extends Defensa {
     public void recibirAtaque(Enemigo enemigo) {
             this.resistencia -= enemigo.getDanioAtaque();
     }
+    public abstract boolean enemigoEnRango(Enemigo enemigo);
 }
 
 

@@ -37,6 +37,7 @@ public class Torre extends DefensaEstandar implements ColocableEnMapa {
         System.out.println("La torre " + this.nombreDefensa + " en la posicón"+ "(" + newPosX + " , " +  newPosY + ")" + " ha atacado al enemigo " + enemigo.getClass().getSimpleName() + " infligiendo " + this.poderAtaque + " de daño.");
     }
 
+    @Override
     // Método para verificar si un enemigo está en el rango de ataque de la torre
     public boolean enemigoEnRango(Enemigo enemigo) {
         int distanciaX = Math.abs(this.posX - enemigo.getPosX()); 

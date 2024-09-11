@@ -230,7 +230,6 @@ public class Juego {
         System.out.println("¡Demuestra tu valía y defiende el Cerro de la Gloria a toda costa!" + "\u001B[0m");
     }
     private void iniciarJuego() {
-        mostrarHistoria();
         mostrarMenuGuia();
         leerOpcionMenu();
     }

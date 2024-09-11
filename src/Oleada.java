@@ -36,12 +36,9 @@ public class Oleada {
                 if (!enemigo.esEliminado()) {
                     todosEnCerro = false; // Si hay algún enemigo vivo fuera del cerro, cambiar la bandera
 
-                    manejarAtaques(miDefensas,miDefensasEliminados, enemigo);
+                    manejarAtaques(miDefensas,miDefensasEliminados, enemigo,mapa);
 
-                    // Mover al enemigo hacia el Cerro de la Gloria si no se topa con una barrera
-                    if ( false == distanciaEnemenigo(miDefensas,enemigo) ){
-                        enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY());
-                    }
+
                     if (rand.nextDouble() < 0.10) {  // 0.10 representa una probabilidad del 10%
                         superAtaque(enemigo,mapa);  // Realiza el super ataque
                     }
@@ -156,7 +153,7 @@ public class Oleada {
     }
 
     // Metodo que permite al enemigo atacar a las defensas y viseversa
-    private void manejarAtaques(List<DefensaEstandar> miDefensas,List<DefensaEstandar> miDefensasEliminados, Enemigo enemigo) {
+    private void manejarAtaques(List<DefensaEstandar> miDefensas,List<DefensaEstandar> miDefensasEliminados, Enemigo enemigo,Mapa mapa) {
         // Las torres atacan al enemigo y reciben daño del enemigo
         for (DefensaEstandar defensa : miDefensas) {
             // Si la defensa es una torre, verifica y realiza los ataques correspondientes
@@ -170,6 +167,12 @@ public class Oleada {
                     }
                     enemigo.recibirAtaque(torre);
                     enemigo.informarEstado();
+                }
+            }
+
+            if (defensa instanceof Barrera barrera) {
+                if (barrera.enemigoEnRango(enemigo)) {
+                    enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY());
                 }
             }
 
@@ -196,20 +199,6 @@ public class Oleada {
         }
     }
 
-    private boolean distanciaEnemenigo( List<DefensaEstandar> miDefensas, Enemigo enemigo ) {
-        int distanciaX, distanciaY;
-        int posX = enemigo.getPosX(), posY = enemigo.getPosY();
-        for (DefensaEstandar barrera : miDefensas) {
-            if (miDefensas instanceof Barrera){
-                distanciaX = Math.abs(posX - barrera.getPosX());
-                distanciaY = Math.abs(posY - barrera.getPosY());
-                if (distanciaY==1 && distanciaX ==1){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
     private void superAtaque(Enemigo enemigo,Mapa mapa){  // Realiza el super ataque
         if (enemigo instanceof Enano) {

@@ -21,4 +21,13 @@ public class Barrera extends DefensaEstandar implements ColocableEnMapa {
         //Coloca la torre en el mapa
         mapa.setElemento(this.posX, this.posY, this.nombreDefensa); // 'b' representa la torre
     }
+    
+    @Override
+    public boolean enemigoEnRango(Enemigo enemigo) {
+        int distanciaX = Math.abs(this.getPosX() - enemigo.getPosX());
+        int distanciaY = Math.abs(this.getPosY() - enemigo.getPosY());
+
+        // Verificar si la distancia es de 1 tanto en X como en Y
+        return distanciaX == 1 && distanciaY == 1;
+    }
 }
