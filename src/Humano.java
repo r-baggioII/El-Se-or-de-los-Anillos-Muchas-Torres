@@ -1,11 +1,12 @@
 
 
 public class Humano extends Enemigo{
-
     public Humano(int posX, int posY){
-        super( 100, 2, 5, 4,'H',posX,posY);
+        super( 100, 2, 5, '\u263C',posX,posY,10);
     }
 
-    public void aumentarNivel(){}
-
+    //Permite al humano resistir ataques de las Torres
+    public void escudoProtecion(){
+        this.danioAtaque += 5;
+    }
 }

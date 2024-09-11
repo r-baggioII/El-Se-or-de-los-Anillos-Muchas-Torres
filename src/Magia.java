@@ -1,35 +1,26 @@
 public class Magia {
-    public final int magiaInicial = 100;
-    public final int magiaMaxima = 600;
-    public int magiaActual;
-    
-    //Constructor 
-    public Magia(){
-        this.magiaActual = magiaInicial;
+    private int puntosMagiaIniciales = 100;
+    private int puntosMagiaActuales;
+    private final int puntosMagiaMaximos = 600;
+    public Magia() {
+        this.puntosMagiaActuales = puntosMagiaIniciales;
     }
-    //Getters
-    public int getMagiaActual(){
-        return magiaActual;
-    }
-    public int getMagiaInicial(){
-        return magiaInicial;
-    }
-    public int getMagiaMaxima(){
-        return magiaMaxima;
-    }
-    //Metodos 
-    public void aumentarMagia(int cantidad){
-        if(magiaActual + cantidad > magiaMaxima){
-            magiaActual = magiaMaxima;
-        }else{
-            magiaActual += cantidad;
+
+    public void gastarPuntosMagia(int costo) {
+        if (this.puntosMagiaActuales - costo < 0) {
+            this.puntosMagiaActuales = 0;
+            System.out.println("No tienes suficientes puntos de magia para esta compra.");
+        } else {
+            this.puntosMagiaActuales -= costo;
+            System.out.println("Compra realizada. Puntos de magia restantes: " + this.puntosMagiaActuales);
         }
     }
-    public void gastarMagia(int cantidad){
-        if(magiaActual - cantidad < 0){
-            magiaActual = 0;
-        }else{
-            magiaActual -= cantidad;
-        }
+
+    public int getPuntosMagiaActuales() {
+        return puntosMagiaActuales;
+    }
+
+    public void aumentarMagia(int magia){
+        this.puntosMagiaActuales += magia;
     }
 }

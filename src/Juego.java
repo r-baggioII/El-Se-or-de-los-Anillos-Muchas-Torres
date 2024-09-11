@@ -3,73 +3,225 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Juego {
-    private List<Defensa> miTorres;
-    private List<Defensa> miBarrera;
+    private int nivelActual;
+    private Magia magia;
+
+    List<DefensaEstandar> miDefensas;
+    private List<Nivel> niveles;
+    public Mapa mapa;
+    private static Scanner sc = new Scanner(System.in);
 
     public Juego() {
-        this.miTorres = new ArrayList<>();
-        this.miBarrera = new ArrayList<>();
+        this.miDefensas = new ArrayList<>();
+        this.nivelActual = 1;
+        this.mapa = new Mapa();
+        this.niveles = new ArrayList<>();
+        this.magia = new Magia();
     }
 
-    public static void main(String[] args) {
-        Juego game = new Juego(); // Create an instance of Main to access instance variables
-        Scanner sc = new Scanner(System.in);
+    public int getNivelActual() {
+        return nivelActual;
+    }
+    public void setNivelActual(int nivelActual) {
+        this.nivelActual = nivelActual;
+    }
+    private boolean chequearEstadoJuego() {
+        return mapa.cerroGloria.getVidas() > 0;
+    }
 
-        // Iniciar Nivel
-        Nivel nivel = new Nivel(1, 100);
+    private void inicializarNiveles() {
+        Nivel nivel1 = new Nivel(1);
+        niveles.add(nivel1);
 
-        // Iniciar Magia
-        Magia magia = new Magia();
+        Nivel nivel2 = new Nivel(2);
+        niveles.add(nivel2);
 
-        // Elejir Mapa
-        Mapa maps = new Mapa();
-        maps.iniciarMapa();
+        Nivel nivel3 = new Nivel(3);
+        niveles.add(nivel3);
+    }
 
-        // Colocar Torres y defensa
-        boolean flag = true;
-        while (flag) {
-            System.out.println("Colocar Torre: t ");
-            System.out.println("Colocar Barreras: b ");
-            System.out.println("Finalizar colocación: q ");
-            String opcion = sc.nextLine().toLowerCase(); // Convert to lowercase to avoid case sensitivity
+    private void empezarJuego(){
+        char torre = '\u2656';    // ♖
+        char barrera = '\u2592';  // ▒
+        char enano = '\u2692';    // ⚒
+        char elfo = '\u2694';     // ⚔
+        char humano = '\u263C';   // ☼
+        char hobbit = '\u26C7';   // ⚇
 
-            if (opcion.equals("q")) {
-                flag = false; // Set flag to false to exit the loop
-                System.out.println("Colocación finalizada.");
-            } else {
-                System.out.println("Posición de la torre:");
-                int posX = sc.nextInt();
-                int posY = sc.nextInt();
-                sc.nextLine(); // Consume the newline character after the integers
+        System.out.println("Torre: " + torre);
+        System.out.println("Barrera: " + barrera);
+        System.out.println("Enano: " + enano);
+        System.out.println("Elfo: " + elfo);
+        System.out.println("Humano: " + humano);
+        System.out.println("Hobbit: " + hobbit);
 
-                if (posX + 1 <= maps.getTamañoMapa() && posY + 1 <= maps.getTamañoMapa()) {
-                    switch (opcion) {
-                        case "t":
-                            Torre torre = new Torre();
-                            torre.colocarTorre(maps, magia, posX-1, posY-1, 't');
-                            game.miTorres.add(torre);
-                            break; // Add break to prevent fall-through
+        mapa.iniciarMapa();
+        mapa.imprimirMapa(mapa.getMapa());
 
-                        case "b":
-                            break; // Add break to prevent fall-through
-                            //Barrera defensa = new Barrera(70, 25, posX, posY);
-                            //defensa.colocarEnMapa(maps.getMapa());
-                            //game.miBarrera.add(defensa);
+        inicializarNiveles();
 
+        for (Nivel nivel : niveles) {
+            this.nivelActual = nivel.getNivel();
+            System.out.println("Nivel: " + this.nivelActual);
+            System.out.println("Magia: " + magia.getPuntosMagiaActuales());
+            System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
 
-                        default:
-                            System.out.println("Opción no válida. Intenta de nuevo.");
-                            break;
-                    }
-                } else {
-                    System.out.println("Coordenadas fuera de los límites");
+            iniciarDefensa();
+
+            for (Oleada oleada : nivel.getOleadas()) {
+                System.out.println("Cantidad de Oleadas en este nivel " + nivel.getOleadas().size());
+                System.out.println("Iniciando oleada en Nivel: " + this.nivelActual);
+                System.out.println("Tamaño de la oleada -->> " + oleada.enemigos.size());
+                oleada.iniciarOleada(mapa,miDefensas,magia);
+
+                if (!chequearEstadoJuego()) {
+                    System.out.println("Has perdido. El juego ha terminado.");
+                    return;
                 }
             }
+            magia.aumentarMagia(50); //Luego de cada nivel se otorgan al jugador 50 puntos
         }
+        System.out.println("¡Felicidades! Has completado todos los niveles.");
+    }
 
-        // Iniciar Oleada
-        Oleada play = new Oleada(maps);
-        play.Start(maps, nivel, game.miTorres, game.miBarrera);
-        sc.close();
+    public void iniciarDefensa() {
+        boolean flag = true;
+        do {
+            System.out.println("Invocar Torre:          T");
+            System.out.println("Invocar Barreras:       B");
+            System.out.println("Finalizar Invocacion:   Q ");
+
+            System.out.print(">");
+            String opcion = sc.nextLine().toLowerCase();
+            if (opcion.equals("q")) {
+                System.out.println("Invocacion Exitosa.");
+                break;
+            } else if (opcion.equals("t") || opcion.equals("b")) {
+                System.out.println("Cordenadas de la Defensa:");
+                System.out.print("> X:");
+                int posY = sc.nextInt();
+                System.out.print("> Y:");
+                int posX = sc.nextInt();
+                sc.nextLine();
+
+                if (posX > 0 && posX < this.mapa.getTamañoMapa() && posY > 0 && posY < this.mapa.getTamañoMapa()) {
+                    if (!mapa.verificarLugar(posX-1, posY-1)) {
+                        switch (opcion) {
+                            case "t":
+                                Torre torre = new Torre(posX-1, posY-1, 100, 50);
+                                if (magia.getPuntosMagiaActuales() >= torre.getCosto()) {
+                                    magia.gastarPuntosMagia(torre.getCosto());
+                                    torre.colocarEnMapa(this.mapa);
+                                    this.miDefensas.add(torre);
+                                } else {
+                                    System.out.println("No hay suficiente Magia");
+                                }
+                                break;
+                            case "b":
+                                Barrera barrera = new Barrera(posX-1, posY-1, 50, 25);
+                                if (magia.getPuntosMagiaActuales() >= barrera.getCosto()) {
+                                    magia.gastarPuntosMagia(barrera.getCosto());
+                                    barrera.colocarEnMapa(this.mapa);
+                                    this.miDefensas.add(barrera);
+                                } else {
+                                    System.out.println("No hay suficiente Magia");
+                                }
+                                break;
+                            default:
+                                System.out.println("Opción no válida. Intenta de nuevo.");
+                                break;
+                        }
+                    } else {
+                        System.out.println("Coordenadas ocupadas por otro elemento de defensa.");
+                    }
+                } else {
+                    System.out.println("Coordenadas fuera de los límites.");
+                }
+            } else {
+                System.out.println("Opción no válida. Intenta de nuevo.");
+            }
+            this.mapa.imprimirMapa(mapa.getMapa());
+        } while (flag);
+    }
+    private void leerOpcionMenu() {
+        int opcion;
+
+        do {
+            // Pedir al usuario que ingrese una opción
+            System.out.print("\u001B[32m" + "Elige una opción (1-4): " + "\u001B[0m");
+            opcion = sc.nextInt();
+            sc.nextLine();
+
+            // Procesar la opción seleccionada
+            switch (opcion) {
+                case 1:
+                    // Comenzar el juego
+                    System.out.println("\u001B[33m" + "Iniciando el juego..." + "\u001B[0m");
+                    empezarJuego();
+                    break;
+                case 2:
+                    // Mostrar historia
+                    System.out.println("\u001B[34m" + "Mostrando la historia..." + "\u001B[0m");
+                    mostrarHistoria();
+                    break;
+                case 3:
+                    // Mostrar guía
+                    System.out.println("\u001B[36m" + "Mostrando la guía..." + "\u001B[0m");
+                    mostrarMenuGuia();
+                    break;
+                case 4:
+                    // Salir
+                    System.out.println("\u001B[31m" + "Saliendo del juego. ¡Hasta la próxima!" + "\u001B[0m");
+                    break;
+                default:
+                    // Opción no válida
+                    System.out.println("\u001B[31m" + "Opción no válida. Por favor, elige entre 1 y 4." + "\u001B[0m");
+            }
+        } while (opcion != 4); // El menú sigue apareciendo hasta que el usuario elija la opción de salir
+    }
+    private void mostrarMenuGuia() {
+        // Título del menú en verde
+        System.out.println("\u001B[32m" + "========== MENÚ ==========" + "\u001B[0m");
+
+        // Opciones del menú en amarillo
+        System.out.println("\u001B[33m" + "1. Comenzar Juego" + "\u001B[0m");
+        System.out.println("\u001B[33m" + "2. Ver Historia" + "\u001B[0m");
+        System.out.println("\u001B[33m" + "3. Ver Guía" + "\u001B[0m");
+        System.out.println("\u001B[33m" + "4. Salir" + "\u001B[0m");
+
+        // Línea de separación en púrpura
+        System.out.println("\u001B[35m" + "==========================" + "\u001B[0m");
+
+        // Título de la guía en azul
+        System.out.println("\u001B[34m" + "Guía del Jugador:" + "\u001B[0m");
+
+        // Contenido de la guía en cian
+        System.out.println("\u001B[36m" + " - Coloca hasta 5 elementos de defensa: torres o barreras.");
+        System.out.println(" - Cada nivel tiene varias oleadas de enemigos que aumentan en dificultad.");
+        System.out.println(" - Las torres atacan automáticamente a los enemigos cuando están en rango.");
+        System.out.println(" - El objetivo es proteger la torre principal. Si cae, perderás.");
+        System.out.println(" - Usa tus recursos con sabiduría y planifica tu defensa.");
+        System.out.println("¡Buena suerte!" + "\u001B[0m");
+    }
+    public void mostrarHistoria() {
+
+        System.out.println("\u001B[34m" + "El Señor de los Anillos: Muchas Morres" + "\u001B[0m"); //Azul
+
+        System.out.print("\u001B[35m" + "----------------------------------------" + "\u001B[0m\n"); //púrpura
+
+        System.out.println("\u001B[36m" + "En este reino, la última esperanza de la humanidad reside en la defensa de una antigua fortaleza en lo alto del cerro."); //cian
+        System.out.println("El enemigo ha formado una poderosa alianza entre humanos, enanos, elfos y hobbits, dispuestos a conquistar el Cerro de la Gloria.");
+        System.out.println("Tu misión es proteger la fortaleza utilizando torres y barreras estratégicamente para detener las oleadas de enemigos.");
+        System.out.println("Si el cerro cae, el reino estará perdido para siempre.");
+        System.out.println("¡Demuestra tu valía y defiende el Cerro de la Gloria a toda costa!" + "\u001B[0m");
+    }
+    private void iniciarJuego() {
+        mostrarHistoria();
+        mostrarMenuGuia();
+        leerOpcionMenu();
+    }
+    public static void main(String[] args) {
+        Juego game = new Juego();
+        game.iniciarJuego();
     }
 }

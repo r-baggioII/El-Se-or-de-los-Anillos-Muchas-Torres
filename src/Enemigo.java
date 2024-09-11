@@ -1,24 +1,25 @@
-
+import java.util.Random;
 public abstract class Enemigo {
     
     //Atributos de clase
+    private Random rand = new Random();
     protected int rangoAtaque;
     protected int salud;
-    protected int armadura;
     protected int recompensa;
     protected int posX; //posición en el mapa
     protected int posY;
+    protected int danioAtaque;
     protected char representacion; //segun el enemigo tendrá un caracter que lo represente en el mapa
 
     //Constructores de la clase 
-    public Enemigo(int saludInicial, int rangoAtaque, int armadura, int recompensa, char representacion, int inicialX, int inicialY){
+    public Enemigo(int saludInicial, int rangoAtaque, int recompensa, char representacion, int inicialX, int inicialY, int danioAtaque){
         this.salud = saludInicial;
         this.rangoAtaque = rangoAtaque;
-        this.armadura = armadura;
         this.recompensa = recompensa;
         this.posX = inicialX;
         this.posY = inicialY;
         this.representacion = representacion;
+        this.danioAtaque = danioAtaque;
     }
     //Setters y Getters 
     public int getSalud(){
@@ -35,12 +36,6 @@ public abstract class Enemigo {
         this.rangoAtaque = rangoAtaque;
     }
 
-    public int getArmadura(){
-        return armadura;
-    }
-    public void setAramadura(int armadura){
-        this.armadura = armadura; 
-    }
 
     public int getRecompensa(){
         return recompensa;
@@ -69,19 +64,44 @@ public abstract class Enemigo {
     public void setRepresentacion(char representacion){
         this.representacion = representacion;
     }
-    
+
+    public int getDanioAtaque(){return danioAtaque;}
+    public void setDanioAtaque(int danioAtaque){ this.danioAtaque = danioAtaque; }
+
     //Otros métodos
-    public void recibirDanio(int danio){
-        //Método para recibir daño
-        salud -= danio;
+    public void recibirAtaque(Torre torre){
+        this.salud -= torre.getPoderAtaque();
     }
+
+    public void lanzarAtaque(Defensa defensa) {
+        int newPosX = this.posX + 1; //Se le suma uno a la posicón para mostrar al usuario
+        int newPosY = this.posY + 1;
+        System.out.println("El enemigo " + this.representacion + " en la posicón"+ "(" + newPosX + " , " +  newPosY + ")" + " ha atacado a la defensa " + defensa.getClass().getSimpleName() + " infligiendo " + this.danioAtaque + " de daño.");
+    }
+
+    public void informarEstado() {
+        int newPosX = this.posX + 1;
+        int newPosY = this.posY + 1;
+        if (!esEliminado()) {
+            System.out.println("Enemigo " + this.representacion + " en (" + newPosX  + ", " + newPosY  + ") - VIDA: " + this.salud);
+        } else {
+            System.out.println("Enemigo " + this.representacion + " (" + newPosX+  ", " + newPosY + ") eliminado.");
+        }
+    }
+
+    public boolean defensaEnRango(Defensa defensa) {
+        int distanciaX = Math.abs(this.posX - defensa.getPosX());
+        int distanciaY = Math.abs(this.posY - defensa.getPosY());
+        return distanciaX <= this.rangoAtaque && distanciaY <= this.rangoAtaque;
+    }
+
 
     public boolean esEliminado(){
         //Método para verificar si el enemigo fue eliminado
         return salud <= 0;
     }
 
-    public void moverHacia(char[][] mapa, int torreX, int torreY,Torre torre) {
+    public void moverHacia(Mapa mapa, int torreX, int torreY) {
         // Verificar si está cerca de la torre (a 1 o 2 casillas de distancia)
         int distanciaX = Math.abs(posX - torreX);
         int distanciaY = Math.abs(posY - torreY);
@@ -90,28 +110,32 @@ public abstract class Enemigo {
             // Ajustar el objetivo hacia la torre si está cerca
             posX = torreX;
             posY = torreY;
-        }else{
-            // Verificar si el movimiento en la dirección X está bloqueado
-            if (posX < torreX && mapa[posX + 1][posY] != '*' && mapa[posX + 1][posY] != torre.getNombrDefensa()) {
-                posX++;
-            } else if (posX > torreX && mapa[posX - 1][posY] != '*' && mapa[posX - 1][posY] != torre.getNombrDefensa()) {
-                posX--;
-            } else if (posY < torreY && mapa[posX][posY + 1] != '*' && mapa[posX][posY + 1] != torre.getNombrDefensa()) { // Verificar si el movimiento en la dirección Y está bloqueado
-                posY++;
-            } else if (posY > torreY && mapa[posX][posY - 1] != '*' && mapa[posX][posY - 1] != torre.getNombrDefensa()) {
-                posY--;
+        } else {
+            // Movimiento en zigzag o aleatorio
+            if (rand.nextBoolean()) { // Aleatoriamente decide si moverse en X o Y primero
+                moverEnX(mapa, torreX);
+                moverEnY(mapa, torreY);
             } else {
-                // Si ambos caminos están bloqueados, buscar una ruta alternativa
-                if (mapa[posX + 1][posY] != '*' && posX < mapa.length - 1) {
-                    posX++;
-                } else if (mapa[posX - 1][posY] != '*' && posX > 0) {
-                    posX--;
-                } else if (mapa[posX][posY + 1] != '*' && posY < mapa[0].length - 1) {
-                    posY++;
-                } else if (mapa[posX][posY - 1] != '*' && posY > 0) {
-                    posY--;
-                }
+                moverEnY(mapa, torreY);
+                moverEnX(mapa, torreX);
             }
         }
     }
+
+    private void moverEnX(Mapa mapa, int torreX) {
+        if (posX < torreX && mapa.getElemento(posX + 1, posY) == '.') {
+            posX++;
+        } else if (posX > torreX && mapa.getElemento(posX - 1, posY) == '.') {
+            posX--;
+        }
+    }
+
+    private void moverEnY(Mapa mapa, int torreY) {
+        if (posY < torreY && mapa.getElemento(posX, posY + 1) == '.') {
+            posY++;
+        } else if (posY > torreY && mapa.getElemento(posX, posY - 1) == '.') {
+            posY--;
+        }
+    }
+
 }
