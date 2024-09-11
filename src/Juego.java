@@ -118,7 +118,7 @@ public class Juego {
                                 }
                                 break;
                             case "b":
-                                Barrera barrera = new Barrera(posX-1, posY-1, 50, 25);
+                                Barrera barrera = new Barrera(posX-1, posY-1, 75, 25);
                                 if (puntajeMagico.getPuntosMagiaActuales() >= barrera.getCosto()) {
                                     puntajeMagico.gastarPuntosMagia(barrera.getCosto());
                                     barrera.colocarEnMapa(this.mapa);

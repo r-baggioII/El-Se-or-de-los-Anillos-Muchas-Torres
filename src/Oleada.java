@@ -43,9 +43,9 @@ public class Oleada {
                     if ( !distanciaEnemenigo(miDefensas,enemigo) ){
                         enemigo.moverHacia(mapa, mapa.cerroGloria.getPosX(), mapa.cerroGloria.getPosY());
                     }
-                    if (rand.nextDouble() < 0.05) {  // 0.05 representa una probabilidad del 5%
-                        superAtaque(enemigo,mapa);  // Realiza el super ataque
-                    }
+                    //if (rand.nextDouble() < 0.05) {  // 0.05 representa una probabilidad del 5%
+                        //superAtaque(enemigo,mapa);  // Realiza el super ataque
+                    //}
                     // Actualizar la nueva posición del enemigo
                     if (enemigo.getPosX() == mapa.cerroGloria.getPosX() && enemigo.getPosY() == mapa.cerroGloria.getPosY()) {
                         mapa.cerroGloria.vidas -= 1;  // Se le resta una vida al cerro de la gloria por cada ataque
@@ -199,15 +199,19 @@ public class Oleada {
         }
     }
 
-    private boolean distanciaEnemenigo( List<DefensaEstandar> miDefensas, Enemigo enemigo ) {
-        for (DefensaEstandar barrera : miDefensas) {
-            if (miDefensas instanceof Barrera){
-                return barrera.enemigoEnRango(enemigo);
+    private boolean distanciaEnemenigo(List<DefensaEstandar> miDefensas, Enemigo enemigo) {
+        for (DefensaEstandar defensa : miDefensas) {
+            if (defensa instanceof Barrera) {
+                if (defensa.enemigoEnRango(enemigo)) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
+
+    /*
     private void superAtaque(Enemigo enemigo,Mapa mapa){  // Realiza el super ataque
         if (enemigo instanceof Enano) {
             System.out.println("\u001B[33m" +"Enano ACTIVO HABILIDAD ESPECIAL"+ "\u001B[0m");
@@ -224,5 +228,6 @@ public class Oleada {
         }
 
     }
+     */
 
 }

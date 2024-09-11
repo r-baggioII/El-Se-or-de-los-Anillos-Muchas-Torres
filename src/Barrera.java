@@ -27,7 +27,8 @@ public class Barrera extends DefensaEstandar implements ColocableEnMapa {
         int posX = enemigo.getPosX(), posY = enemigo.getPosY();
         distanciaX = Math.abs(posX - this.posX);
         distanciaY = Math.abs(posY - this.posY);
-        return distanciaY==1 && distanciaX ==1;
+        return (distanciaY == 1 && distanciaX == 0) || (distanciaY == 0 && distanciaX == 1) || (distanciaY == 1 && distanciaX == 1);
+
     }
 
 }
