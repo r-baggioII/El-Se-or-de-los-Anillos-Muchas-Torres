@@ -63,9 +63,9 @@ public class Juego {
         for (Nivel nivel : niveles) {
             this.nivelActual = nivel.getNivel();
             System.out.println("Nivel: " + this.nivelActual);
-            System.out.println("Magia: " + puntajeMagico.getPuntosMagiaActuales());
+            System.out.println("Puntos de Magia: " + puntajeMagico.getPuntosMagiaActuales());
             System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
-
+            mapa.cerroGloria.setVidas(5); //resetear las vidas del cerro de la gloria a 5 luego de cada nivel
             iniciarDefensa();
 
             for (Oleada oleada : nivel.getOleadas()) {
@@ -216,7 +216,6 @@ public class Juego {
         System.out.println("¡Demuestra tu valía y defiende el Cerro de la Gloria a toda costa!" + "\u001B[0m");
     }
     private void iniciarJuego() {
-        mostrarHistoria();
         mostrarMenuGuia();
         leerOpcionMenu();
     }

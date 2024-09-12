@@ -1,5 +1,5 @@
 public class PuntajeMagico {
-    private int puntosMagiaIniciales = 100;
+    private int puntosMagiaIniciales = 200;
     private int puntosMagiaActuales;
     public PuntajeMagico() {
         this.puntosMagiaActuales = puntosMagiaIniciales;

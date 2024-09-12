@@ -10,19 +10,16 @@ public class Torre extends DefensaEstandar implements ColocableEnMapa {
     public Torre(int posX, int posY, int resistencia, int costoMagia) {
         super(posX, posY, '\u2656', resistencia, costoMagia);
         this.rangoAtaque = 4;
-        this.poderAtaque = 25;
+        this.poderAtaque = 20;
     }
 
     public Torre() {
         super(0, 0, '\u2656', 0, 0);
         this.rangoAtaque = 4;
-        this.poderAtaque = 25;
+        this.poderAtaque = 20;
     }
 
     // Getters
-    public int getRangoAtaque() {
-        return rangoAtaque;
-    }
 
     public int getPoderAtaque() {
         return poderAtaque;

@@ -49,7 +49,7 @@ public class Mapa {
         // Posición de la torre en el centro del mapa
         cerroGloria.posX = this.tamañoMapa / 2;
         cerroGloria.posY = this.tamañoMapa / 2;
-        mapa[cerroGloria.getPosX()][cerroGloria.getPosY()] = '\u26EB'; // 'T' representa la torre
+        mapa[cerroGloria.getPosX()][cerroGloria.getPosY()] = cerroGloria.getNombreDefensa();
     }
 
     public boolean verificarLugar(int posX,int posY){
@@ -93,16 +93,6 @@ public class Mapa {
         System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
-    /*/*
-     // Metodo para limpiar la pantalla o mover el cursor al principio
-    public void clearScreen() {
-        System.out.print("\r");
-        for (int i = 0; i < 80; i++) {
-            System.out.print(" ");
-        }
-        System.out.println();
-    }
-     */
 
 }
 

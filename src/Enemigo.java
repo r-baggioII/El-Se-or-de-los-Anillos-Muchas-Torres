@@ -9,9 +9,10 @@ public abstract class Enemigo {
     protected int posY;
     protected int danioAtaque;
     protected char representacion; //segun el enemigo tendrá un caracter que lo represente en el mapa
+    protected boolean habilidadEnUso;  //boolean para determinar si habilidad especial del enemigo está activa o no
 
     //Constructores de la clase 
-    public Enemigo(int saludInicial, int rangoAtaque, int recompensa, char representacion, int inicialX, int inicialY, int danioAtaque){
+    public Enemigo(int saludInicial, int rangoAtaque, int recompensa, char representacion, int inicialX, int inicialY, int danioAtaque, boolean habilidadEnUso) {
         this.salud = saludInicial;
         this.rangoAtaque = rangoAtaque;
         this.recompensa = recompensa;
@@ -19,22 +20,12 @@ public abstract class Enemigo {
         this.posY = inicialY;
         this.representacion = representacion;
         this.danioAtaque = danioAtaque;
+        this.habilidadEnUso = habilidadEnUso;
     }
-    //Setters y Getters 
-    public int getSalud(){
-        return salud; 
-    }
+    //Setters y Getters
     public void setSalud(int salud){
         this.salud = salud; 
     }
-
-    public int getrangoAtaque(){
-        return rangoAtaque;
-    }
-    public void setrangoAtaque(int rangoAtaque){
-        this.rangoAtaque = rangoAtaque;
-    }
-
 
     public int getRecompensa(){
         return recompensa;
@@ -67,6 +58,8 @@ public abstract class Enemigo {
     public int getDanioAtaque(){return danioAtaque;}
     public void setDanioAtaque(int danioAtaque){ this.danioAtaque = danioAtaque; }
 
+
+
     //Otros métodos
     public void recibirAtaque(Torre torre){
         this.salud -= torre.getPoderAtaque();
@@ -93,6 +86,9 @@ public abstract class Enemigo {
         int distanciaY = Math.abs(this.posY - defensa.getPosY());
         return distanciaX <= this.rangoAtaque && distanciaY <= this.rangoAtaque;
     }
+
+    public abstract void activarHabilidadEspecial();
+
 
 
     public boolean esEliminado(){

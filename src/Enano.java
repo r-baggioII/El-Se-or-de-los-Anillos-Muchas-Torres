@@ -1,16 +1,19 @@
 public class Enano extends Enemigo {
-    int contarPasos;
     public Enano(int posX, int posY){
-        super( 90, 2, 7,'\u2692',posX,posY,5);
-        contarPasos = 0;
+        super( 90, 2, 7,'\u2692',posX,posY,5,false);
+
     }
 
-    // El enano bloquea una posicion cuando da x pasos
-    public void bloquearCamino(Mapa mapa){
-        mapa.setElemento(posX, posY, '*');
+    @Override
+    public void activarHabilidadEspecial(){
+        this.habilidadEnUso = !this.habilidadEnUso; //bandera para saber si la habilidad del enemigo está activda o no
+        aumertarRangoAtaque();
     }
 
-    public void contarCamino(){
-        this.contarPasos++;
+    //La habilidad especial de los Enanos es que pueden aumentar su rango de ataque
+    public void aumertarRangoAtaque(){
+        System.out.println("\033[0;33m" + "ENANO HA ACTIVADO SU HABILIDAD ESPECIAL" + "\033[0m");
+        this.rangoAtaque+=3;
     }
+
 }
