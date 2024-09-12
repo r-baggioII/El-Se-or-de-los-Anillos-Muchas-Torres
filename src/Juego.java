@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class Juego {
     private int nivelActual;
     public PuntajeMagico puntajeMagico;
-
     List<DefensaEstandar> miDefensas;
     private List<Nivel> niveles;
     public Mapa mapa;
@@ -19,12 +18,6 @@ public class Juego {
         this.puntajeMagico = new PuntajeMagico();
     }
 
-    public int getNivelActual() {
-        return nivelActual;
-    }
-    public void setNivelActual(int nivelActual) {
-        this.nivelActual = nivelActual;
-    }
     private boolean chequearEstadoJuego() {
         return mapa.cerroGloria.getVidas() > 0;
     }
@@ -203,7 +196,7 @@ public class Juego {
         System.out.println(" - Usa tus recursos con sabiduría y planifica tu defensa.");
         System.out.println("¡Buena suerte!" + "\u001B[0m");
     }
-    public void mostrarHistoria() {
+    private void mostrarHistoria() {
 
         System.out.println("\u001B[34m" + "El Señor de los Anillos: Muchas Morres" + "\u001B[0m"); //Azul
 

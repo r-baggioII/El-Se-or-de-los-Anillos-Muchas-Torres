@@ -30,9 +30,6 @@ public abstract class Enemigo {
     public int getRecompensa(){
         return recompensa;
     }
-    public void setRecompensa(int recompensa){
-        this.recompensa = recompensa;
-    }
 
     public int getPosX(){
         return this.posX;
@@ -51,12 +48,8 @@ public abstract class Enemigo {
     public char getRepresentacion(){
         return representacion;
     }
-    public void setRepresentacion(char representacion){
-        this.representacion = representacion;
-    }
 
     public int getDanioAtaque(){return danioAtaque;}
-    public void setDanioAtaque(int danioAtaque){ this.danioAtaque = danioAtaque; }
 
 
 

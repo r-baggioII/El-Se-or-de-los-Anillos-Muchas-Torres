@@ -51,9 +51,12 @@ public class Oleada {
                     // Actualizar la nueva posición del enemigo
                     if (enemigo.getPosX() == mapa.cerroGloria.getPosX() && enemigo.getPosY() == mapa.cerroGloria.getPosY()) {
                         mapa.cerroGloria.vidas -= 1;  // Se le resta una vida al cerro de la gloria por cada ataque
+
                         System.out.println("----------------------------------------------------------------------------------------------------------------------------------");
                         System.out.println(enemigo.getClass().getSimpleName() + " ha atacado a CERRO DE LA GLORIA. Vidas restantes: " + mapa.cerroGloria.vidas);
-
+                        if (mapa.cerroGloria.vidas <=0){
+                            break;
+                        }
                         eliminados.add(enemigo);  // El enemigo que llegó al Cerro de la Gloria es eliminado
                         enemigo.setSalud(0);
                     } else {
@@ -82,6 +85,10 @@ public class Oleada {
             // Verificar si todos los enemigos han sido eliminados
             if (enemigos.isEmpty()) {
                 System.out.println("Todos los enemigos han sido eliminados. La oleada ha terminado.");
+                break;
+            }
+
+            if (mapa.cerroGloria.vidas <=0){
                 break;
             }
 
