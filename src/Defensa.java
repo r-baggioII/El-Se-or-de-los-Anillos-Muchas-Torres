@@ -13,5 +13,6 @@ public abstract class Defensa {
     public int getPosX() { return posX; }
     public int getPosY() { return posY; }
     public char getNombreDefensa() { return nombreDefensa; }
+    public abstract void recibirAtaque(Enemigo enemigo);
 }
 

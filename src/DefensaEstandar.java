@@ -28,7 +28,7 @@ public abstract class DefensaEstandar extends Defensa {
             System.out.println("Defensa en (" + newPosX + ", " + newPosY + ") ha sido destruida.");
         }
     }
-
+    @Override
     public void recibirAtaque(Enemigo enemigo) {
             this.resistencia -= enemigo.getDanioAtaque();
     }

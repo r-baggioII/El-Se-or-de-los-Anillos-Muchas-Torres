@@ -50,7 +50,7 @@ public class Oleada {
 
                     // Actualizar la nueva posición del enemigo
                     if (enemigo.getPosX() == mapa.cerroGloria.getPosX() && enemigo.getPosY() == mapa.cerroGloria.getPosY()) {
-                        mapa.cerroGloria.vidas -= 1;  // Se le resta una vida al cerro de la gloria por cada ataque
+                        mapa.cerroGloria.recibirAtaque(enemigo); //El cerro de la gloria de la gloria recibe el ataque de un enemigo
 
                         System.out.println("----------------------------------------------------------------------------------------------------------------------------------");
                         System.out.println(enemigo.getClass().getSimpleName() + " ha atacado a CERRO DE LA GLORIA. Vidas restantes: " + mapa.cerroGloria.vidas);

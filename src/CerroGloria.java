@@ -9,4 +9,7 @@ public class CerroGloria extends Defensa {
     public void setVidas(int vidas){
         this.vidas = vidas;
     }
+    public void recibirAtaque(Enemigo enemigo){
+        this.vidas -= 1;
+    }
 }
