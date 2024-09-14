@@ -2,14 +2,47 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Clase que representa el juego principal. Maneja la lógica del juego, incluyendo la inicialización de niveles,
+ * el manejo de defensas, la interacción con el usuario, y el estado del juego.
+ * @author William Miranda, Rocio Bagio
+ * @see <a src="https://www.campusmvp.es/recursos/post/como-cambiar-los-colores-de-la-consola-con-java-y-system-out-println.aspx">Aqui podras encontrar informcacion de los colores</>
+ *
+ */
 public class Juego {
+    /**
+     * Nivel actual en el juego.
+     */
     private int nivelActual;
+
+    /**
+     * Puntaje mágico del jugador, utilizado para invocar defensas.
+     */
     public PuntajeMagico puntajeMagico;
+
+    /**
+     * Lista de defensas actuales en el mapa.
+     */
     List<DefensaEstandar> miDefensas;
-    private List<Nivel> niveles;
+
+    /**
+     * Mapa del juego, que contiene el estado actual del juego.
+     */
     public Mapa mapa;
+
+    /**
+     * Lista de niveles del juego.
+     */
+    private List<Nivel> niveles;
+
+    /**
+     * Scanner para la entrada del usuario.
+     */
     private static Scanner sc = new Scanner(System.in);
 
+    /**
+     * Constructor que inicializa el juego, creando un mapa, niveles, y puntaje mágico.
+     */
     public Juego() {
         this.miDefensas = new ArrayList<>();
         this.nivelActual = 1;
@@ -18,10 +51,17 @@ public class Juego {
         this.puntajeMagico = new PuntajeMagico();
     }
 
+    /**
+     * Verifica si el juego continúa basado en la vida del cerro de la gloria.
+     *
+     * @return Verdadero si el cerro de la gloria tiene vidas restantes, falso de lo contrario.
+     */
     private boolean chequearEstadoJuego() {
         return mapa.cerroGloria.getVidas() > 0;
     }
-
+    /**
+     * Inicializa los niveles del juego.
+     */
     private void inicializarNiveles() {
         Nivel nivel1 = new Nivel(1);
         niveles.add(nivel1);
@@ -32,7 +72,9 @@ public class Juego {
         Nivel nivel3 = new Nivel(3);
         niveles.add(nivel3);
     }
-
+    /**
+     * Comienza el juego, inicializando el mapa, mostrando los niveles y manejando las oleadas de enemigos.
+     */
     private void empezarJuego(){
         char torre = '\u2656';    // ♖
         char barrera = '\u2592';  // ▒
@@ -76,7 +118,9 @@ public class Juego {
         }
         System.out.println("¡Felicidades! Has completado todos los niveles.");
     }
-
+    /**
+     * Permite al usuario invocar torres o barreras en el mapa.
+     */
     public void iniciarDefensa() {
         boolean flag = true;
         do {
@@ -136,6 +180,9 @@ public class Juego {
             this.mapa.imprimirMapa(mapa.getMapa());
         } while (flag);
     }
+    /**
+     * Lee la opción del menú seleccionada por el usuario y realiza la acción correspondiente.
+     */
     private void leerOpcionMenu() {
         int opcion;
 
@@ -172,6 +219,9 @@ public class Juego {
             }
         } while (opcion != 4); // El menú sigue apareciendo hasta que el usuario elija la opción de salir
     }
+    /**
+     * Muestra el menú de guía al jugador.
+     */
     private void mostrarMenuGuia() {
         // Título del menú en verde
         System.out.println("\u001B[32m" + "========== MENÚ ==========" + "\u001B[0m");
@@ -196,6 +246,9 @@ public class Juego {
         System.out.println(" - Usa tus recursos con sabiduría y planifica tu defensa.");
         System.out.println("¡Buena suerte!" + "\u001B[0m");
     }
+    /**
+     * Muestra la historia del juego al jugador.
+     */
     private void mostrarHistoria() {
 
         System.out.println("\u001B[34m" + "El Señor de los Anillos: Muchas Morres" + "\u001B[0m"); //Azul
@@ -208,10 +261,18 @@ public class Juego {
         System.out.println("Si el cerro cae, el reino estará perdido para siempre.");
         System.out.println("¡Demuestra tu valía y defiende el Cerro de la Gloria a toda costa!" + "\u001B[0m");
     }
+    /**
+     * Inicia el juego mostrando el menú de guía y luego lee la opción seleccionada por el usuario.
+     */
     private void iniciarJuego() {
         mostrarMenuGuia();
         leerOpcionMenu();
     }
+    /**
+     * Método principal que crea una instancia del juego e inicia la aplicación.
+     *
+     * @param args Argumentos de línea de comandos.
+     */
     public static void main(String[] args) {
         Juego game = new Juego();
         game.iniciarJuego();

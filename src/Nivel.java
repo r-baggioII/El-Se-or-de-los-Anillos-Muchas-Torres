@@ -2,21 +2,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Clase que representa un nivel en el juego, compuesto por varias oleadas de enemigos.
+ * El nivel se configura según su número, con diferentes tipos y cantidades de enemigos en cada oleada.
+ * @author William Miranda, Rocio Bagio
+ * @version 1.2
+ */
 public class Nivel {
+    /**
+     * Número del nivel.
+     */
     private int numeroNivel;
+
+    /**
+     * Lista de oleadas para este nivel.
+     */
     private List<Oleada> oleadas;
 
+    /**
+     * Constructor para inicializar el nivel con un número específico.
+     * Configura las oleadas según el número del nivel.
+     *
+     * @param numeroNivel Número del nivel a crear.
+     */
     public Nivel(int numeroNivel) {
         this.numeroNivel = numeroNivel;
         this.oleadas = new ArrayList<>();
         configurarNivel();  // Configura las oleadas según el nivel
     }
 
-    //Segun el numero de nivel crea una oleada con los enemigos apropiados
+    /**
+     * Configura el nivel agregando oleadas de enemigos según el número del nivel.
+     */
     public void configurarNivel() {
         Random rand = new Random();
 
-        //Agrega a lista distintos tipos y cantidad de enemigos segun el nivel
         switch (numeroNivel) {
             case 1:
                 for (int i = 0; i < 1; i++) {  // Solo 1 oleada en el nivel 1
@@ -36,7 +56,6 @@ public class Nivel {
                     Oleada oleada = new Oleada(tiposDeEnemigos);
                     oleadas.add(oleada);
                 }
-
                 break;
             case 3:
                 for (int i = 0; i < 3; i++) {  // 3 oleadas en el nivel 3
@@ -50,10 +69,14 @@ public class Nivel {
                 }
                 break;
         }
-
     }
 
-    //Determina el tipo de enemigo según el numero
+    /**
+     * Determina el tipo de enemigo basado en un número aleatorio.
+     *
+     * @param randomDigit Número aleatorio para determinar el tipo de enemigo.
+     * @return El enemigo correspondiente al número aleatorio.
+     */
     public Enemigo determinaTipoEnemigo(int randomDigit) {
         switch (randomDigit) {
             case 0:
@@ -68,15 +91,29 @@ public class Nivel {
         return null;
     }
 
-
+    /**
+     * Agrega una oleada al nivel.
+     *
+     * @param oleada Oleada a agregar.
+     */
     private void agregarOleada(Oleada oleada) {
         oleadas.add(oleada);
     }
 
+    /**
+     * Obtiene la lista de oleadas del nivel.
+     *
+     * @return Lista de oleadas.
+     */
     public List<Oleada> getOleadas() {
         return oleadas;
     }
 
+    /**
+     * Obtiene el número del nivel.
+     *
+     * @return Número del nivel.
+     */
     public int getNivel() {
         return numeroNivel;
     }
