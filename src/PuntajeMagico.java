@@ -8,7 +8,7 @@ public class PuntajeMagico {
     /**
      * Cantidad inicial de puntos de magia disponibles.
      */
-    private int puntosMagiaIniciales = 150;
+    private int puntosMagiaIniciales = 100;
 
     /**
      * Cantidad actual de puntos de magia disponibles.

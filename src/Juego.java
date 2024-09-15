@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.InputMismatchException;
+
 
 /**
  * Clase que representa el juego principal. Maneja la lógica del juego, incluyendo la inicialización de niveles,
@@ -111,7 +113,7 @@ public class Juego {
 
                 if (!chequearEstadoJuego()) {
                     System.out.println("Has perdido. El juego ha terminado.");
-                    return;
+                    System.exit(0); //Salir del juego automáticamente si el jugador pierde
                 }
             }
             puntajeMagico.aumentarMagia(50); //Luego de cada nivel se otorgan al jugador 50 puntos
@@ -124,9 +126,10 @@ public class Juego {
     public void iniciarDefensa() {
         boolean flag = true;
         do {
-            System.out.println("Invocar Torre:          T");
-            System.out.println("Invocar Barreras:       B");
+            System.out.println("Invocar Torre:          T" + " - Costo: 50");
+            System.out.println("Invocar Barreras:       B" + " - Costo: 25");
             System.out.println("Finalizar Invocacion:   Q ");
+
 
             System.out.print(">");
             String opcion = sc.nextLine().toLowerCase();
@@ -134,45 +137,50 @@ public class Juego {
                 System.out.println("Invocacion Exitosa.");
                 break;
             } else if (opcion.equals("t") || opcion.equals("b")) {
-                System.out.println("Cordenadas de la Defensa:");
-                System.out.print("> X:");
-                int posX = sc.nextInt();
-                System.out.print("> Y:");
-                int posY = sc.nextInt();
-                sc.nextLine();
+                try {
+                    System.out.println("Cordenadas de la Defensa:");
+                    System.out.print("> X:");
+                    int posX = sc.nextInt();
+                    System.out.print("> Y:");
+                    int posY = sc.nextInt();
+                    sc.nextLine(); // Limpiar el buffer
 
-                if (posX > 0 && posX < this.mapa.getTamañoMapa() && posY > 0 && posY < this.mapa.getTamañoMapa()) {
-                    if (!mapa.verificarLugar(posX-1, posY-1)) {
-                        switch (opcion) {
-                            case "t":
-                                Torre torre = new Torre(posX-1, posY-1, 100, 50);
-                                if (puntajeMagico.getPuntosMagiaActuales() >= torre.getCosto()) {
-                                    puntajeMagico.gastarPuntosMagia(torre.getCosto());
-                                    torre.colocarEnMapa(this.mapa);
-                                    this.miDefensas.add(torre);
-                                } else {
-                                    System.out.println("No hay suficiente Magia");
-                                }
-                                break;
-                            case "b":
-                                Barrera barrera = new Barrera(posX-1, posY-1, 75, 25);
-                                if (puntajeMagico.getPuntosMagiaActuales() >= barrera.getCosto()) {
-                                    puntajeMagico.gastarPuntosMagia(barrera.getCosto());
-                                    barrera.colocarEnMapa(this.mapa);
-                                    this.miDefensas.add(barrera);
-                                } else {
-                                    System.out.println("No hay suficiente Magia");
-                                }
-                                break;
-                            default:
-                                System.out.println("Opción no válida. Intenta de nuevo.");
-                                break;
+                    if (posX > 0 && posX < this.mapa.getTamañoMapa() && posY > 0 && posY < this.mapa.getTamañoMapa()) {
+                        if (!mapa.verificarLugar(posX - 1, posY - 1)) {
+                            switch (opcion) {
+                                case "t":
+                                    Torre torre = new Torre(posX - 1, posY - 1, 100, 50);
+                                    if (puntajeMagico.getPuntosMagiaActuales() >= torre.getCosto()) {
+                                        puntajeMagico.gastarPuntosMagia(torre.getCosto());
+                                        torre.colocarEnMapa(this.mapa);
+                                        this.miDefensas.add(torre);
+                                    } else {
+                                        System.out.println("No hay suficiente Magia");
+                                    }
+                                    break;
+                                case "b":
+                                    Barrera barrera = new Barrera(posX - 1, posY - 1, 75, 25);
+                                    if (puntajeMagico.getPuntosMagiaActuales() >= barrera.getCosto()) {
+                                        puntajeMagico.gastarPuntosMagia(barrera.getCosto());
+                                        barrera.colocarEnMapa(this.mapa);
+                                        this.miDefensas.add(barrera);
+                                    } else {
+                                        System.out.println("No hay suficiente Magia");
+                                    }
+                                    break;
+                                default:
+                                    System.out.println("Opción no válida. Intenta de nuevo.");
+                                    break;
+                            }
+                        } else {
+                            System.out.println("Coordenadas ocupadas por otro elemento de defensa.");
                         }
                     } else {
-                        System.out.println("Coordenadas ocupadas por otro elemento de defensa.");
+                        System.out.println("Coordenadas fuera de los límites.");
                     }
-                } else {
-                    System.out.println("Coordenadas fuera de los límites.");
+                } catch (InputMismatchException e) {
+                    System.out.println("Entrada no válida. Asegúrate de ingresar un número.");
+                    sc.nextLine(); // Limpiar el buffer en caso de excepción
                 }
             } else {
                 System.out.println("Opción no válida. Intenta de nuevo.");
@@ -180,45 +188,53 @@ public class Juego {
             this.mapa.imprimirMapa(mapa.getMapa());
         } while (flag);
     }
+
     /**
      * Lee la opción del menú seleccionada por el usuario y realiza la acción correspondiente.
      */
     private void leerOpcionMenu() {
-        int opcion;
+        int opcion = -1; // Iniciar con un valor que no sea válido para entrar en el bucle
 
         do {
-            // Pedir al usuario que ingrese una opción
-            System.out.print("\u001B[32m" + "Elige una opción (1-4): " + "\u001B[0m");
-            opcion = sc.nextInt();
-            sc.nextLine();
+            try {
+                // Pedir al usuario que ingrese una opción
+                System.out.print("\u001B[32m" + "Elige una opción (1-4): " + "\u001B[0m");
+                opcion = sc.nextInt();
+                sc.nextLine(); // Limpiar el buffer
 
-            // Procesar la opción seleccionada
-            switch (opcion) {
-                case 1:
-                    // Comenzar el juego
-                    System.out.println("\u001B[33m" + "Iniciando el juego..." + "\u001B[0m");
-                    empezarJuego();
-                    break;
-                case 2:
-                    // Mostrar historia
-                    System.out.println("\u001B[34m" + "Mostrando la historia..." + "\u001B[0m");
-                    mostrarHistoria();
-                    break;
-                case 3:
-                    // Mostrar guía
-                    System.out.println("\u001B[36m" + "Mostrando la guía..." + "\u001B[0m");
-                    mostrarMenuGuia();
-                    break;
-                case 4:
-                    // Salir
-                    System.out.println("\u001B[31m" + "Saliendo del juego. ¡Hasta la próxima!" + "\u001B[0m");
-                    break;
-                default:
-                    // Opción no válida
-                    System.out.println("\u001B[31m" + "Opción no válida. Por favor, elige entre 1 y 4." + "\u001B[0m");
+                // Procesar la opción seleccionada
+                switch (opcion) {
+                    case 1:
+                        // Comenzar el juego
+                        System.out.println("\u001B[33m" + "Iniciando el juego..." + "\u001B[0m");
+                        empezarJuego();
+                        break;
+                    case 2:
+                        // Mostrar historia
+                        System.out.println("\u001B[34m" + "Mostrando la historia..." + "\u001B[0m");
+                        mostrarHistoria();
+                        break;
+                    case 3:
+                        // Mostrar guía
+                        System.out.println("\u001B[36m" + "Mostrando la guía..." + "\u001B[0m");
+                        mostrarMenuGuia();
+                        break;
+                    case 4:
+                        // Salir
+                        System.out.println("\u001B[31m" + "Saliendo del juego. ¡Hasta la próxima!" + "\u001B[0m");
+                        break;
+                    default:
+                        // Opción no válida
+                        System.out.println("\u001B[31m" + "Opción no válida. Por favor, elige entre 1 y 4." + "\u001B[0m");
+                }
+            } catch (InputMismatchException e) {
+                // Si el usuario ingresa algo que no es un número
+                System.out.println("\u001B[31m" + "Entrada no válida. Debes ingresar un número entre 1 y 4." + "\u001B[0m");
+                sc.nextLine(); // Limpiar el buffer en caso de excepción
             }
         } while (opcion != 4); // El menú sigue apareciendo hasta que el usuario elija la opción de salir
     }
+
     /**
      * Muestra el menú de guía al jugador.
      */
@@ -239,7 +255,7 @@ public class Juego {
         System.out.println("\u001B[34m" + "Guía del Jugador:" + "\u001B[0m");
 
         // Contenido de la guía en cian
-        System.out.println("\u001B[36m" + " - Coloca hasta 5 elementos de defensa: torres o barreras.");
+        System.out.println("\u001B[36m" + " - Coloca elementos de defensa utilizando los puntos de magia : torres o barreras.");
         System.out.println(" - Cada nivel tiene varias oleadas de enemigos que aumentan en dificultad.");
         System.out.println(" - Las torres atacan automáticamente a los enemigos cuando están en rango.");
         System.out.println(" - El objetivo es proteger la torre principal. Si cae, perderás.");
