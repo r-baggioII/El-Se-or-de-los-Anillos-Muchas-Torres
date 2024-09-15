@@ -10,7 +10,7 @@ public class Humano extends Enemigo{
      * @param posY la posición en el eje Y del mapa.
      */
     public Humano(int posX, int posY){
-        super( 100, 2, 5, '\u263C',posX,posY,10,false);
+        super( 100, 3, 5, '\u263C',posX,posY,15,false);
     }
     /**
      * Activa o desactiva la habilidad especial del Humano.

@@ -13,7 +13,7 @@ public class Elfo extends Enemigo {
      * @param posY la posición en el eje Y del mapa.
      */
     public Elfo(int posX, int posY) {
-        super(120, 3, 10, '\u2694', posX, posY, 15, false);
+        super(120, 4, 10, '\u2694', posX, posY, 15, false);
     }
 
     /**

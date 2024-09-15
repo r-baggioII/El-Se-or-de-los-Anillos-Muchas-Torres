@@ -15,7 +15,7 @@ public class Hobbit extends Enemigo {
      * @param posY la posición en el eje Y del mapa.
      */
     public Hobbit(int posX, int posY) {
-        super(70, 1, 3, '\u26C7', posX, posY, 20, false);
+        super(70, 2, 3, '\u26C7', posX, posY, 20, false);
     }
 
     /**
