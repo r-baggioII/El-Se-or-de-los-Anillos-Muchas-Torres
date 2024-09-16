@@ -7,7 +7,7 @@ import java.util.InputMismatchException;
 /**
  * Clase que representa el juego principal. Maneja la lógica del juego, incluyendo la inicialización de niveles,
  * el manejo de defensas, la interacción con el usuario, y el estado del juego.
- * @author William Miranda, Rocio Bagio
+ * @author William Miranda, Rocio Baggio
  * @see <a src="https://www.campusmvp.es/recursos/post/como-cambiar-los-colores-de-la-consola-con-java-y-system-out-println.aspx">Aqui podras encontrar informcacion de los colores</>
  *
  */
@@ -232,7 +232,7 @@ public class Juego {
                 System.out.println("\u001B[31m" + "Entrada no válida. Debes ingresar un número entre 1 y 4." + "\u001B[0m");
                 sc.nextLine(); // Limpiar el buffer en caso de excepción
             }
-        } while (opcion != 4); // El menú sigue apareciendo hasta que el usuario elija la opción de salir
+        } while (opcion != 4);
     }
 
     /**

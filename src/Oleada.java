@@ -105,7 +105,7 @@ public class Oleada {
                 break;
             }
 
-            if (mapa.cerroGloria.vidas <= 0) {
+            if (mapa.cerroGloria.getVidas() <= 0) {
                 break;
             }
 
