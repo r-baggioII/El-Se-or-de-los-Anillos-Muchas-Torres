@@ -3,7 +3,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
-
 /**
  * Clase que representa el juego principal. Maneja la lógica del juego, incluyendo la inicialización de niveles,
  * el manejo de defensas, la interacción con el usuario, y el estado del juego.
