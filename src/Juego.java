@@ -256,9 +256,14 @@ public class Juego {
         // Contenido de la guía en cian
         System.out.println("\u001B[36m" + " - Coloca elementos de defensa utilizando los puntos de magia : torres o barreras.");
         System.out.println(" - Cada nivel tiene varias oleadas de enemigos que aumentan en dificultad.");
+        System.out.println(" - Cada enemigo tiene un cuadrante asignado del mapa y no puede salir de él:");
+        System.out.println("   • Enanos - primer cuadrante\n" +
+                "   • Humanos - segundo cuadrante\n" +
+                "   • Hobbits - tercer cuadrante\n" +
+                "   • Elfos - cuarto cuadrante");
         System.out.println(" - Las torres atacan automáticamente a los enemigos cuando están en rango.");
-        System.out.println(" - El objetivo es proteger la torre principal. Si cae, perderás.");
-        System.out.println(" - Usa tus recursos con sabiduría y planifica tu defensa.");
+        System.out.println(" - Las barreras bloquean el movimiento de los enemigos cuando están a 1 de distancia, impidiendo su avance hasta que sean destruidas.");
+        System.out.println(" - El objetivo es proteger la torre principal, ubicada en el centro del mapa. Si cae, perderás.");
         System.out.println("¡Buena suerte!" + "\u001B[0m");
     }
     /**
