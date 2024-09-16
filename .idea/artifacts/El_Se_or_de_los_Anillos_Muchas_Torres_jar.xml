@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="El-Se-or-de-los-Anillos-Muchas-Torres:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/El_Se_or_de_los_Anillos_Muchas_Torres_jar</output-path>
+    <root id="archive" name="El-Se-or-de-los-Anillos-Muchas-Torres.jar">
+      <element id="module-output" name="El-Se-or-de-los-Anillos-Muchas-Torres" />
+    </root>
+  </artifact>
+</component>
